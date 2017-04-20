@@ -33,7 +33,7 @@ public class CLI_programTest
 	@Test
 	public void CLI_xmlTest() throws Exception
 	{
-		api.exportXML("testVersion", "tests/xml/");
+		api.exportXML("testVersion", "tests/");
 	}
 
 	@Test(expected = FileNotFoundException.class)

@@ -1,29 +1,26 @@
 package cli.panels;
 
-import cli.CLI_option;
+import java.awt.event.ActionEvent;
+
 import cli.OptionBean;
 
 @SuppressWarnings("serial")
 class BooleanPanel extends ComboBoxPanel
 {
-	private static final String[] BOOLEAN_VALUES = {"TRUE", "FALSE"};
+	private static final Boolean[] BOOLEAN_VALUES = {true, false};
 
 	BooleanPanel(OptionBean optionBean)
 	{
 		super(optionBean, BOOLEAN_VALUES);
+
+		getComboBox().setSelectedItem(false);
 	}
 
 	@Override
-	protected int getDefaultIndex(CLI_option option)
+	public void actionPerformed(ActionEvent event)
 	{
-		return 1;
-	}
+		Object selectedItem = getComboBox().getSelectedItem();
 
-	@Override
-	protected Object getSelectedValue()
-	{
-		String selectedValue = getComboBox().getSelectedItem().toString();
-
-		return Boolean.parseBoolean(selectedValue);
+		updateOption(selectedItem);
 	}
 }

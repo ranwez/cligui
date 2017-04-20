@@ -17,7 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import cli.annotations.Parameter;
 import cli.exceptions.ProgramNotFoundException;
 import cli.exceptions.StoppedProgramException;
 
@@ -111,11 +110,6 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 	{
 		boolean notFirstOption;
 
-		Object defaultValue;
-		Object parameterValue;
-
-		Parameter parameter;
-
 		String programOptionName = api.getProgramOptionName();
 
 		StringBuilder builder = new StringBuilder(commandsStart);
@@ -134,40 +128,31 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 			notFirstOption = false;
 		}
 
+		Object parameterValue;
+
 		for (CLI_option option : api.getCurrentProgram().getOptions())
 		{
-			defaultValue = option.getDefaultValue();
-
-			if (defaultValue == null) // REMOVE defaultValue == null condition ?
-			{
-				continue;
-			}
-
 			parameterValue = option.getValue();
 
-			parameter = option.getAnnotation(Parameter.class);
-
-			if (parameterValue.equals(defaultValue) && parameter.enumeration().equals(Object.class))
+			if (! parameterValue.equals(option.getDefaultValue()))
 			{
-				continue;
-			}
+				if (notFirstOption)
+				{
+					builder.append(' ');
+				}
+				else
+				{
+					notFirstOption = true;
+				}
 
-			if (notFirstOption)
-			{
-				builder.append(' ');
-			}
-			else
-			{
-				notFirstOption = true;
-			}
+				builder.append('-');
+				builder.append(option.getName());
 
-			builder.append('-');
-			builder.append(option.getName());
-
-			if (! (parameterValue instanceof Boolean))
-			{
-				builder.append(' ');
-				builder.append(parameterValue);
+				if (! parameterValue.getClass().equals(boolean.class))
+				{
+					builder.append(' ');
+					builder.append(parameterValue);
+				}
 			}
 		}
 

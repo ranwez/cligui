@@ -1,5 +1,7 @@
 package cli.panels;
 
+import java.awt.event.ActionEvent;
+
 import javax.swing.JComboBox;
 
 import cli.CLI_option;
@@ -11,10 +13,13 @@ final class InternalFilePanel extends ComboBoxPanel
 	InternalFilePanel(OptionBean optionBean, Object[] items)
 	{
 		super(optionBean, items);
+
+		int index = getDefaultIndex(optionBean.getOption());
+
+		getComboBox().setSelectedIndex(index);
 	}
 
-	@Override
-	protected int getDefaultIndex(CLI_option option)
+	private int getDefaultIndex(CLI_option option)
 	{
 		JComboBox<Object> comboBox = getComboBox();
 
@@ -32,8 +37,10 @@ final class InternalFilePanel extends ComboBoxPanel
 	}
 
 	@Override
-	protected Object getSelectedValue()
+	public void actionPerformed(ActionEvent event)
 	{
-		return getComboBox().getSelectedItem().toString();
+		Object selectedItem = getComboBox().getSelectedItem();
+
+		updateOption(selectedItem);
 	}
 }
