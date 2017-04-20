@@ -28,7 +28,10 @@ public abstract class ComboBoxPanel extends FocusablePanel implements ActionList
 
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		fillComboBox(optionBean.getOption(), items);
+		for (Object item : items)
+		{
+			comboBox.addItem(item);
+		}
 
 		int defaultIndex = getDefaultIndex(optionBean.getOption());
 
@@ -38,18 +41,6 @@ public abstract class ComboBoxPanel extends FocusablePanel implements ActionList
 
 		comboBox.addActionListener(this);
 		comboBox.addFocusListener(this);
-	}
-
-	private void fillComboBox(CLI_option option, Object[] items)
-	{
-		Object item;
-
-		for (int itemID = 0; itemID < items.length; itemID++)
-		{
-			item = items[itemID];
-
-			comboBox.addItem(item);
-		}
 	}
 
 	protected final JComboBox<Object> getComboBox()
