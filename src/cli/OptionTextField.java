@@ -11,8 +11,6 @@ import javax.swing.event.CaretListener;
 @SuppressWarnings("serial")
 public final class OptionTextField extends JFormattedTextField implements CaretListener, FocusListener
 {
-	private static final int DOUBLE_SPACE_ASCII_CODE = 160;
-
 	private final OptionBean optionBean;
 
 	public OptionTextField(OptionBean optionBean)
@@ -57,38 +55,7 @@ public final class OptionTextField extends JFormattedTextField implements CaretL
 			}
 		}
 
-		if (option.getType().equals(double.class))
-		{
-			currentValue = removeDoubleSpaces(currentValue);
-		}
-		else if (option.getType().equals(int.class))
-		{
-			currentValue = currentValue.replace(",", "");
-		}
-
-		if (! option.getType().equals(float.class) || ! currentValue.isEmpty())
-		{
-			optionBean.getCommandsPanel().updateOptionAndCommandsLine(option, currentValue);
-		}
-	}
-
-	private String removeDoubleSpaces(String doubleValue)
-	{
-		char digit;
-
-		StringBuilder builder = new StringBuilder();
-
-		for (int charID = 0; charID < doubleValue.length(); charID++)
-		{
-			digit = doubleValue.charAt(charID);
-
-			if (digit != DOUBLE_SPACE_ASCII_CODE)
-			{
-				builder.append(digit);
-			}
-		}
-
-		return builder.toString();
+		optionBean.getCommandsPanel().updateOptionAndCommandsLine(option, currentValue);
 	}
 
 	@Override

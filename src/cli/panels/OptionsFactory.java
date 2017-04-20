@@ -18,36 +18,6 @@ import cli.exceptions.StoppedProgramException;
 
 public class OptionsFactory
 {
-	protected FocusablePanel createBooleanPanel(OptionBean optionBean) throws StoppedProgramException
-	{
-		return new BooleanPanel(optionBean);
-	}
-
-	protected FocusablePanel createCharPanel(OptionBean optionBean) throws StoppedProgramException
-	{
-		return new CharPanel(optionBean);
-	}
-
-	protected FocusablePanel createDoublePanel(OptionBean optionBean) throws StoppedProgramException
-	{
-		return new DoublePanel(optionBean);
-	}
-
-	protected FocusablePanel createFloatPanel(OptionBean optionBean) throws StoppedProgramException
-	{
-		return new FloatPanel(optionBean);
-	}
-
-	protected FocusablePanel createIntegerPanel(OptionBean optionBean) throws StoppedProgramException
-	{
-		return new IntegerPanel(optionBean);
-	}
-
-	protected FocusablePanel createStringPanel(OptionBean optionBean) throws StoppedProgramException
-	{
-		return new StringPanel(optionBean);
-	}
-
 	public final FocusablePanel createOptionPanel(OptionBean optionBean) throws StoppedProgramException
 	{
 		CLI_option option = optionBean.getOption();
@@ -76,16 +46,42 @@ public class OptionsFactory
 		{
 			optionPanel = createIntegerPanel(optionBean);
 		}
-		else if (optionType.equals(String.class))
+		else
 		{
 			optionPanel = createInputOutputPanel(optionBean);
 		}
-		else
-		{
-			optionPanel = new UndefinedPanel(optionBean);
-		}
 
 		return optionPanel;
+	}
+
+	protected FocusablePanel createBooleanPanel(OptionBean optionBean) throws StoppedProgramException
+	{
+		return new BooleanPanel(optionBean);
+	}
+
+	protected FocusablePanel createCharPanel(OptionBean optionBean) throws StoppedProgramException
+	{
+		return new StringPanel(optionBean);
+	}
+
+	protected FocusablePanel createDoublePanel(OptionBean optionBean) throws StoppedProgramException
+	{
+		return new StringPanel(optionBean);
+	}
+
+	protected FocusablePanel createFloatPanel(OptionBean optionBean) throws StoppedProgramException
+	{
+		return new StringPanel(optionBean);
+	}
+
+	protected FocusablePanel createIntegerPanel(OptionBean optionBean) throws StoppedProgramException
+	{
+		return new StringPanel(optionBean);
+	}
+
+	protected FocusablePanel createStringPanel(OptionBean optionBean) throws StoppedProgramException
+	{
+		return new StringPanel(optionBean);
 	}
 
 	private FocusablePanel createInputOutputPanel(OptionBean optionBean) throws StoppedProgramException
