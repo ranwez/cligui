@@ -6,9 +6,11 @@ import cli.OptionBean;
 @SuppressWarnings("serial")
 class BooleanPanel extends ComboBoxPanel
 {
+	private static final String[] BOOLEAN_VALUES = {"TRUE", "FALSE"};
+
 	BooleanPanel(OptionBean optionBean)
 	{
-		super(optionBean, new String[]{"YES", "NO"});
+		super(optionBean, BOOLEAN_VALUES);
 	}
 
 	@Override
@@ -22,13 +24,6 @@ class BooleanPanel extends ComboBoxPanel
 	{
 		String selectedValue = getComboBox().getSelectedItem().toString();
 
-		if (selectedValue.equals("YES"))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return Boolean.parseBoolean(selectedValue);
 	}
 }
