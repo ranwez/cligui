@@ -92,6 +92,8 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 	{
 		try
 		{
+			// TODO amélioration possible : modifier les valeurs une fois le programme exécuté
+
 			if (option != null)
 			{
 				option.setParameter(optionValue);

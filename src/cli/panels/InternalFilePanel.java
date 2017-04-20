@@ -4,12 +4,11 @@ import javax.swing.JComboBox;
 
 import cli.CLI_option;
 import cli.OptionBean;
-import cli.exceptions.StoppedProgramException;
 
 @SuppressWarnings("serial")
 final class InternalFilePanel extends ComboBoxPanel
 {
-	InternalFilePanel(OptionBean optionBean, String[] items) throws StoppedProgramException
+	InternalFilePanel(OptionBean optionBean, Object[] items)
 	{
 		super(optionBean, items);
 	}

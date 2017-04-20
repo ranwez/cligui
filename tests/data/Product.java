@@ -19,7 +19,7 @@ public final class Product
 
 	@Parameter(name = "gencode")
 
-	private int gencode;
+	private int gencode = 4953323;
 
 
 	@Parameter(name = "price", required = true)

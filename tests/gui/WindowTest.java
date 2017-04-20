@@ -14,7 +14,5 @@ public final class WindowTest
 		api.addProgram("bill", Bill.class);
 
 		new CLI_window(api);
-
-		//api.parse("-prog bill -id 4 -name table -price 42.3 -currency £ -credit");
 	}
 }

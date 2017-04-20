@@ -14,11 +14,10 @@ import cli.OptionBean;
 import cli.annotations.InputFile;
 import cli.annotations.InternalFile;
 import cli.annotations.OutputFile;
-import cli.exceptions.StoppedProgramException;
 
 public class OptionsFactory
 {
-	public final FocusablePanel createOptionPanel(OptionBean optionBean) throws StoppedProgramException
+	public final FocusablePanel createOptionPanel(OptionBean optionBean)
 	{
 		CLI_option option = optionBean.getOption();
 
@@ -28,23 +27,7 @@ public class OptionsFactory
 
 		if (optionType.equals(boolean.class))
 		{
-			optionPanel = createBooleanPanel(optionBean);
-		}
-		else if (optionType.equals(char.class))
-		{
-			optionPanel = createCharPanel(optionBean);
-		}
-		else if (optionType.equals(double.class))
-		{
-			optionPanel = createDoublePanel(optionBean);
-		}
-		else if (optionType.equals(float.class))
-		{
-			optionPanel = createFloatPanel(optionBean);
-		}
-		else if (optionType.equals(int.class))
-		{
-			optionPanel = createIntegerPanel(optionBean);
+			optionPanel = new BooleanPanel(optionBean);
 		}
 		else
 		{
@@ -54,37 +37,7 @@ public class OptionsFactory
 		return optionPanel;
 	}
 
-	protected FocusablePanel createBooleanPanel(OptionBean optionBean) throws StoppedProgramException
-	{
-		return new BooleanPanel(optionBean);
-	}
-
-	protected FocusablePanel createCharPanel(OptionBean optionBean) throws StoppedProgramException
-	{
-		return new StringPanel(optionBean);
-	}
-
-	protected FocusablePanel createDoublePanel(OptionBean optionBean) throws StoppedProgramException
-	{
-		return new StringPanel(optionBean);
-	}
-
-	protected FocusablePanel createFloatPanel(OptionBean optionBean) throws StoppedProgramException
-	{
-		return new StringPanel(optionBean);
-	}
-
-	protected FocusablePanel createIntegerPanel(OptionBean optionBean) throws StoppedProgramException
-	{
-		return new StringPanel(optionBean);
-	}
-
-	protected FocusablePanel createStringPanel(OptionBean optionBean) throws StoppedProgramException
-	{
-		return new StringPanel(optionBean);
-	}
-
-	private FocusablePanel createInputOutputPanel(OptionBean optionBean) throws StoppedProgramException
+	private FocusablePanel createInputOutputPanel(OptionBean optionBean)
 	{
 		FocusablePanel optionPanel;
 
@@ -106,17 +59,22 @@ public class OptionsFactory
 			{
 				String filepath = internalFile.value();
 
-				String[] items = computeItems(filepath);
-
-				optionPanel = new InternalFilePanel(optionBean, items);
+				optionPanel = createCustomComboBoxPanel(optionBean, filepath);
 			}
 			else
 			{
-				optionPanel = createStringPanel(optionBean);
+				optionPanel = createCustomPanel(optionBean);
 			}
 		}
 
 		return optionPanel;
+	}
+
+	protected FocusablePanel createCustomComboBoxPanel(OptionBean optionBean, String filepath)
+	{
+		Object[] items = computeItems(filepath);
+
+		return new InternalFilePanel(optionBean, items);
 	}
 
 	private String[] computeItems(String filepath)
@@ -151,6 +109,11 @@ public class OptionsFactory
 		}
 
 		return items.toArray(new String[items.size()]);
+	}
+
+	protected FocusablePanel createCustomPanel(OptionBean optionBean)
+	{
+		return new StringPanel(optionBean);
 	}
 
 	/**
