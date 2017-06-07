@@ -25,7 +25,7 @@ public final class CLI_program
 
 	private List<CLI_option> requiredOptions;
 
-	CLI_program(String programName, Class<? extends Program> cls) throws IllegalAccessException, InstantiationException
+	CLI_program(final String programName, final Class<? extends Program> cls) throws IllegalAccessException, InstantiationException
 	{
 		this.name = programName;
 
@@ -36,19 +36,15 @@ public final class CLI_program
 		Collections.sort(options);
 	}
 
-	private void loadProgramOptions(Class<?> cls, Object instance) throws IllegalAccessException, IllegalArgumentException
+	private void loadProgramOptions(final Class<?> cls, final Object instance) throws IllegalAccessException, IllegalArgumentException
 	{
-		CLI_option option;
+		final Field[] fields = cls.getDeclaredFields();
 
-		Field[] fields = cls.getDeclaredFields();
-
-		Object delegationInstance;
-
-		for (Field field : fields)
+		for (final Field field : fields)
 		{
 			if (field.getAnnotation(Parameter.class) != null)
 			{
-				option = new CLI_option(field, instance);
+				final CLI_option option = new CLI_option(field, instance);
 
 				options.add(option);
 			}
@@ -56,7 +52,7 @@ public final class CLI_program
 			{
 				field.setAccessible(true);
 
-				delegationInstance = field.get(instance);
+				final Object delegationInstance = field.get(instance);
 
 				field.setAccessible(false);
 
@@ -65,7 +61,7 @@ public final class CLI_program
 		}
 	}
 
-	void parse(String[] commands) throws Exception
+	void parse(final String[] commands) throws Exception
 	{
 		resetOptionsValues();
 
@@ -73,7 +69,7 @@ public final class CLI_program
 
 		boolean isPreviousOptionBoolean = false;
 
-		for (String command : commands)
+		for (final String command : commands)
 		{
 			if (isOption(command))
 			{
@@ -108,7 +104,7 @@ public final class CLI_program
 
 	void resetOptionsValues() throws IllegalAccessException, IllegalArgumentException
 	{
-		for (CLI_option option : options)
+		for (final CLI_option option : options)
 		{
 			option.reset();
 		}
@@ -116,9 +112,9 @@ public final class CLI_program
 
 	private List<CLI_option> listRequiredOptions()
 	{
-		List<CLI_option> requiredOptions = new ArrayList<CLI_option>();
+		final List<CLI_option> requiredOptions = new ArrayList<CLI_option>();
 
-		for (CLI_option option : options)
+		for (final CLI_option option : options)
 		{
 			if (option.isRequired())
 			{
@@ -129,14 +125,14 @@ public final class CLI_program
 		return requiredOptions;
 	}
 
-	private boolean isOption(String command)
+	private boolean isOption(final String command)
 	{
 		if (command.charAt(0) != '-' || command.length() == 1)
 		{
 			return false;
 		}
 
-		char secondLetter = command.charAt(1);
+		final char secondLetter = command.charAt(1);
 
 		if (Character.isDigit(secondLetter) || secondLetter == '-')
 		{
@@ -146,7 +142,7 @@ public final class CLI_program
 		return true;
 	}
 
-	private void checkMissingParameters(boolean isPreviousOptionBoolean) throws IllegalAccessException, IllegalArgumentException, MissingParameterException
+	private void checkMissingParameters(final boolean isPreviousOptionBoolean) throws IllegalAccessException, IllegalArgumentException, MissingParameterException
 	{
 		if (isPreviousOptionBoolean)
 		{
@@ -159,7 +155,7 @@ public final class CLI_program
 		}
 	}
 
-	private void setParameter(String parameterValue) throws IllegalAccessException, IllegalArgumentException
+	private void setParameter(final String parameterValue) throws IllegalAccessException, IllegalArgumentException
 	{
 		if (parameterValue.equals("\"\"") || parameterValue.equals("\"None\""))
 		{
@@ -167,7 +163,7 @@ public final class CLI_program
 		}
 		else
 		{
-			String shortParameterValue = parameterValue.replace("\"", "");
+			final String shortParameterValue = parameterValue.replace("\"", "");
 
 			option.setParameter(shortParameterValue);
 		}
@@ -177,9 +173,9 @@ public final class CLI_program
 		option = null;
 	}
 
-	private CLI_option findOption(String optionName) throws OptionNotFoundException
+	private CLI_option findOption(final String optionName) throws OptionNotFoundException
 	{
-		for (CLI_option option : options)
+		for (final CLI_option option : options)
 		{
 			if (optionName.equals(option.getName()))
 			{
@@ -205,7 +201,7 @@ public final class CLI_program
 		return options;
 	}
 
-	String getXMLfilter(String optionName)
+	String getXMLfilter(final String optionName)
 	{
 		return program.getXMLfilter(optionName);
 	}
@@ -214,18 +210,22 @@ public final class CLI_program
 	 * @param optionName the name of the option to be found
 	 * @return {@code true} if the option exists, else {@code false}
 	 */
-	public boolean hasOption(String optionName)
+	public boolean hasOption(final String optionName)
 	{
+		boolean isOption;
+
 		try
 		{
 			findOption(optionName);
 
-			return true;
+			isOption = true;
 		}
 		catch (OptionNotFoundException error)
 		{
-			return false;
+			isOption = false;
 		}
+
+		return isOption;
 	}
 
 	/**
@@ -237,7 +237,7 @@ public final class CLI_program
 	 */
 	public void displayOptions() throws IllegalAccessException, IllegalArgumentException, StoppedProgramException
 	{
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 
 		builder.append(CLI_bundle.getCitation());
 		builder.append("\n\n\n");
@@ -249,7 +249,7 @@ public final class CLI_program
 
 		CLI_output.getOutput().println(builder.toString());
 
-		for (CLI_option option : options)
+		for (final CLI_option option : options)
 		{
 			if (! option.isHidden())
 			{

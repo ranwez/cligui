@@ -11,14 +11,14 @@ public final class CLI_bundle
 
 	private static String citation = "";
 
-	static void addProperties(String filepath)
+	static void addProperties(final String filepath)
 	{
-		Properties newProperties = readProperties(filepath);
+		final Properties newProperties = readProperties(filepath);
 
 		PROPERTIES.putAll(newProperties);
 	}
 
-	private static Properties readProperties(String filepath)
+	private static Properties readProperties(final String filepath)
 	{
 		Properties properties = null;
 
@@ -26,7 +26,7 @@ public final class CLI_bundle
 		{
 			properties = new Properties();
 
-			InputStream inputStream = CLI_bundle.class.getClassLoader().getResourceAsStream(filepath);
+			final InputStream inputStream = CLI_bundle.class.getClassLoader().getResourceAsStream(filepath);
 
 			if (inputStream == null)
 			{
@@ -50,7 +50,7 @@ public final class CLI_bundle
 		return citation;
 	}
 
-	static void setCitation(String citation)
+	static void setCitation(final String citation)
 	{
 		CLI_bundle.citation = citation;
 	}
@@ -64,17 +64,15 @@ public final class CLI_bundle
 	 * the description of the matching key
 	 * @return a description that matches the key with the objects values
 	 */
-	public static String getPropertyDescription(String key, Object... objects)
+	public static String getPropertyDescription(final String key, final Object... objects)
 	{
-		String code;
 		String description = PROPERTIES.getProperty(key);
-		String value;
 
 		for (int id = 0; id < objects.length; id++)
 		{
-			value = "" + objects[id];
+			final String value = "" + objects[id];
 
-			code = "@" + (id + 1);
+			final String code = "@" + (id + 1);
 
 			description = description.replace(code, value);
 		}

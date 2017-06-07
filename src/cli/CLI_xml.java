@@ -31,26 +31,26 @@ final class CLI_xml
 	private final String projectName;
 	private final String projectVersion;
 
-	CLI_xml(String projectName, String projectVersion, String programOptionName) throws Exception
+	CLI_xml(final String projectName, final String projectVersion, final String programOptionName) throws Exception
 	{
 		this.projectName = projectName;
 		this.projectVersion = projectVersion;
 		this.programOptionName = programOptionName;
 	}
 
-	void exportFiles(List<CLI_program> programs, String outputDirectory) throws Exception
+	void exportFiles(final List<CLI_program> programs, final String outputDirectory) throws Exception
 	{
-		for (CLI_program program : programs)
+		for (final CLI_program program : programs)
 		{
 			exportFile(program, outputDirectory);
 		}
 	}
 
-	private void exportFile(CLI_program program, String outputDirectory) throws Exception
+	private void exportFile(final CLI_program program, final String outputDirectory) throws Exception
 	{
-		String url = outputDirectory + program.getName() + ".xml";
+		final String url = outputDirectory + program.getName() + ".xml";
 
-		DOMSource source = new DOMSource(createDocument(program));
+		final DOMSource source = new DOMSource(createDocument(program));
 
 		createTransformer().transform(source, new StreamResult(url));
 
@@ -59,9 +59,9 @@ final class CLI_xml
 
 	private Transformer createTransformer() throws TransformerConfigurationException
 	{
-		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
-		Transformer transformer = transformerFactory.newTransformer();
+		final Transformer transformer = transformerFactory.newTransformer();
 
 		transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -69,22 +69,22 @@ final class CLI_xml
 		return transformer;
 	}
 
-	private Document createDocument(CLI_program program) throws Exception
+	private Document createDocument(final CLI_program program) throws Exception
 	{
-		DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+		final DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
 
-		DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+		final DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
 
-		Document document = documentBuilder.newDocument();
+		final Document document = documentBuilder.newDocument();
 
 		document.appendChild(createTool(document, program));
 
 		return document;
 	}
 
-	private Element createTool(Document document, CLI_program program) throws Exception
+	private Element createTool(final Document document, final CLI_program program) throws Exception
 	{
-		Element tool = document.createElement("tool");
+		final Element tool = document.createElement("tool");
 		tool.setAttribute("id", program.getName());
 		tool.setAttribute("name", program.getName());
 		tool.setAttribute("version", projectVersion);
@@ -98,31 +98,31 @@ final class CLI_xml
 		return tool;
 	}
 
-	private Element createText(Document document, String nodeContent, String nodeName)
+	private Element createText(final Document document, final String nodeContent, final String nodeName)
 	{
-		Text text = document.createTextNode(nodeContent);
+		final Text text = document.createTextNode(nodeContent);
 
-		Element description = document.createElement(nodeName);
+		final Element description = document.createElement(nodeName);
 
 		description.appendChild(text);
 
 		return description;
 	}
 
-	private Element createCommand(Document document, CLI_program program)
+	private Element createCommand(final Document document, final CLI_program program)
 	{
-		Text commands = document.createTextNode(createStringCommand(program));
+		final Text commands = document.createTextNode(createStringCommand(program));
 
-		Element command = document.createElement("command");
+		final Element command = document.createElement("command");
 
 		command.appendChild(commands);
 
 		return command;
 	}
 
-	private String createStringCommand(CLI_program program)
+	private String createStringCommand(final CLI_program program)
 	{
-		StringBuilder builder = new StringBuilder(projectName);
+		final StringBuilder builder = new StringBuilder(projectName);
 
 		if (! programOptionName.isEmpty())
 		{
@@ -132,7 +132,7 @@ final class CLI_xml
 			builder.append(program.getName());
 		}
 
-		for (CLI_option option : program.getOptions())
+		for (final CLI_option option : program.getOptions())
 		{
 			if (! option.isHidden())
 			{
@@ -143,11 +143,11 @@ final class CLI_xml
 		return builder.toString();
 	}
 
-	private String createCommandOption(CLI_option option)
+	private String createCommandOption(final CLI_option option)
 	{
-		boolean isString = option.getType().equals(String.class);
+		final boolean isString = option.getType().equals(String.class);
 
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 
 		builder.append(" -");
 		builder.append(option.getName());
@@ -169,9 +169,9 @@ final class CLI_xml
 		return builder.toString();
 	}
 
-	private Element createInputs(Document document, CLI_program program) throws Exception
+	private Element createInputs(final Document document, final CLI_program program) throws Exception
 	{
-		Element input = document.createElement("inputs");
+		final Element input = document.createElement("inputs");
 
 		createInputsIfRequired(document, program, input, true);
 		createInputsIfRequired(document, program, input, false);
@@ -179,9 +179,11 @@ final class CLI_xml
 		return input;
 	}
 
-	private void createInputsIfRequired(Document document, CLI_program program, Element input, boolean isRequired) throws Exception
+	private void createInputsIfRequired(final Document document, final CLI_program program, final Element input,
+
+			final boolean isRequired) throws Exception
 	{
-		for (CLI_option option : program.getOptions())
+		for (final CLI_option option : program.getOptions())
 		{
 			if (! option.isHidden() && option.getAnnotation(OutputFile.class) == null && option.isRequired() == isRequired)
 			{
@@ -190,9 +192,9 @@ final class CLI_xml
 		}
 	}
 
-	private Element createParam(Document document, CLI_option option) throws Exception
+	private Element createParam(final Document document, final CLI_option option) throws Exception
 	{
-		Element param = document.createElement("param");
+		final Element param = document.createElement("param");
 
 		String className;
 
@@ -208,11 +210,11 @@ final class CLI_xml
 		}
 		else
 		{
-			Class<?> optionClass = option.getType();
+			final Class<?> optionClass = option.getType();
 
 			if (optionClass.equals(int.class))
 			{
-				Parameter parameter = option.getAnnotation(Parameter.class);
+				final Parameter parameter = option.getAnnotation(Parameter.class);
 
 				if (parameter != null && ! parameter.enumeration().equals(Object.class))
 				{
@@ -245,7 +247,7 @@ final class CLI_xml
 
 		if (! className.equals("select"))
 		{
-			String defaultValue = option.getDefaultValue().toString();
+			final String defaultValue = option.getDefaultValue().toString();
 
 			if (! defaultValue.isEmpty())
 			{
@@ -261,45 +263,42 @@ final class CLI_xml
 		return param;
 	}
 
-	private void createStringComboBox(Document document, Element param, CLI_option option) throws IOException
+	private void createStringComboBox(final Document document, final Element param, final CLI_option option) throws IOException
 	{
-		boolean isInteger = option.getType().equals(int.class);
+		final boolean isInteger = option.getType().equals(int.class);
 
-		Element optionTag;
+		final InternalFile annotation = option.getAnnotation(InternalFile.class);
 
-		InternalFile annotation = option.getAnnotation(InternalFile.class);
+		final String filesPath = annotation.value();
 
-		String filesPath = annotation.value();
-		String name;
-		String value;
-
-		Text text;
-
-		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filesPath);
+		final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filesPath);
 
 		if (inputStream == null)
 		{
 			throw new FileNotFoundException("file not found : " + filesPath);
 		}
 
-		InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+		final InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
-		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		final BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
 		String line = bufferedReader.readLine();
 
 		while (line != null)
 		{
-			optionTag = document.createElement("option");
+			final Element optionTag = document.createElement("option");
+
+			String value;
 
 			if (isInteger)
 			{
-				value = line.substring(0, 2);
-				name = line.substring(3);
+				final String name = line.substring(3);
 
-				text = document.createTextNode(name);
+				final Text text = document.createTextNode(name);
 
 				optionTag.appendChild(text);
+
+				value = line.substring(0, 2);
 			}
 			else
 			{
@@ -321,17 +320,15 @@ final class CLI_xml
 		inputStream.close();
 	}
 
-	private void createIntegerComboBox(Document document, Element param, CLI_option option) throws Exception
+	private void createIntegerComboBox(final Document document, final Element param, final CLI_option option) throws Exception
 	{
-		Element optionTag;
+		final Parameter parameter = option.getAnnotation(Parameter.class);
 
-		Parameter parameter = option.getAnnotation(Parameter.class);
-
-		Object[] list = (Object[]) parameter.enumeration().getMethod("values").invoke(null);
+		final Object[] list = (Object[]) parameter.enumeration().getMethod("values").invoke(null);
 
 		for (int elementID = 0; elementID < list.length; elementID++)
 		{
-			optionTag = document.createElement("option");
+			final Element optionTag = document.createElement("option");
 
 			optionTag.setAttribute("value", "" + elementID);
 
@@ -346,35 +343,29 @@ final class CLI_xml
 		}
 	}
 
-	private Element createOutputs(Document document, CLI_program program)
+	private Element createOutputs(final Document document, final CLI_program program)
 	{
-		Element filter;
 		Element output = document.createElement("outputs");
-		Element param;
-
-		OutputFile outputFile;
-
-		String format;
 
 		for (CLI_option option : program.getOptions())
 		{
-			outputFile = option.getAnnotation(OutputFile.class);
+			final OutputFile outputFile = option.getAnnotation(OutputFile.class);
 
 			if (! option.isHidden() && outputFile != null)
 			{
-				format = outputFile.value().toLowerCase();
+				final String format = outputFile.value().toLowerCase();
 
-				param = document.createElement("data");
+				final Element param = document.createElement("data");
 
 				param.setAttribute("format", format);
 				param.setAttribute("label", option.getName());
 				param.setAttribute("name", option.getName());
 
-				String xmlFilter = program.getXMLfilter(option.getName());
+				final String xmlFilter = program.getXMLfilter(option.getName());
 
 				if (! xmlFilter.isEmpty())
 				{
-					filter = createText(document, xmlFilter, "filter");
+					final Element filter = createText(document, xmlFilter, "filter");
 
 					param.appendChild(filter);
 				}

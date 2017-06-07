@@ -13,13 +13,14 @@ import cli.exceptions.StoppedProgramException;
 
 public final class CLI_api
 {
-	private static String findProjectName(Class<?> cls)
+	private static String findProjectName(final Class<?> cls)
 	{
 		String jarPath = "";
+		String projectName;
 
 		try
 		{
-			URL jarURL = cls.getProtectionDomain().getCodeSource().getLocation();
+			final URL jarURL = cls.getProtectionDomain().getCodeSource().getLocation();
 
 			jarPath = URLDecoder.decode(jarURL.getPath(), "UTF-8");
 		}
@@ -28,22 +29,24 @@ public final class CLI_api
 			CLI_output.getOutput().printError(error);
 		}
 
-		File jarFile = new File(jarPath);
+		final File jarFile = new File(jarPath);
 
 		if (jarFile.isFile()) // .../project.jar
 		{
-			int index = jarPath.lastIndexOf(File.separatorChar) + 1;
+			final int index = jarPath.lastIndexOf(File.separatorChar) + 1;
 
-			return jarPath.substring(index);
+			projectName = jarPath.substring(index);
 		}
 		else // .../project/bin/
 		{
-			String[] directories = jarPath.split(File.separator);
+			final String[] directories = jarPath.split(File.separator);
 
-			int index = directories.length - 2;
+			final int index = directories.length - 2;
 
-			return directories[index] + ".jar";
+			projectName = directories[index] + ".jar";
 		}
+
+		return projectName;
 	}
 
 	private final List<CLI_program> programs = new ArrayList<CLI_program>();
@@ -63,7 +66,7 @@ public final class CLI_api
 	 * @param programOptionName the name of the program selector option which is written before
 	 * each program name in the commands line (useless if only one program)
 	 */
-	public CLI_api(Class<?> cls, String bundlePath, String programOptionName)
+	public CLI_api(final Class<?> cls, final String bundlePath, final String programOptionName)
 	{
 		this(findProjectName(cls), bundlePath, programOptionName);
 	}
@@ -78,7 +81,7 @@ public final class CLI_api
 	 * @param programOptionName the name of the program selector option which is written before
 	 * each program name in the commands line (useless if only one program)
 	 */
-	public CLI_api(String projectName, String bundlePath, String programOptionName)
+	public CLI_api(final String projectName, final String bundlePath, final String programOptionName)
 	{
 		this.projectName = projectName;
 		this.programOptionName = programOptionName;
@@ -101,11 +104,11 @@ public final class CLI_api
 	 * @throws InstantiationException if the class cannot be instanced
 	 * @throws ProgramDoublonException if the new program to be added already exists
 	 */
-	public void addProgram(String programName, Class<? extends Program> programClass)
+	public void addProgram(final String programName, final Class<? extends Program> programClass)
 
 			throws IllegalAccessException, InstantiationException, ProgramDoublonException
 	{
-		for (CLI_program program : programs)
+		for (final CLI_program program : programs)
 		{
 			if (programName.equals(program.getName()))
 			{
@@ -113,7 +116,7 @@ public final class CLI_api
 			}
 		}
 
-		CLI_program program = new CLI_program(programName, programClass);
+		final CLI_program program = new CLI_program(programName, programClass);
 
 		if (currentProgram == null)
 		{
@@ -130,9 +133,9 @@ public final class CLI_api
 	 * @param outputDirectory the directory which will store the galaxy XML files
 	 * @throws Exception any exception caused by reflection or input / output exception
 	 */
-	public void exportXML(String projectVersion, String outputDirectory) throws Exception
+	public void exportXML(final String projectVersion, final String outputDirectory) throws Exception
 	{
-		CLI_xml cli_xml = new CLI_xml(projectName, projectVersion, programOptionName);
+		final CLI_xml cli_xml = new CLI_xml(projectName, projectVersion, programOptionName);
 
 		cli_xml.exportFiles(programs, outputDirectory);
 	}
@@ -144,7 +147,7 @@ public final class CLI_api
 	 * @param commands a {@code String} variable of commands to be parsed
 	 * @throws Exception if the commands are wrong of if the executed program throws an error
 	 */
-	public void parse(String commands) throws Exception
+	public void parse(final String commands) throws Exception
 	{
 		parse(commands.split(" "));
 	}
@@ -156,15 +159,13 @@ public final class CLI_api
 	 * @param commands a {@code String} array of commands to be parsed
 	 * @throws Exception if the commands are wrong of if the executed program throws an error
 	 */
-	public void parse(String[] commands) throws Exception
+	public void parse(final String[] commands) throws Exception
 	{
-		String programName;
-
 		String[] updatedCommands;
 
 		if (programs.size() > 1)
 		{
-			programName = findProgram(commands);
+			final String programName = findProgram(commands);
 
 			setProgramName(programName);
 
@@ -172,23 +173,19 @@ public final class CLI_api
 		}
 		else
 		{
-			programName = currentProgram.getName();
-
 			updatedCommands = commands;
 		}
 
 		currentProgram.parse(updatedCommands);
 	}
 
-	private String findProgram(String[] commands) throws ProgramNotFoundException
+	private String findProgram(final String[] commands) throws ProgramNotFoundException
 	{
 		String programName = "";
 
-		String command;
-
 		for (int commandID = 0; commandID < commands.length; commandID++)
 		{
-			command = commands[commandID];
+			final String command = commands[commandID];
 
 			if (isProgramOption(command))
 			{
@@ -209,11 +206,11 @@ public final class CLI_api
 		return programName;
 	}
 
-	private String[] removeProgOption(String[] commands, String programName)
+	private String[] removeProgOption(final String[] commands, final String programName)
 	{
-		List<String> updatedCommands = new ArrayList<String>();
+		final List<String> updatedCommands = new ArrayList<String>();
 
-		for (String command : commands)
+		for (final String command : commands)
 		{
 			if (! isProgramOption(command) && ! command.equals(programName))
 			{
@@ -255,7 +252,7 @@ public final class CLI_api
 		return programs;
 	}
 
-	private boolean isProgramOption(String command)
+	private boolean isProgramOption(final String command)
 	{
 		return command.equals('-' + programOptionName);
 	}
@@ -265,14 +262,14 @@ public final class CLI_api
 	 * 
 	 * @param citation the text to be displayed in console and window
 	 */
-	public void setCitation(String citation)
+	public void setCitation(final String citation)
 	{
 		CLI_bundle.setCitation(citation);
 	}
 
-	void setProgramName(String programName) throws ProgramNotFoundException
+	void setProgramName(final String programName) throws ProgramNotFoundException
 	{
-		for (CLI_program program : programs)
+		for (final CLI_program program : programs)
 		{
 			if (programName.equals(program.getName()))
 			{
@@ -292,9 +289,7 @@ public final class CLI_api
 	 */
 	public void displayPrograms() throws StoppedProgramException
 	{
-		String description;
-
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 
 		builder.append('\n');
 		builder.append(CLI_bundle.getCitation());
@@ -306,9 +301,9 @@ public final class CLI_api
 		builder.append(CLI_bundle.getPropertyDescription("CLI_program_title"));
 		builder.append(" :\n");
 
-		for (CLI_program program : programs)
+		for (final CLI_program program : programs)
 		{
-			description = CLI_bundle.getPropertyDescription("CLI_program_desc", program.getName(), program.getDescription());
+			final String description = CLI_bundle.getPropertyDescription("CLI_program_desc", program.getName(), program.getDescription());
 
 			builder.append("  ");
 			builder.append(description);

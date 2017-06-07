@@ -39,7 +39,7 @@ public final class CLI_window extends JFrame implements ActionListener
 	 * @param api a {@code CLI_api} object with programs and options
 	 * @throws Exception any parsing exception
 	 */
-	public CLI_window(CLI_api api) throws Exception
+	public CLI_window(final CLI_api api) throws Exception
 	{
 		this(api, new OptionsFactory());
 	}
@@ -51,7 +51,7 @@ public final class CLI_window extends JFrame implements ActionListener
 	 * @param optionsFactory a customized {@code OptionsFactory} used to create new options panels
 	 * @throws Exception any parsing exception
 	 */
-	public CLI_window(CLI_api api, OptionsFactory optionsFactory) throws Exception
+	public CLI_window(final CLI_api api, final OptionsFactory optionsFactory) throws Exception
 	{
 		this.api = api;
 
@@ -59,7 +59,7 @@ public final class CLI_window extends JFrame implements ActionListener
 
 		optionsPanel = new OptionsPanel(api, optionsFactory);
 
-		String title = api.getProjectName().replace(".jar", "");
+		final String title = api.getProjectName().replace(".jar", "");
 
 		setTitle(title);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -68,7 +68,7 @@ public final class CLI_window extends JFrame implements ActionListener
 
 		helpCitationMenuItem = new JMenuItem(citationTitle);
 
-		JMenuBar menuBar = new JMenuBar();
+		final JMenuBar menuBar = new JMenuBar();
 
 		if (api.getPrograms().size() > 1)
 		{
@@ -92,13 +92,11 @@ public final class CLI_window extends JFrame implements ActionListener
 
 	private JMenu createProgramsMenu()
 	{
-		JMenu programsMenu = new JMenu(CLI_bundle.getPropertyDescription("CLI_window_programs"));
+		final JMenu programsMenu = new JMenu(CLI_bundle.getPropertyDescription("CLI_window_programs"));
 
-		JMenuItem programsMenuItem;
-
-		for (CLI_program program : api.getPrograms())
+		for (final CLI_program program : api.getPrograms())
 		{
-			programsMenuItem = new JMenuItem(program.getName());
+			final JMenuItem programsMenuItem = new JMenuItem(program.getName());
 
 			programsMenuItem.addActionListener(this);
 
@@ -110,7 +108,7 @@ public final class CLI_window extends JFrame implements ActionListener
 
 	private JMenu createHelpMenu()
 	{
-		JMenu helpMenu = new JMenu(CLI_bundle.getPropertyDescription("CLI_window_help"));
+		final JMenu helpMenu = new JMenu(CLI_bundle.getPropertyDescription("CLI_window_help"));
 
 		helpCitationMenuItem.setVisible(! CLI_bundle.getCitation().isEmpty());
 
@@ -124,12 +122,12 @@ public final class CLI_window extends JFrame implements ActionListener
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event)
+	public void actionPerformed(final ActionEvent event)
 	{
 		if (helpTipsMenuItem.equals(event.getSource()))
 		{
-			String title = CLI_bundle.getPropertyDescription("CLI_window_helpTipsTitle");
-			String message = CLI_bundle.getPropertyDescription("CLI_window_helpTipsContent");
+			final String title = CLI_bundle.getPropertyDescription("CLI_window_helpTipsTitle");
+			final String message = CLI_bundle.getPropertyDescription("CLI_window_helpTipsContent");
 
 			JOptionPane.showMessageDialog(this, message, title, JOptionPane.INFORMATION_MESSAGE);
 		}
@@ -150,9 +148,9 @@ public final class CLI_window extends JFrame implements ActionListener
 		}
 	}
 
-	private void updateProgram(ActionEvent event) throws StoppedProgramException, ProgramNotFoundException
+	private void updateProgram(final ActionEvent event) throws StoppedProgramException, ProgramNotFoundException
 	{
-		String newProgramName = event.getActionCommand();
+		final String newProgramName = event.getActionCommand();
 
 		try
 		{

@@ -13,7 +13,7 @@ public final class CLI_option implements Comparable<CLI_option>
 	private final Object instance;
 	private final Object defaultValue;
 
-	CLI_option(Field field, Object instance) throws IllegalAccessException, IllegalArgumentException
+	CLI_option(final Field field, final Object instance) throws IllegalAccessException, IllegalArgumentException
 	{
 		this.field = field;
 		this.instance = instance;
@@ -32,7 +32,7 @@ public final class CLI_option implements Comparable<CLI_option>
 	 * element, else null
 	 * @throws NullPointerException if the given annotation class is null
 	 */
-	public <T extends Annotation> T getAnnotation(Class<T> cls)
+	public <T extends Annotation> T getAnnotation(final Class<T> cls)
 	{
 		return field.getAnnotation(cls);
 	}
@@ -71,9 +71,9 @@ public final class CLI_option implements Comparable<CLI_option>
 		return field.getType();
 	}
 
-	void setParameter(String parameter) throws IllegalAccessException, IllegalArgumentException
+	void setParameter(final String parameter) throws IllegalAccessException, IllegalArgumentException
 	{
-		Class<?> cls = field.getType();
+		final Class<?> cls = field.getType();
 
 		Object object;
 
@@ -121,14 +121,14 @@ public final class CLI_option implements Comparable<CLI_option>
 	{
 		field.setAccessible(true);
 
-		Object object = field.get(instance);
+		final Object object = field.get(instance);
 
 		field.setAccessible(false);
 
 		return object;
 	}
 
-	private void setValue(Object optionValue) throws IllegalAccessException, IllegalArgumentException
+	private void setValue(final Object optionValue) throws IllegalAccessException, IllegalArgumentException
 	{
 		field.setAccessible(true);
 
@@ -141,11 +141,11 @@ public final class CLI_option implements Comparable<CLI_option>
 	{
 		field.setAccessible(true);
 
-		Object realValue = field.get(instance);
+		final Object realValue = field.get(instance);
 
 		field.setAccessible(false);
 
-		String updatedRealValue = computeNoEmptyStringValue(realValue);
+		final String updatedRealValue = computeNoEmptyStringValue(realValue);
 
 		char requirement;
 
@@ -158,7 +158,7 @@ public final class CLI_option implements Comparable<CLI_option>
 			requirement = ' ';
 		}
 
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 
 		builder.append("  -");
 		builder.append(getName());
@@ -188,15 +188,21 @@ public final class CLI_option implements Comparable<CLI_option>
 		return getParameter().required();
 	}
 
-	private String computeNoEmptyStringValue(Object objectValue)
+	private String computeNoEmptyStringValue(final Object objectValue)
 	{
-		String stringValue = "" + objectValue;
+		String stringValue = objectValue.toString();
 
 		if (stringValue.isEmpty())
 		{
-			stringValue = "<";
-			stringValue += CLI_bundle.getPropertyDescription("CLI_option_emptyString");
-			stringValue += ">";
+			final String description = CLI_bundle.getPropertyDescription("CLI_option_emptyString");
+
+			final StringBuilder builder = new StringBuilder();
+
+			builder.append('<');
+			builder.append(description);
+			builder.append('>');
+
+			stringValue = builder.toString();
 		}
 
 		return stringValue;
@@ -207,7 +213,7 @@ public final class CLI_option implements Comparable<CLI_option>
 	 * {@code Collections.sort()} in the {@code CLI_program} constructor.
 	 */
 	@Override
-	public int compareTo(CLI_option option)
+	public int compareTo(final CLI_option option)
 	{
 		return getName().compareTo(option.getName());
 	}
