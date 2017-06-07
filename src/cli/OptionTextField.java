@@ -13,12 +13,12 @@ public final class OptionTextField extends JFormattedTextField implements CaretL
 {
 	private final OptionBean optionBean;
 
-	public OptionTextField(OptionBean optionBean)
+	public OptionTextField(final OptionBean optionBean)
 	{
 		this(optionBean, null);
 	}
 
-	public OptionTextField(OptionBean optionBean, AbstractFormatter formatter)
+	public OptionTextField(final OptionBean optionBean, final AbstractFormatter formatter)
 	{
 		super(formatter);
 
@@ -26,7 +26,7 @@ public final class OptionTextField extends JFormattedTextField implements CaretL
 
 		setOpaque(false);
 
-		String textValue = optionBean.getOption().getDefaultValue().toString();
+		final String textValue = optionBean.getOption().getDefaultValue().toString();
 
 		setText(textValue);
 
@@ -37,11 +37,11 @@ public final class OptionTextField extends JFormattedTextField implements CaretL
 	}
 
 	@Override
-	public void caretUpdate(CaretEvent event)
+	public void caretUpdate(final CaretEvent event)
 	{
-		CLI_option option = optionBean.getOption();
+		final CLI_option option = optionBean.getOption();
 
-		String currentValue = getText();
+		final String currentValue = getText();
 
 		if (currentValue.equals(option.getDefaultValue().toString()))
 		{
@@ -59,10 +59,10 @@ public final class OptionTextField extends JFormattedTextField implements CaretL
 	}
 
 	@Override
-	public void focusGained(FocusEvent event) {}
+	public void focusGained(final FocusEvent event) {}
 
 	@Override
-	public void focusLost(FocusEvent event)
+	public void focusLost(final FocusEvent event)
 	{
 		if (getText().isEmpty())
 		{

@@ -22,7 +22,7 @@ final class GroupsPanel extends JPanel
 		CONSTRAINTS.weightx = 1;
 	}
 
-	void addOptionButton(OptionButton optionButton)
+	void addOptionButton(final OptionButton optionButton)
 	{
 		CONSTRAINTS.gridx++;
 
@@ -31,22 +31,18 @@ final class GroupsPanel extends JPanel
 		optionButtons.add(optionButton);
 	}
 
-	OptionButton getOptionButton(int optionButtonID)
+	OptionButton getOptionButton(final int optionButtonID)
 	{
 		return optionButtons.get(optionButtonID);
 	}
 
-	void updateSelection(int selectedOptionButtonID)
+	void updateSelection(final int selectedOptionButtonID)
 	{
-		boolean isSelected;
-
-		OptionButton optionButton;
-
 		for (int optionButtonID = 0; optionButtonID < optionButtons.size(); optionButtonID++)
 		{
-			isSelected = optionButtonID == selectedOptionButtonID;
+			final boolean isSelected = optionButtonID == selectedOptionButtonID;
 
-			optionButton = optionButtons.get(optionButtonID);
+			final OptionButton optionButton = optionButtons.get(optionButtonID);
 
 			optionButton.updateColor(isSelected);
 		}
@@ -54,7 +50,7 @@ final class GroupsPanel extends JPanel
 
 	void updateVisibilities()
 	{
-		for (OptionButton optionButton : optionButtons)
+		for (final OptionButton optionButton : optionButtons)
 		{
 			if (optionButton.getOptionPanelsCount() == 0)
 			{

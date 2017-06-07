@@ -8,7 +8,7 @@ public final class OptionBean
 
 	private final InfoTextArea optionTextArea;
 
-	OptionBean(CommandsPanel commandsPanel, CLI_option option, InfoTextArea optionTextArea)
+	OptionBean(final CommandsPanel commandsPanel, final CLI_option option, final InfoTextArea optionTextArea)
 	{
 		this.commandsPanel = commandsPanel;
 		this.option = option;

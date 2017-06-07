@@ -10,28 +10,28 @@ public abstract class FocusablePanel extends JPanel implements FocusListener
 {
 	private final OptionBean optionBean;
 
-	protected FocusablePanel(OptionBean optionBean)
+	protected FocusablePanel(final OptionBean optionBean)
 	{
 		this.optionBean = optionBean;
 	}
 
-	protected final void updateOption(Object value)
+	protected final void updateOption(final Object value)
 	{
-		CommandsPanel commandsPanel = optionBean.getCommandsPanel();
+		final CommandsPanel commandsPanel = optionBean.getCommandsPanel();
 
 		commandsPanel.updateOptionAndCommandsLine(optionBean.getOption(), "" + value);
 	}
 
 	@Override
-	public void focusGained(FocusEvent event)
+	public void focusGained(final FocusEvent event)
 	{
-		CLI_option option = optionBean.getOption();
+		final CLI_option option = optionBean.getOption();
 
-		InfoTextArea optionTextArea = optionBean.getOptionTextArea();
+		final InfoTextArea optionTextArea = optionBean.getOptionTextArea();
 
 		optionTextArea.setText(option.getDescription());
 	}
 
 	@Override
-	public void focusLost(FocusEvent event) {}
+	public void focusLost(final FocusEvent event) {}
 }

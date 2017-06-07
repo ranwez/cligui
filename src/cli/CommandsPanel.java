@@ -36,7 +36,7 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 
 	private Thread thread;
 
-	CommandsPanel(CLI_api api)
+	CommandsPanel(final CLI_api api)
 	{
 		this.api = api;
 
@@ -48,9 +48,9 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 
 		setBackground(Color.LIGHT_GRAY);
 
-		JPanel buttonsPanel = createButtonsPanel();
+		final JPanel buttonsPanel = createButtonsPanel();
 
-		GridBagConstraints constraints = new GridBagConstraints();
+		final GridBagConstraints constraints = new GridBagConstraints();
 
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.weightx = 1;
@@ -70,7 +70,7 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 
 	private JPanel createButtonsPanel()
 	{
-		JPanel buttonsPanel = new JPanel();
+		final JPanel buttonsPanel = new JPanel();
 
 		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 
@@ -82,12 +82,7 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 		return buttonsPanel;
 	}
 
-	void initOptionAndCommandsLine()
-	{
-		updateOptionAndCommandsLine(null, "");
-	}
-
-	void updateOptionAndCommandsLine(CLI_option option, String optionValue)
+	void updateOptionAndCommandsLine(final CLI_option option, final String optionValue)
 	{
 		try
 		{
@@ -106,33 +101,25 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 		}
 	}
 
-	private void updateCommandsLine() throws IllegalArgumentException, IllegalAccessException, ProgramNotFoundException
+	void updateCommandsLine() throws IllegalArgumentException, IllegalAccessException, ProgramNotFoundException
 	{
-		boolean notFirstOption;
+		final String programOptionName = api.getProgramOptionName();
 
-		String programOptionName = api.getProgramOptionName();
+		final StringBuilder builder = new StringBuilder(commandsStart);
 
-		StringBuilder builder = new StringBuilder(commandsStart);
+		boolean notFirstOption = ! programOptionName.isEmpty();
 
-		if (! programOptionName.isEmpty())
+		if (notFirstOption)
 		{
 			builder.append('-');
 			builder.append(programOptionName);
 			builder.append(' ');
 			builder.append(api.getCurrentProgram().getName());
-
-			notFirstOption = true;
-		}
-		else
-		{
-			notFirstOption = false;
 		}
 
-		Object parameterValue;
-
-		for (CLI_option option : api.getCurrentProgram().getOptions())
+		for (final CLI_option option : api.getCurrentProgram().getOptions())
 		{
-			parameterValue = option.getValue();
+			final Object parameterValue = option.getValue();
 
 			if (! parameterValue.equals(option.getDefaultValue()))
 			{
@@ -160,7 +147,7 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event)
+	public void actionPerformed(final ActionEvent event)
 	{
 		if (buttonStart.equals(event.getSource()))
 		{
@@ -172,10 +159,10 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 			}
 			else
 			{
-				String title = CLI_bundle.getPropertyDescription("CLI_window_multiWindowTitle");
-				String message = CLI_bundle.getPropertyDescription("CLI_window_multiWindowWarning");
+				final String title = CLI_bundle.getPropertyDescription("CLI_window_multiWindowTitle");
+				final String message = CLI_bundle.getPropertyDescription("CLI_window_multiWindowWarning");
 
-				JTextArea textArea = new JTextArea(message);
+				final JTextArea textArea = new JTextArea(message);
 				textArea.setOpaque(false);
 
 				textArea.setLineWrap(true);
@@ -183,7 +170,8 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 
 				textArea.setSize(300, 200);
 
-				int choice = JOptionPane.showOptionDialog(null, textArea, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+				final int choice = JOptionPane.showOptionDialog(null, textArea, title, JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.WARNING_MESSAGE, null, null, null);
 
 				if (choice == 0) // yes
 				{
@@ -209,11 +197,11 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 			commands = " "; // to prevent StringIndexOutOfRangeException
 		}
 
-		Date date = new Date();
+		final Date date = new Date();
 
 		try
 		{
-			String consoleTitle = api.getCurrentProgram().getName() + " - " + date;
+			final String consoleTitle = api.getCurrentProgram().getName() + " - " + date;
 
 			((WindowsManager) CLI_output.getOutput()).openNewConsole(consoleTitle);
 
@@ -236,11 +224,11 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 
 	private void copyToClipboard()
 	{
-		String commandsLine = COMMANDS_TEXT_AREA.getText();
+		final String commandsLine = COMMANDS_TEXT_AREA.getText();
 
-		StringSelection selection = new StringSelection(commandsLine);
+		final StringSelection selection = new StringSelection(commandsLine);
 
-		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 
 		clipboard.setContents(selection, null);
 	}

@@ -12,12 +12,12 @@ final class OptionButton extends JButton
 {
 	private final List<JPanel> optionPanels = new ArrayList<JPanel>();
 
-	OptionButton(String name)
+	OptionButton(final String name)
 	{
 		super(name);
 	}
 
-	void updateColor(boolean isSelected)
+	void updateColor(final boolean isSelected)
 	{
 		if (isSelected)
 		{
@@ -29,12 +29,12 @@ final class OptionButton extends JButton
 		}
 	}
 
-	void addOptionPanel(JPanel optionPanel)
+	void addOptionPanel(final JPanel optionPanel)
 	{
 		optionPanels.add(optionPanel);
 	}
 
-	JPanel getOptionPanel(int panelID)
+	JPanel getOptionPanel(final int panelID)
 	{
 		return optionPanels.get(panelID);
 	}

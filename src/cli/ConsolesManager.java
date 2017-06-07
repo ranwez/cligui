@@ -5,7 +5,7 @@ import cli.exceptions.StoppedProgramException;
 final class ConsolesManager extends OutputManager
 {
 	@Override
-	public void print(String text) throws StoppedProgramException
+	public void print(final String text) throws StoppedProgramException
 	{
 		System.out.print(text);
 	}

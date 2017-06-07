@@ -25,7 +25,7 @@ final class GUIconsole extends JFrame implements WindowListener
 
 	private boolean isDisposed;
 
-	GUIconsole(String title)
+	GUIconsole(final String title)
 	{
 		windowsCount++;
 
@@ -53,11 +53,11 @@ final class GUIconsole extends JFrame implements WindowListener
 		return windowsCount;
 	}
 
-	void print(String text)
+	void print(final String text)
 	{
 		textArea.append(text);
 
-		JScrollBar scrollBar = scrollPanel.getVerticalScrollBar();
+		final JScrollBar scrollBar = scrollPanel.getVerticalScrollBar();
 
 		scrollBar.setValue(scrollBar.getMaximum());
 	}
@@ -76,26 +76,26 @@ final class GUIconsole extends JFrame implements WindowListener
 	}
 
 	@Override
-	public void windowOpened(WindowEvent event) {}
+	public void windowOpened(final WindowEvent event) {}
 
 	@Override
-	public void windowClosing(WindowEvent event) {}
+	public void windowClosing(final WindowEvent event) {}
 
 	@Override
-	public void windowClosed(WindowEvent event)
+	public void windowClosed(final WindowEvent event)
 	{
 		windowsCount--;
 	}
 
 	@Override
-	public void windowIconified(WindowEvent event) {}
+	public void windowIconified(final WindowEvent event) {}
 
 	@Override
-	public void windowDeiconified(WindowEvent event) {}
+	public void windowDeiconified(final WindowEvent event) {}
 
 	@Override
-	public void windowActivated(WindowEvent event) {}
+	public void windowActivated(final WindowEvent event) {}
 
 	@Override
-	public void windowDeactivated(WindowEvent event) {}
+	public void windowDeactivated(final WindowEvent event) {}
 }

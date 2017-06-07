@@ -58,11 +58,11 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 	private int selectedGroupID;
 
-	OptionsPanel(CLI_api api, OptionsFactory optionsFactory) throws ProgramNotFoundException, StoppedProgramException, IOException
+	OptionsPanel(final CLI_api api, final OptionsFactory optionsFactory) throws ProgramNotFoundException, StoppedProgramException, IOException
 	{
 		this.optionsFactory = optionsFactory;
 
-		for (Class<? extends Annotation> annotation : optionsFactory.getAnnotations())
+		for (final Class<? extends Annotation> annotation : optionsFactory.getAnnotations())
 		{
 			ANNOTATIONS.add(annotation);
 		}
@@ -89,14 +89,14 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 	private void addComponents() throws IOException
 	{
-		JPanel descriptionPanel = createDescriptionPanel();
+		final JPanel descriptionPanel = createDescriptionPanel();
 
-		JScrollPane scrollPane = new JScrollPane(optionsPanel);
+		final JScrollPane scrollPane = new JScrollPane(optionsPanel);
 
 		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-		GridBagConstraints constraints = new GridBagConstraints();
+		final GridBagConstraints constraints = new GridBagConstraints();
 
 		constraints.weightx = 1;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -122,15 +122,15 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 	private JPanel createDescriptionPanel() throws IOException
 	{
-		BufferedImage bufferedImage = ImageIO.read(getClass().getResource("lamp.gif"));
+		final BufferedImage bufferedImage = ImageIO.read(getClass().getResource("lamp.gif"));
 
-		Icon icon = new ImageIcon(bufferedImage);
+		final Icon icon = new ImageIcon(bufferedImage);
 
-		JLabel informationLabel = new JLabel(icon);
+		final JLabel informationLabel = new JLabel(icon);
 
 		informationLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 
-		JPanel descriptionPanel = new JPanel();
+		final JPanel descriptionPanel = new JPanel();
 
 		descriptionPanel.setLayout(new BoxLayout(descriptionPanel, BoxLayout.X_AXIS));
 
@@ -149,7 +149,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 		addOptionButton("All");
 		addOptionButton("None");
 
-		for (Class<? extends Annotation> annotation : ANNOTATIONS)
+		for (final Class<? extends Annotation> annotation : ANNOTATIONS)
 		{
 			addOptionButton(annotation.getSimpleName());
 		}
@@ -173,11 +173,12 @@ final class OptionsPanel extends JPanel implements ActionListener
 		groupsPanel.updateSelection(selectedGroupID);
 	}
 
-	private void addOptionButton(String buttonType)
+	private void addOptionButton(final String buttonType)
 	{
-		String buttonName = CLI_bundle.getPropertyDescription("CLI_window_button" + buttonType);
+		final String buttonName = CLI_bundle.getPropertyDescription("CLI_window_button" + buttonType);
 
-		OptionButton optionButton = new OptionButton(buttonName);
+		final OptionButton optionButton = new OptionButton(buttonName);
+
 		optionButton.addActionListener(this);
 
 		groupsPanel.addOptionButton(optionButton);
@@ -185,19 +186,15 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 	private void fillGroupsPanelOptions() throws ProgramNotFoundException, StoppedProgramException
 	{
-		int groupID;
+		final CLI_program program = commandsPanel.getApi().getCurrentProgram();
 
-		CLI_program program = commandsPanel.getApi().getCurrentProgram();
-
-		JPanel optionPanel;
-
-		for (CLI_option option : program.getOptions())
+		for (final CLI_option option : program.getOptions())
 		{
 			if (! option.isHidden())
 			{
-				optionPanel = createOptionPanel(option);
+				final JPanel optionPanel = createOptionPanel(option);
 
-				groupID = findOptionGroupID(option);
+				final int groupID = findOptionGroupID(option);
 
 				groupsPanel.getOptionButton(0).addOptionPanel(optionPanel);
 				groupsPanel.getOptionButton(groupID).addOptionPanel(optionPanel);
@@ -205,28 +202,28 @@ final class OptionsPanel extends JPanel implements ActionListener
 		}
 	}
 
-	private JPanel createOptionPanel(CLI_option option) throws StoppedProgramException
+	private JPanel createOptionPanel(final CLI_option option) throws StoppedProgramException
 	{
-		JPanel externalOptionPanel = createExternalOptionPanel(option);
+		final JPanel externalOptionPanel = createExternalOptionPanel(option);
 
-		OptionBean optionBean = new OptionBean(commandsPanel, option, OPTION_TEXT_AREA);
+		final OptionBean optionBean = new OptionBean(commandsPanel, option, OPTION_TEXT_AREA);
 
-		FocusablePanel internalOptionPanel = optionsFactory.createOptionPanel(optionBean);
+		final FocusablePanel internalOptionPanel = optionsFactory.createOptionPanel(optionBean);
 
 		externalOptionPanel.add(internalOptionPanel);
 
 		return externalOptionPanel;
 	}
 
-	private JPanel createExternalOptionPanel(CLI_option option)
+	private JPanel createExternalOptionPanel(final CLI_option option)
 	{
-		JPanel externalOptionPanel = new JPanel();
+		final JPanel externalOptionPanel = new JPanel();
 
 		externalOptionPanel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
 		externalOptionPanel.setLayout(new BoxLayout(externalOptionPanel, BoxLayout.X_AXIS));
 
-		TitledBorder titledBorder = BorderFactory.createTitledBorder(option.getName());
+		final TitledBorder titledBorder = BorderFactory.createTitledBorder(option.getName());
 
 		if (option.isRequired())
 		{
@@ -238,13 +235,11 @@ final class OptionsPanel extends JPanel implements ActionListener
 		return externalOptionPanel;
 	}
 
-	private int findOptionGroupID(CLI_option option)
+	private int findOptionGroupID(final CLI_option option)
 	{
-		Class<? extends Annotation> annotation;
-
 		for (int groupsID = 0; groupsID < ANNOTATIONS.size(); groupsID++)
 		{
-			annotation = ANNOTATIONS.get(groupsID);
+			final Class<? extends Annotation> annotation = ANNOTATIONS.get(groupsID);
 
 			if (option.getAnnotation(annotation) != null)
 			{
@@ -259,11 +254,9 @@ final class OptionsPanel extends JPanel implements ActionListener
 	{
 		optionsPanel.removeAll();
 
-		GridBagConstraints constraint = new GridBagConstraints();
+		final GridBagConstraints constraint = new GridBagConstraints();
 
-		JPanel optionPanel;
-
-		OptionButton optionButton = groupsPanel.getOptionButton(selectedGroupID);
+		final OptionButton optionButton = groupsPanel.getOptionButton(selectedGroupID);
 
 		constraint.fill = GridBagConstraints.HORIZONTAL;
 		constraint.weightx = 1;
@@ -271,7 +264,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 		for (int panelID = 0; panelID < optionButton.getOptionPanelsCount(); panelID++)
 		{
-			optionPanel = optionButton.getOptionPanel(panelID);
+			final JPanel optionPanel = optionButton.getOptionPanel(panelID);
 
 			constraint.gridy++;
 
@@ -281,13 +274,21 @@ final class OptionsPanel extends JPanel implements ActionListener
 		repaint();
 		validate();
 
-		commandsPanel.initOptionAndCommandsLine();
-
 		try
 		{
+			commandsPanel.updateCommandsLine();
+
 			updateProgramDescription();
 		}
 		catch (ProgramNotFoundException error)
+		{
+			error.printStackTrace();
+		}
+		catch (IllegalArgumentException error)
+		{
+			error.printStackTrace();
+		}
+		catch (IllegalAccessException error)
 		{
 			error.printStackTrace();
 		}
@@ -295,22 +296,21 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 	private void updateProgramDescription() throws ProgramNotFoundException
 	{
-		CLI_api api = commandsPanel.getApi();
+		final CLI_api api = commandsPanel.getApi();
 
-		String description = CLI_bundle.getPropertyDescription("CLI_window_programDescription", api.getCurrentProgram().getDescription());
+		final String description = CLI_bundle.getPropertyDescription("CLI_window_programDescription", api.getCurrentProgram().getDescription());
 
 		OPTION_TEXT_AREA.setText(description);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event)
+	public void actionPerformed(final ActionEvent event)
 	{
-		OptionButton clickedOptionButton = (OptionButton) event.getSource();
-		OptionButton optionButton;
+		final OptionButton clickedOptionButton = (OptionButton) event.getSource();
 
 		for (int id = 0; id < ANNOTATIONS.size() + 2; id++)
 		{
-			optionButton = groupsPanel.getOptionButton(id);
+			final OptionButton optionButton = groupsPanel.getOptionButton(id);
 
 			if (optionButton.equals(clickedOptionButton))
 			{
