@@ -22,7 +22,7 @@ final class ExternalFilePanel extends FocusablePanel implements ActionListener
 
 	private final OptionTextField textField;
 
-	ExternalFilePanel(OptionBean optionBean, boolean isSave)
+	ExternalFilePanel(final OptionBean optionBean, final boolean isSave)
 	{
 		super(optionBean);
 
@@ -30,7 +30,7 @@ final class ExternalFilePanel extends FocusablePanel implements ActionListener
 
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-		JButton browseButton = new JButton(UIManager.getIcon("FileView.directoryIcon"));
+		final JButton browseButton = new JButton(UIManager.getIcon("FileView.directoryIcon"));
 
 		browseButton.setFocusable(false);
 
@@ -45,10 +45,8 @@ final class ExternalFilePanel extends FocusablePanel implements ActionListener
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event)
+	public void actionPerformed(final ActionEvent event)
 	{
-		int action;
-
 		JFileChooser chooser;
 
 		if (defaultDirectory.isEmpty())
@@ -59,6 +57,8 @@ final class ExternalFilePanel extends FocusablePanel implements ActionListener
 		{
 			chooser = new JFileChooser(defaultDirectory);
 		}
+
+		int action;
 
 		if (isSave)
 		{
@@ -73,7 +73,7 @@ final class ExternalFilePanel extends FocusablePanel implements ActionListener
 		{
 			defaultDirectory = chooser.getCurrentDirectory().getPath();
 
-			String filepath = chooser.getSelectedFile().getAbsolutePath();
+			final String filepath = chooser.getSelectedFile().getAbsolutePath();
 
 			textField.setText(filepath);
 

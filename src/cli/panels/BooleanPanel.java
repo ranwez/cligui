@@ -9,7 +9,7 @@ class BooleanPanel extends ComboBoxPanel
 {
 	private static final Boolean[] BOOLEAN_VALUES = {true, false};
 
-	BooleanPanel(OptionBean optionBean)
+	BooleanPanel(final OptionBean optionBean)
 	{
 		super(optionBean, BOOLEAN_VALUES);
 
@@ -17,7 +17,7 @@ class BooleanPanel extends ComboBoxPanel
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event)
+	public void actionPerformed(final ActionEvent event)
 	{
 		Object selectedItem = getComboBox().getSelectedItem();
 

@@ -9,13 +9,13 @@ import cli.OptionTextField;
 @SuppressWarnings("serial")
 final class StringPanel extends FocusablePanel
 {
-	StringPanel(OptionBean optionBean)
+	StringPanel(final OptionBean optionBean)
 	{
 		super(optionBean);
 
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-		OptionTextField textField = new OptionTextField(optionBean);
+		final OptionTextField textField = new OptionTextField(optionBean);
 
 		textField.addFocusListener(this);
 

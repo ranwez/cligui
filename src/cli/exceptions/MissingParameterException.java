@@ -6,7 +6,7 @@ package cli.exceptions;
 @SuppressWarnings("serial")
 public final class MissingParameterException extends CLI_exception
 {
-	public MissingParameterException(String optionName)
+	public MissingParameterException(final String optionName)
 	{
 		super("CLI_error_missingParameter", optionName);
 	}

@@ -7,9 +7,9 @@ public abstract class OutputManager
 	private static final String BIG_SPACING_BAR = computeLine('=', 100);
 	private static final String SMALL_SPACING_BAR = computeLine('-', 100);
 
-	private static String computeLine(char letter, int nbLetters)
+	private static String computeLine(final char letter, final int nbLetters)
 	{
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 
 		for (int i = 0; i < nbLetters; i++)
 		{
@@ -19,9 +19,9 @@ public abstract class OutputManager
 		return builder.toString();
 	}
 
-	public final void displayInfo(String title, String content) throws StoppedProgramException
+	public final void displayInfo(final String title, final String content) throws StoppedProgramException
 	{
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 
 		builder.append(BIG_SPACING_BAR);
 		builder.append("\n# ");
@@ -36,7 +36,7 @@ public abstract class OutputManager
 		println(builder.toString());
 	}
 
-	public final void printError(Exception error)
+	public final void printError(final Exception error)
 	{
 		try
 		{
@@ -48,12 +48,12 @@ public abstract class OutputManager
 		}
 	}
 
-	public final void println(String text) throws StoppedProgramException
+	public final void println(final String text) throws StoppedProgramException
 	{
 		print(text + '\n');
 	}
 
-	public final void printUnusedOptionWarning(String optionName, boolean isUnused) throws StoppedProgramException
+	public final void printUnusedOptionWarning(final String optionName, final boolean isUnused) throws StoppedProgramException
 	{
 		if (isUnused)
 		{
@@ -61,7 +61,7 @@ public abstract class OutputManager
 		}
 	}
 
-	public final void printBundleDescription(String key, Object... values) throws StoppedProgramException
+	public final void printBundleDescription(final String key, final Object... values) throws StoppedProgramException
 	{
 		println(CLI_bundle.getPropertyDescription(key, values));
 	}

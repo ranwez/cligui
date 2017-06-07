@@ -4,7 +4,7 @@ public abstract class Program
 {
 	protected abstract void execute() throws Exception;
 
-	protected String getXMLfilter(String optionName)
+	protected String getXMLfilter(final String optionName)
 	{
 		return "";
 	}

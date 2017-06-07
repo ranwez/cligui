@@ -10,20 +10,20 @@ import cli.OptionBean;
 @SuppressWarnings("serial")
 final class InternalFilePanel extends ComboBoxPanel
 {
-	InternalFilePanel(OptionBean optionBean, Object[] items)
+	InternalFilePanel(final OptionBean optionBean, final Object[] items)
 	{
 		super(optionBean, items);
 
-		int index = getDefaultIndex(optionBean.getOption());
+		final int index = getDefaultIndex(optionBean.getOption());
 
 		getComboBox().setSelectedIndex(index);
 	}
 
-	private int getDefaultIndex(CLI_option option)
+	private int getDefaultIndex(final CLI_option option)
 	{
-		JComboBox<Object> comboBox = getComboBox();
+		final JComboBox<Object> comboBox = getComboBox();
 
-		String filename = option.getDefaultValue().toString();
+		final String filename = option.getDefaultValue().toString();
 
 		for (int itemID = 0; itemID < comboBox.getItemCount(); itemID++)
 		{
@@ -37,9 +37,9 @@ final class InternalFilePanel extends ComboBoxPanel
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent event)
+	public void actionPerformed(final ActionEvent event)
 	{
-		Object selectedItem = getComboBox().getSelectedItem();
+		final Object selectedItem = getComboBox().getSelectedItem();
 
 		updateOption(selectedItem);
 	}

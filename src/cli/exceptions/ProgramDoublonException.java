@@ -7,7 +7,7 @@ package cli.exceptions;
 @SuppressWarnings("serial")
 public final class ProgramDoublonException extends CLI_exception
 {
-	public ProgramDoublonException(String programName)
+	public ProgramDoublonException(final String programName)
 	{
 		super("CLI_error_programDoublon", programName);
 	}

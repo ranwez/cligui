@@ -13,7 +13,7 @@ public abstract class CLI_exception extends Exception
 	 * @param objects any number of {@code Object} parameters whose values will be inserted into
 	 * the description of the matching key
 	 */
-	protected CLI_exception(String key, Object... objects)
+	protected CLI_exception(final String key, final Object... objects)
 	{
 		super(CLI_bundle.getPropertyDescription(key, objects) + '\n');
 	}

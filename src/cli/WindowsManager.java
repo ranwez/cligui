@@ -9,15 +9,15 @@ final class WindowsManager extends OutputManager
 	// chaque thread
 	private static final ThreadLocal<GUIconsole> THREAD = new ThreadLocal<GUIconsole>();
 
-	void openNewConsole(String title)
+	void openNewConsole(final String title)
 	{
 		THREAD.set(new GUIconsole(title));
 	}
 
 	@Override
-	public void print(String text) throws StoppedProgramException
+	public void print(final String text) throws StoppedProgramException
 	{
-		GUIconsole guiConsole = THREAD.get();
+		final GUIconsole guiConsole = THREAD.get();
 
 		if (guiConsole != null)
 		{

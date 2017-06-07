@@ -6,7 +6,7 @@ package cli.exceptions;
 @SuppressWarnings("serial")
 public final class MissingOptionException extends CLI_exception
 {
-	public MissingOptionException(String parameter)
+	public MissingOptionException(final String parameter)
 	{
 		super("CLI_error_missingOption", parameter);
 	}

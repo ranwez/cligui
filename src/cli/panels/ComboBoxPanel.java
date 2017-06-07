@@ -20,13 +20,13 @@ public abstract class ComboBoxPanel extends FocusablePanel implements ActionList
 	 * @param optionBean an object pointing to a {@code CLI_option} object
 	 * @param items an {@code Object} array
 	 */
-	protected ComboBoxPanel(OptionBean optionBean, Object[] items)
+	protected ComboBoxPanel(final OptionBean optionBean, final Object[] items)
 	{
 		super(optionBean);
 
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		for (Object item : items)
+		for (final Object item : items)
 		{
 			comboBox.addItem(item);
 		}

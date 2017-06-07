@@ -7,7 +7,7 @@ package cli.exceptions;
 @SuppressWarnings("serial")
 public final class ProgramNotFoundException extends CLI_exception
 {
-	public ProgramNotFoundException(String programName)
+	public ProgramNotFoundException(final String programName)
 	{
 		super("CLI_error_programNotFound", programName);
 	}

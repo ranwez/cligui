@@ -7,7 +7,7 @@ package cli.exceptions;
 @SuppressWarnings("serial")
 public final class OptionNotFoundException extends CLI_exception
 {
-	public OptionNotFoundException(String optionName)
+	public OptionNotFoundException(final String optionName)
 	{
 		super("CLI_error_optionNotFound", optionName);
 	}

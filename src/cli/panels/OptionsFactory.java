@@ -17,13 +17,13 @@ import cli.annotations.OutputFile;
 
 public class OptionsFactory
 {
-	public final FocusablePanel createOptionPanel(OptionBean optionBean)
+	public final FocusablePanel createOptionPanel(final OptionBean optionBean)
 	{
-		CLI_option option = optionBean.getOption();
+		final CLI_option option = optionBean.getOption();
+
+		final Object optionType = option.getType();
 
 		FocusablePanel optionPanel;
-
-		Object optionType = option.getType();
 
 		if (optionType.equals(boolean.class))
 		{
@@ -37,11 +37,11 @@ public class OptionsFactory
 		return optionPanel;
 	}
 
-	private FocusablePanel createInputOutputPanel(OptionBean optionBean)
+	private FocusablePanel createInputOutputPanel(final OptionBean optionBean)
 	{
-		FocusablePanel optionPanel;
+		final CLI_option option = optionBean.getOption();
 
-		CLI_option option = optionBean.getOption();
+		FocusablePanel optionPanel;
 
 		if (option.getAnnotation(InputFile.class) != null)
 		{
@@ -53,11 +53,11 @@ public class OptionsFactory
 		}
 		else
 		{
-			InternalFile internalFile = option.getAnnotation(InternalFile.class);
+			final InternalFile internalFile = option.getAnnotation(InternalFile.class);
 
 			if (internalFile != null)
 			{
-				String filepath = internalFile.value();
+				final String filepath = internalFile.value();
 
 				optionPanel = createCustomComboBoxPanel(optionBean, filepath);
 			}
@@ -70,29 +70,29 @@ public class OptionsFactory
 		return optionPanel;
 	}
 
-	protected FocusablePanel createCustomComboBoxPanel(OptionBean optionBean, String filepath)
+	protected FocusablePanel createCustomComboBoxPanel(final OptionBean optionBean, final String filepath)
 	{
-		Object[] items = computeItems(filepath);
+		final Object[] items = computeItems(filepath);
 
 		return new InternalFilePanel(optionBean, items);
 	}
 
-	private String[] computeItems(String filepath)
+	private String[] computeItems(final String filepath)
 	{
-		List<String> items = new ArrayList<String>();
+		final List<String> items = new ArrayList<String>();
 
 		try
 		{
-			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filepath);
+			final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filepath);
 
 			if (inputStream == null)
 			{
 				throw new FileNotFoundException("file not found : " + filepath);
 			}
 
-			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+			final InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
-			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+			final BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
 			String line = bufferedReader.readLine();
 
@@ -111,7 +111,7 @@ public class OptionsFactory
 		return items.toArray(new String[items.size()]);
 	}
 
-	protected FocusablePanel createCustomPanel(OptionBean optionBean)
+	protected FocusablePanel createCustomPanel(final OptionBean optionBean)
 	{
 		return new StringPanel(optionBean);
 	}
