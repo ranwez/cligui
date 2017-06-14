@@ -6,6 +6,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import cli.exceptions.ProgramDoublonException;
 import cli.exceptions.ProgramNotFoundException;
@@ -39,7 +40,7 @@ public final class CLI_api
 		}
 		else // .../project/bin/
 		{
-			final String[] directories = jarPath.split(File.separator);
+			final String[] directories = jarPath.split(Pattern.quote(File.separator));
 
 			final int index = directories.length - 2;
 
