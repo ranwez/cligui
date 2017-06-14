@@ -58,7 +58,7 @@ public class OptionsFactory
 
 			if (internalFile != null)
 			{
-				final String filepath = internalFile.value().replace('/', File.separatorChar);
+				final String filepath = internalFile.value();
 
 				optionPanel = createCustomComboBoxPanel(optionBean, filepath);
 			}
