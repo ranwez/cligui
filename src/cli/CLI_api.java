@@ -1,12 +1,7 @@
 package cli;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import cli.exceptions.ProgramDoublonException;
 import cli.exceptions.ProgramNotFoundException;
@@ -14,63 +9,12 @@ import cli.exceptions.StoppedProgramException;
 
 public final class CLI_api
 {
-	private static String findProjectName(final Class<?> cls)
-	{
-		String jarPath = "";
-		String projectName;
-
-		try
-		{
-			final URL jarURL = cls.getProtectionDomain().getCodeSource().getLocation();
-
-			jarPath = URLDecoder.decode(jarURL.getPath(), "UTF-8");
-		}
-		catch (UnsupportedEncodingException error)
-		{
-			CLI_output.getOutput().printError(error);
-		}
-
-		final File jarFile = new File(jarPath);
-
-		if (jarFile.isFile()) // .../project.jar
-		{
-			final int index = jarPath.lastIndexOf(File.separatorChar) + 1;
-
-			projectName = jarPath.substring(index);
-		}
-		else // .../project/bin/
-		{
-			final String[] directories = jarPath.split(Pattern.quote(File.separator));
-
-			final int index = directories.length - 2;
-
-			projectName = directories[index] + ".jar";
-		}
-
-		return projectName;
-	}
-
 	private final List<CLI_program> programs = new ArrayList<CLI_program>();
 
 	private final String programOptionName;
 	private final String projectName;
 
 	private CLI_program currentProgram;
-
-	/**
-	 * This constructor can be used to create a {@code CLI_api} object containing several programs,
-	 * the project name is the same as the java project name.
-	 * 
-	 * @param cls a class of the current java project, usually the class using this constructor
-	 * @param bundlePath the bundle filename containing all programs, options and others
-	 * descriptions
-	 * @param programOptionName the name of the program selector option which is written before
-	 * each program name in the commands line (useless if only one program)
-	 */
-	public CLI_api(final Class<?> cls, final String bundlePath, final String programOptionName)
-	{
-		this(findProjectName(cls), bundlePath, programOptionName);
-	}
 
 	/**
 	 * This constructor can be used to create a {@code CLI_api} object containing several programs.

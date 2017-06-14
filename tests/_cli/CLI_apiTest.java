@@ -7,6 +7,7 @@ import cli.CLI_api;
 import cli.exceptions.ProgramDoublonException;
 import cli.exceptions.ProgramNotFoundException;
 import data.Bill;
+import gui.WindowTest;
 
 public class CLI_apiTest
 {
@@ -15,7 +16,7 @@ public class CLI_apiTest
 	@BeforeClass
 	public static void initTests() throws Exception
 	{
-		api = new CLI_api(CLI_apiTest.class, "files/tests.properties", "prog");
+		api = new CLI_api(WindowTest.PROJECT_NAME, "files/tests.properties", "prog");
 
 		api.addProgram("bill", Bill.class);
 		api.addProgram("billCopy", Bill.class);
