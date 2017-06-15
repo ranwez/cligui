@@ -5,14 +5,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
-import cli.FocusablePanel;
+import cli.AbstractFocusablePanel;
 import cli.OptionBean;
 
 /**
  * This class can be specialized to create customized ComboBox panels.
  */
 @SuppressWarnings("serial")
-public abstract class ComboBoxPanel extends FocusablePanel implements ActionListener
+public abstract class ComboBoxPanel extends AbstractFocusablePanel implements ActionListener
 {
 	private final JComboBox<Object> comboBox = new JComboBox<Object>();
 

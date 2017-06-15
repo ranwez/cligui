@@ -206,7 +206,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 		final OptionBean optionBean = new OptionBean(commandsPanel, option, OPTION_TEXT_AREA);
 
-		final FocusablePanel internalOptionPanel = optionsFactory.createOptionPanel(optionBean);
+		final AbstractFocusablePanel internalOptionPanel = optionsFactory.createOptionPanel(optionBean);
 
 		externalOptionPanel.add(internalOptionPanel);
 

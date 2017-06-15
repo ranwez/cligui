@@ -2,12 +2,12 @@ package cli.panels;
 
 import javax.swing.BoxLayout;
 
-import cli.FocusablePanel;
+import cli.AbstractFocusablePanel;
 import cli.OptionBean;
 import cli.OptionTextField;
 
 @SuppressWarnings("serial")
-final class StringPanel extends FocusablePanel
+final class StringPanel extends AbstractFocusablePanel
 {
 	StringPanel(final OptionBean optionBean)
 	{

@@ -6,11 +6,11 @@ import java.awt.event.FocusListener;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public abstract class FocusablePanel extends JPanel implements FocusListener
+public abstract class AbstractFocusablePanel extends JPanel implements FocusListener
 {
 	private final OptionBean optionBean;
 
-	protected FocusablePanel(final OptionBean optionBean)
+	protected AbstractFocusablePanel(final OptionBean optionBean)
 	{
 		this.optionBean = optionBean;
 	}

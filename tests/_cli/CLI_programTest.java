@@ -15,9 +15,9 @@ import cli.exceptions.MissingOptionException;
 import cli.exceptions.MissingParameterException;
 import cli.exceptions.MissingRequiredOptionException;
 import cli.exceptions.OptionNotFoundException;
-import data.Bill;
+import data.BillProgram;
 import data.WrongProgram;
-import gui.WindowTest;
+import gui.WindowRunner;
 
 public class CLI_programTest
 {
@@ -26,9 +26,9 @@ public class CLI_programTest
 	@BeforeClass
 	public static void initTests() throws Exception
 	{
-		api = new CLI_api(WindowTest.PROJECT_NAME, "files/tests.properties", "prog");
+		api = new CLI_api(WindowRunner.PROJECT_NAME, "files/tests.properties", "prog");
 
-		api.addProgram("bill", Bill.class);
+		api.addProgram("bill", BillProgram.class);
 	}
 
 	@Test
@@ -40,7 +40,7 @@ public class CLI_programTest
 	@Test(expected = FileNotFoundException.class)
 	public void CLI_xmlTest_internalFileNotFound() throws Exception
 	{
-		CLI_api api = new CLI_api(WindowTest.PROJECT_NAME, "files/tests.properties", "prog");
+		CLI_api api = new CLI_api(WindowRunner.PROJECT_NAME, "files/tests.properties", "prog");
 
 		api.addProgram("wrongProgram", WrongProgram.class);
 

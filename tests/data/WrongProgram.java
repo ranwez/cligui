@@ -1,10 +1,10 @@
 package data;
 
-import cli.Program;
+import cli.AbstractProgram;
 import cli.annotations.InternalFile;
 import cli.annotations.Parameter;
 
-public final class WrongProgram extends Program
+public final class WrongProgram extends AbstractProgram
 {
 	@InternalFile("files/wrongName.txt")
 
@@ -16,7 +16,7 @@ public final class WrongProgram extends Program
 	public void execute() throws Exception {}
 
 	@Override
-	public String getXMLfilter(String optionName)
+	public String getXMLfilter(final String optionName)
 	{
 		return "";
 	}

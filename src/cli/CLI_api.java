@@ -14,17 +14,18 @@ public final class CLI_api
 	private final String programOptionName;
 	private final String projectName;
 
-	private CLI_program currentProgram;
+	private transient CLI_program currentProgram;
 
 	/**
-	 * This constructor can be used to create a {@code CLI_api} object containing several programs.
+	 * This constructor can be used to create a {@code CLI_api} object
+	 * containing several programs.
 	 * 
-	 * @param projectName the name of the project which will be used in the GUI commands line and
-	 * in galaxy XML files creation
-	 * @param bundlePath the bundle filename containing all programs, options and others
-	 * descriptions
-	 * @param programOptionName the name of the program selector option which is written before
-	 * each program name in the commands line (useless if only one program)
+	 * @param projectName the name of the project which will be used in the GUI
+	 * commands line and in galaxy XML files creation
+	 * @param bundlePath the bundle filename containing all programs, options
+	 * and others descriptions
+	 * @param programOptionName the name of the program selector option which
+	 * is written before each program name in the commands line
 	 */
 	public CLI_api(final String projectName, final String bundlePath, final String programOptionName)
 	{
@@ -42,14 +43,16 @@ public final class CLI_api
 	/**
 	 * This method will add a new program to the {@code CLI_api}.
 	 * 
-	 * @param programName the name of the program to be written in the commands line to run it
-	 * @param programClass the program {@code Class} containing {@code Parameter} annotations and
-	 * possibly {@code Delegate} annotations
+	 * @param programName the name of the program to be written in the commands
+	 * line to run it
+	 * @param programClass the program {@code Class} containing
+	 * {@code Parameter} annotations and possibly {@code Delegate} annotations
 	 * @throws IllegalAccessException if the class is not accessible
 	 * @throws InstantiationException if the class cannot be instanced
-	 * @throws ProgramDoublonException if the new program to be added already exists
+	 * @throws ProgramDoublonException if the new program to be added already
+	 * exists
 	 */
-	public void addProgram(final String programName, final Class<? extends Program> programClass)
+	public void addProgram(final String programName, final Class<? extends AbstractProgram> programClass)
 
 			throws IllegalAccessException, InstantiationException, ProgramDoublonException
 	{
@@ -72,11 +75,15 @@ public final class CLI_api
 	}
 
 	/**
-	 * This method will create galaxy XML files for each program of the {@code CLI_api}.
+	 * This method will create galaxy XML files for each program of the
+	 * {@code CLI_api}.
 	 * 
-	 * @param projectVersion version of the project to be written in the galaxy XML files
-	 * @param outputDirectory the directory which will store the galaxy XML files
-	 * @throws Exception any exception caused by reflection or input / output exception
+	 * @param projectVersion version of the project to be written in the galaxy
+	 * XML files
+	 * @param outputDirectory the directory which will store the galaxy XML
+	 * files
+	 * @throws Exception any exception caused by reflection or input / output
+	 * exception
 	 */
 	public void exportXML(final String projectVersion, final String outputDirectory) throws Exception
 	{
@@ -86,11 +93,13 @@ public final class CLI_api
 	}
 
 	/**
-	 * This method will split a {@code String} variable in a {@code String} array and parse its
-	 * values, then the corresponding program will be executed with the commands parameters.
+	 * This method will split a {@code String} variable in a {@code String}
+	 * array and parse its values, then the corresponding program will be
+	 * executed with the commands parameters.
 	 * 
 	 * @param commands a {@code String} variable of commands to be parsed
-	 * @throws Exception if the commands are wrong of if the executed program throws an error
+	 * @throws Exception if the commands are wrong of if the executed program
+	 * throws an error
 	 */
 	public void parse(final String commands) throws Exception
 	{
@@ -98,11 +107,12 @@ public final class CLI_api
 	}
 
 	/**
-	 * This method will read a {@code String} array and parse its values, then the corresponding
-	 * program will be executed with the commands parameters.
+	 * This method will read a {@code String} array and parse its values, then
+	 * the corresponding program will be executed with the commands parameters.
 	 * 
 	 * @param commands a {@code String} array of commands to be parsed
-	 * @throws Exception if the commands are wrong of if the executed program throws an error
+	 * @throws Exception if the commands are wrong of if the executed program
+	 * throws an error
 	 */
 	public void parse(final String[] commands) throws Exception
 	{
@@ -166,8 +176,8 @@ public final class CLI_api
 	}
 
 	/**
-	 * @return the name of the project which will be used in the GUI commands line and in galaxy
-	 * XML files creation
+	 * @return the name of the project which will be used in the GUI commands
+	 * line and in galaxy XML files creation
 	 */
 	public String getProjectName()
 	{
@@ -175,8 +185,8 @@ public final class CLI_api
 	}
 
 	/**
-	 * @return the name of the program selector option which is written before each program name in
-	 * the commands line (useless if only one program)
+	 * @return the name of the program selector option which is written before
+	 * each program name in the commands line
 	 */
 	public String getProgramOptionName()
 	{
@@ -194,7 +204,8 @@ public final class CLI_api
 	}
 
 	/**
-	 * Adds a citation before each program/option help and in the window help menu.
+	 * Adds a citation before each program/option help and in the window help
+	 * menu.
 	 * 
 	 * @param citation the text to be displayed in console and window
 	 */
@@ -221,7 +232,8 @@ public final class CLI_api
 	/**
 	 * This method will display all {@code CLI_api} programs.
 	 * 
-	 * @throws StoppedProgramException if the current running program is stopped before ending
+	 * @throws StoppedProgramException if the current running program is
+	 * stopped before ending
 	 */
 	public void displayPrograms() throws StoppedProgramException
 	{

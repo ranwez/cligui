@@ -15,17 +15,17 @@ import cli.exceptions.StoppedProgramException;
 
 public final class CLI_program
 {
-	private final List<CLI_option> options = new ArrayList<CLI_option>();
+	private transient final AbstractProgram program;
 
-	private final Program program;
+	private transient CLI_option option;
+
+	private transient List<CLI_option> requiredOptions;
+
+	private final List<CLI_option> options = new ArrayList<CLI_option>();
 
 	private final String name;
 
-	private CLI_option option;
-
-	private List<CLI_option> requiredOptions;
-
-	CLI_program(final String programName, final Class<? extends Program> cls) throws IllegalAccessException, InstantiationException
+	CLI_program(final String programName, final Class<? extends AbstractProgram> cls) throws IllegalAccessException, InstantiationException
 	{
 		this.name = programName;
 
@@ -67,17 +67,17 @@ public final class CLI_program
 
 		requiredOptions = listRequiredOptions();
 
-		boolean isPreviousOptionBoolean = false;
+		boolean prevOptionBoolean = false;
 
 		for (final String command : commands)
 		{
 			if (isOption(command))
 			{
-				checkMissingParameters(isPreviousOptionBoolean);
+				checkMissingParameters(prevOptionBoolean);
 
 				option = findOption(command.substring(1));
 
-				isPreviousOptionBoolean = option.getType().equals(boolean.class);
+				prevOptionBoolean = option.getType().equals(boolean.class);
 			}
 			else
 			{
@@ -88,11 +88,11 @@ public final class CLI_program
 
 				setParameter(command);
 
-				isPreviousOptionBoolean = false;
+				prevOptionBoolean = false;
 			}
 		}
 
-		checkMissingParameters(isPreviousOptionBoolean);
+		checkMissingParameters(prevOptionBoolean);
 
 		if (! requiredOptions.isEmpty())
 		{
@@ -127,24 +127,27 @@ public final class CLI_program
 
 	private boolean isOption(final String command)
 	{
+		boolean isOption;
+
 		if (command.charAt(0) != '-' || command.length() == 1)
 		{
-			return false;
+			isOption = false;
 		}
-
-		final char secondLetter = command.charAt(1);
-
-		if (Character.isDigit(secondLetter) || secondLetter == '-')
+		else
 		{
-			return false;
+			final char secondLetter = command.charAt(1);
+
+			isOption = ! Character.isDigit(secondLetter) && secondLetter != '-';
 		}
 
-		return true;
+		return isOption;
 	}
 
-	private void checkMissingParameters(final boolean isPreviousOptionBoolean) throws IllegalAccessException, IllegalArgumentException, MissingParameterException
+	private void checkMissingParameters(final boolean prevOptionBoolean)
+
+			throws IllegalAccessException, IllegalArgumentException, MissingParameterException
 	{
-		if (isPreviousOptionBoolean)
+		if (prevOptionBoolean)
 		{
 			setParameter("" + true);
 		}
@@ -232,8 +235,10 @@ public final class CLI_program
 	 * This method will print the program options.
 	 * 
 	 * @throws IllegalAccessException if the option field is inaccessible
-	 * @throws IllegalArgumentException if the option instance is not an instance of the option field
-	 * @throws StoppedProgramException if the current running program is stopped before ending
+	 * @throws IllegalArgumentException if the option instance is not an
+	 * instance of the option field
+	 * @throws StoppedProgramException if the current running program is
+	 * stopped before ending
 	 */
 	public void displayOptions() throws IllegalAccessException, IllegalArgumentException, StoppedProgramException
 	{

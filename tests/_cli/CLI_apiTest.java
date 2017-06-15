@@ -6,8 +6,8 @@ import org.junit.Test;
 import cli.CLI_api;
 import cli.exceptions.ProgramDoublonException;
 import cli.exceptions.ProgramNotFoundException;
-import data.Bill;
-import gui.WindowTest;
+import data.BillProgram;
+import gui.WindowRunner;
 
 public class CLI_apiTest
 {
@@ -16,10 +16,10 @@ public class CLI_apiTest
 	@BeforeClass
 	public static void initTests() throws Exception
 	{
-		api = new CLI_api(WindowTest.PROJECT_NAME, "files/tests.properties", "prog");
+		api = new CLI_api(WindowRunner.PROJECT_NAME, "files/tests.properties", "prog");
 
-		api.addProgram("bill", Bill.class);
-		api.addProgram("billCopy", Bill.class);
+		api.addProgram("bill", BillProgram.class);
+		api.addProgram("billCopy", BillProgram.class);
 
 		api.parse("-prog bill -id 4 -name table -price 42.3 -currency £ -credit");
 	}
@@ -27,7 +27,7 @@ public class CLI_apiTest
 	@Test(expected = ProgramDoublonException.class)
 	public void addProgram_doublon() throws Exception
 	{
-		api.addProgram("bill", Bill.class);
+		api.addProgram("bill", BillProgram.class);
 	}
 
 	@Test(expected = ProgramNotFoundException.class)
@@ -53,7 +53,7 @@ public class CLI_apiTest
 	{
 		CLI_api api = new CLI_api("CLI.jar", "files/tests.properties", "prog");
 
-		api.addProgram("bill", Bill.class);
+		api.addProgram("bill", BillProgram.class);
 
 		api.parse("-prog bill -id 4 -name table -price 42.3 -currency £ -credit");
 	}

@@ -9,12 +9,12 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 
-import cli.FocusablePanel;
+import cli.AbstractFocusablePanel;
 import cli.OptionBean;
 import cli.OptionTextField;
 
 @SuppressWarnings("serial")
-final class ExternalFilePanel extends FocusablePanel implements ActionListener
+final class ExternalFilePanel extends AbstractFocusablePanel implements ActionListener
 {
 	private static String defaultDirectory = "";
 

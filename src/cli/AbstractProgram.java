@@ -1,6 +1,6 @@
 package cli;
 
-public abstract class Program
+public abstract class AbstractProgram
 {
 	protected abstract void execute() throws Exception;
 

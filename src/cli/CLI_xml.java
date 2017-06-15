@@ -27,9 +27,9 @@ import cli.annotations.Parameter;
 
 final class CLI_xml
 {
-	private final String programOptionName;
-	private final String projectName;
-	private final String projectVersion;
+	private transient final String programOptionName;
+	private transient final String projectName;
+	private transient final String projectVersion;
 
 	CLI_xml(final String projectName, final String projectVersion, final String programOptionName) throws Exception
 	{

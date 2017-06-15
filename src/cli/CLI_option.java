@@ -27,9 +27,10 @@ public final class CLI_option implements Comparable<CLI_option>
 
 	/**
 	 * @param <T> the type of the annotation to query for and return if present
-	 * @param cls annotationClass the {@code Class} object corresponding to the annotation type
-	 * @return this element's annotation for the specified annotation type if present on this
-	 * element, else null
+	 * @param cls annotationClass the {@code Class} object corresponding to the
+	 * annotation type
+	 * @return this element's annotation for the specified annotation type if
+	 * present on this element, else null
 	 * @throws NullPointerException if the given annotation class is null
 	 */
 	public <T extends Annotation> T getAnnotation(final Class<T> cls)
@@ -46,7 +47,8 @@ public final class CLI_option implements Comparable<CLI_option>
 	}
 
 	/**
-	 * @return the option description located in the bundle using the option name as a key
+	 * @return the option description located in the bundle using the option
+	 * name as a key
 	 */
 	public String getDescription()
 	{
@@ -115,7 +117,8 @@ public final class CLI_option implements Comparable<CLI_option>
 	/**
 	 * @return the option current value
 	 * @throws IllegalAccessException if the option field is inaccessible
-	 * @throws IllegalArgumentException if the option instance is not an instance of the option field
+	 * @throws IllegalArgumentException if the option instance is not an
+	 * instance of the option field
 	 */
 	public Object getValue() throws IllegalAccessException, IllegalArgumentException
 	{
@@ -164,9 +167,7 @@ public final class CLI_option implements Comparable<CLI_option>
 		builder.append(getName());
 		builder.append(" : ");
 		builder.append(getDescription());
-		builder.append('\n');
-
-		builder.append("    ");
+		builder.append("\n    ");
 		builder.append(requirement);
 		builder.append(' ');
 		builder.append(CLI_bundle.getPropertyDescription("CLI_option_value"));

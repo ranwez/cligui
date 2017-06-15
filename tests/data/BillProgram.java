@@ -1,13 +1,13 @@
 package data;
 
-import cli.Program;
+import cli.AbstractProgram;
 import cli.annotations.Delegate;
 import cli.annotations.InputFile;
 import cli.annotations.InternalFile;
 import cli.annotations.OutputFile;
 import cli.annotations.Parameter;
 
-public final class Bill extends Program
+public final class BillProgram extends AbstractProgram
 {
 	@Delegate
 
@@ -60,13 +60,19 @@ public final class Bill extends Program
 
 
 	@Override
-	public String getXMLfilter(String optionName)
+	public String getXMLfilter(final String optionName)
 	{
+		String filter;
+
 		if (optionName.equals("receipt") && receiver.equals("George Washington"))
 		{
-			return "receipt";
+			filter = "receipt";
+		}
+		else
+		{
+			filter = "";
 		}
 
-		return "";
+		return filter;
 	}
 }

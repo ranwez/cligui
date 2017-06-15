@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cli.CLI_option;
-import cli.FocusablePanel;
+import cli.AbstractFocusablePanel;
 import cli.OptionBean;
 import cli.annotations.InputFile;
 import cli.annotations.InternalFile;
@@ -17,13 +17,13 @@ import cli.annotations.OutputFile;
 
 public class OptionsFactory
 {
-	public final FocusablePanel createOptionPanel(final OptionBean optionBean)
+	public final AbstractFocusablePanel createOptionPanel(final OptionBean optionBean)
 	{
 		final CLI_option option = optionBean.getOption();
 
 		final Object optionType = option.getType();
 
-		FocusablePanel optionPanel;
+		AbstractFocusablePanel optionPanel;
 
 		if (optionType.equals(boolean.class))
 		{
@@ -37,11 +37,11 @@ public class OptionsFactory
 		return optionPanel;
 	}
 
-	private FocusablePanel createInputOutputPanel(final OptionBean optionBean)
+	private AbstractFocusablePanel createInputOutputPanel(final OptionBean optionBean)
 	{
 		final CLI_option option = optionBean.getOption();
 
-		FocusablePanel optionPanel;
+		AbstractFocusablePanel optionPanel;
 
 		if (option.getAnnotation(InputFile.class) != null)
 		{
@@ -70,7 +70,7 @@ public class OptionsFactory
 		return optionPanel;
 	}
 
-	protected FocusablePanel createCustomComboBoxPanel(final OptionBean optionBean, final String filepath)
+	protected AbstractFocusablePanel createCustomComboBoxPanel(final OptionBean optionBean, final String filepath)
 	{
 		final Object[] items = computeItems(filepath);
 
@@ -111,7 +111,7 @@ public class OptionsFactory
 		return items.toArray(new String[items.size()]);
 	}
 
-	protected FocusablePanel createCustomPanel(final OptionBean optionBean)
+	protected AbstractFocusablePanel createCustomPanel(final OptionBean optionBean)
 	{
 		return new StringPanel(optionBean);
 	}

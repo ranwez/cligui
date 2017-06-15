@@ -70,9 +70,9 @@ public final class CLI_bundle
 
 		for (int id = 0; id < objects.length; id++)
 		{
-			final String value = "" + objects[id];
+			final String value = String.valueOf(objects[id]);
 
-			final String code = "@" + (id + 1);
+			final String code = '@' + String.valueOf(id + 1);
 
 			description = description.replace(code, value);
 		}
