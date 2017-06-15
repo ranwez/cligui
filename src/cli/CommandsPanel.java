@@ -25,7 +25,7 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 {
 	private static final int MARGIN = 10;
 
-	private static final InfoTextArea COMMANDS_TEXT_AREA = new InfoTextArea();
+	private static final JTextArea COMMANDS_TEXT_AREA = new JTextArea();
 
 	private final CLI_api api;
 
