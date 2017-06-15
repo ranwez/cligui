@@ -32,6 +32,8 @@ import cli.panels.OptionsFactory;
 final class OptionsPanel extends JPanel implements ActionListener
 {
 	private static final int BIG_MARGIN = 20;
+	private static final int DEFAULT_GROUP_ID = 1;
+	private static final int NB_FIXED_TABS = 3;
 	private static final int SMALL_MARGIN = 10;
 
 	private static final List<Class<? extends Annotation>> ANNOTATIONS = createAnnotations();
@@ -147,6 +149,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 		groupsPanel.removeAll();
 
 		addOptionButton("All");
+		addOptionButton("Mandatory");
 		addOptionButton("None");
 
 		for (final Class<? extends Annotation> annotation : ANNOTATIONS)
@@ -156,20 +159,9 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 		fillGroupsPanelOptions();
 
+		selectedGroupID = DEFAULT_GROUP_ID;
+
 		groupsPanel.updateVisibilities();
-
-		selectedGroupID = 0;
-
-		for (int id = 0; id < ANNOTATIONS.size() + 2; id++)
-		{
-			if (groupsPanel.getOptionButton(id).isVisible())
-			{
-				selectedGroupID = id;
-
-				break;
-			}
-		}
-
 		groupsPanel.updateSelection(selectedGroupID);
 	}
 
@@ -194,9 +186,15 @@ final class OptionsPanel extends JPanel implements ActionListener
 			{
 				final JPanel optionPanel = createOptionPanel(option);
 
+				groupsPanel.getOptionButton(0).addOptionPanel(optionPanel);
+
+				if (option.isRequired())
+				{
+					groupsPanel.getOptionButton(1).addOptionPanel(optionPanel);
+				}
+
 				final int groupID = findOptionGroupID(option);
 
-				groupsPanel.getOptionButton(0).addOptionPanel(optionPanel);
 				groupsPanel.getOptionButton(groupID).addOptionPanel(optionPanel);
 			}
 		}
@@ -243,11 +241,11 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 			if (option.getAnnotation(annotation) != null)
 			{
-				return groupsID + 2;
+				return groupsID + NB_FIXED_TABS;
 			}
 		}
 
-		return 1;
+		return NB_FIXED_TABS - 1;
 	}
 
 	void updateOptionsPanel()
@@ -308,7 +306,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 	{
 		final OptionButton clickedOptionButton = (OptionButton) event.getSource();
 
-		for (int id = 0; id < ANNOTATIONS.size() + 2; id++)
+		for (int id = 0; id < ANNOTATIONS.size() + NB_FIXED_TABS; id++)
 		{
 			final OptionButton optionButton = groupsPanel.getOptionButton(id);
 
