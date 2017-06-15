@@ -50,7 +50,7 @@ public class CLI_programTest
 	@Test
 	public void parse() throws Exception
 	{
-		api.parse("-id 4 -name table -price 42.3 -credit -currency £");
+		api.parse("-prog bill -id 4 -name table -price 42.3 -credit -currency £");
 
 		CLI_option option = findOption("currency");
 
@@ -61,7 +61,7 @@ public class CLI_programTest
 	@Test
 	public void parse_emptyChar() throws Exception
 	{
-		api.parse("-id 4 -name \"\" -price 42.3 -credit -currency \"\"");
+		api.parse("-prog bill -id 4 -name \"\" -price 42.3 -credit -currency \"\"");
 
 		CLI_option option = findOption("currency");
 
@@ -71,14 +71,14 @@ public class CLI_programTest
 	@Test
 	public void parse_emptyString() throws Exception
 	{
-		api.parse("-id 4 -name \"\" -price 42.3 -credit -currency £");
+		api.parse("-prog bill -id 4 -name \"\" -price 42.3 -credit -currency £");
 
 		CLI_option option01 = findOption("name");
 
 		assertEquals("", option01.getValue());
 
 
-		api.parse("-id 4 -name \"None\" -price 42.3 -credit -currency £");
+		api.parse("-prog bill -id 4 -name \"None\" -price 42.3 -credit -currency £");
 
 		CLI_option option02 = findOption("name");
 
@@ -90,25 +90,25 @@ public class CLI_programTest
 	@Test(expected = MissingOptionException.class)
 	public void parse_missingOption() throws Exception
 	{
-		api.parse("-id 4 -name table -price 42.3 £");
+		api.parse("-prog bill -id 4 -name table -price 42.3 £");
 	}
 
 	@Test(expected = MissingParameterException.class)
 	public void parse_missingParameter() throws Exception
 	{
-		api.parse("-id");
+		api.parse("-prog bill -id");
 	}
 
 	@Test(expected = MissingRequiredOptionException.class)
 	public void parse_missingRequiredOption() throws Exception
 	{
-		api.parse("-id 4 -name table");
+		api.parse("-prog bill -id 4 -name table");
 	}
 
 	@Test
 	public void parse_negativeDigit() throws Exception
 	{
-		api.parse("-id 4 -name table -price -7 -credit -currency £");
+		api.parse("-prog bill -id 4 -name table -price -7 -credit -currency £");
 
 		CLI_option option = findOption("price");
 
@@ -118,7 +118,7 @@ public class CLI_programTest
 	@Test
 	public void parse_tirets() throws Exception
 	{
-		api.parse("-id 4 -name -- -price 42.3 -credit -currency -");
+		api.parse("-prog bill -id 4 -name -- -price 42.3 -credit -currency -");
 
 		CLI_option option01 = findOption("name");
 		CLI_option option02 = findOption("currency");
@@ -130,7 +130,7 @@ public class CLI_programTest
 	@Test(expected = OptionNotFoundException.class)
 	public void parse_wrongOption() throws Exception
 	{
-		api.parse("-wrongOption");
+		api.parse("-prog bill -wrongOption");
 	}
 
 	@Test

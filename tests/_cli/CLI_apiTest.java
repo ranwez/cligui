@@ -55,7 +55,7 @@ public class CLI_apiTest
 
 		api.addProgram("bill", Bill.class);
 
-		api.parse("-id 4 -name table -price 42.3 -currency £ -credit");
+		api.parse("-prog bill -id 4 -name table -price 42.3 -currency £ -credit");
 	}
 
 	@Test

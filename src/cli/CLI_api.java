@@ -106,20 +106,11 @@ public final class CLI_api
 	 */
 	public void parse(final String[] commands) throws Exception
 	{
-		String[] updatedCommands;
+		final String programName = findProgram(commands);
 
-		if (programs.size() > 1)
-		{
-			final String programName = findProgram(commands);
+		setProgramName(programName);
 
-			setProgramName(programName);
-
-			updatedCommands = removeProgOption(commands, programName);
-		}
-		else
-		{
-			updatedCommands = commands;
-		}
+		String[] updatedCommands = removeProgOption(commands, programName);
 
 		currentProgram.parse(updatedCommands);
 	}
