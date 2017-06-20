@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import cli.CLI_api;
 import cli.exceptions.ProgramDoublonException;
-import cli.exceptions.ProgramNotFoundException;
+import cli.exceptions.parsing.ProgramNotFoundException;
 import data.BillProgram;
 import gui.WindowRunner;
 

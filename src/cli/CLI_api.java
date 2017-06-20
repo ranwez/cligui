@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cli.exceptions.ProgramDoublonException;
-import cli.exceptions.ProgramNotFoundException;
 import cli.exceptions.StoppedProgramException;
+import cli.exceptions.parsing.ProgramNotFoundException;
 
 public final class CLI_api
 {

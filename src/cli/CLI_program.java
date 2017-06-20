@@ -7,11 +7,11 @@ import java.util.List;
 
 import cli.annotations.Delegate;
 import cli.annotations.Parameter;
-import cli.exceptions.MissingOptionException;
-import cli.exceptions.MissingParameterException;
-import cli.exceptions.MissingRequiredOptionException;
-import cli.exceptions.OptionNotFoundException;
 import cli.exceptions.StoppedProgramException;
+import cli.exceptions.parsing.MissingOptionException;
+import cli.exceptions.parsing.MissingParameterException;
+import cli.exceptions.parsing.MissingRequiredOptionException;
+import cli.exceptions.parsing.OptionNotFoundException;
 
 public final class CLI_program
 {

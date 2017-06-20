@@ -24,8 +24,8 @@ import javax.swing.border.TitledBorder;
 
 import cli.annotations.InputFile;
 import cli.annotations.OutputFile;
-import cli.exceptions.ProgramNotFoundException;
 import cli.exceptions.StoppedProgramException;
+import cli.exceptions.parsing.ProgramNotFoundException;
 import cli.panels.OptionsFactory;
 
 @SuppressWarnings("serial")

@@ -10,8 +10,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import cli.exceptions.ProgramNotFoundException;
 import cli.exceptions.StoppedProgramException;
+import cli.exceptions.parsing.ProgramNotFoundException;
 import cli.panels.OptionsFactory;
 
 /**

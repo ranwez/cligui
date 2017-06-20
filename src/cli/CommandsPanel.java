@@ -17,8 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import cli.exceptions.ProgramNotFoundException;
 import cli.exceptions.StoppedProgramException;
+import cli.exceptions.parsing.ProgramNotFoundException;
 
 @SuppressWarnings("serial")
 final class CommandsPanel extends JPanel implements ActionListener, Runnable
