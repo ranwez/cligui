@@ -242,6 +242,16 @@ public final class CLI_program
 	 */
 	public void displayOptions() throws IllegalAccessException, IllegalArgumentException, StoppedProgramException
 	{
+		displayOptions(true);
+	}
+
+	public void displayRequiredOptions() throws IllegalAccessException, IllegalArgumentException, StoppedProgramException
+	{
+		displayOptions(false);
+	}
+
+	private void displayOptions(final boolean showAll) throws IllegalAccessException, IllegalArgumentException, StoppedProgramException
+	{
 		final StringBuilder builder = new StringBuilder();
 
 		builder.append(CLI_bundle.getCitation());
@@ -256,7 +266,7 @@ public final class CLI_program
 
 		for (final CLI_option option : options)
 		{
-			if (! option.isHidden())
+			if (! option.isHidden() && (option.isRequired() || showAll))
 			{
 				option.display();
 			}
