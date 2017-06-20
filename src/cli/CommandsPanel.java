@@ -25,7 +25,7 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 {
 	private static final int MARGIN = 10;
 
-	private static final JTextArea COMMANDS_TEXT_AREA = new JTextArea();
+	private static final InfoTextArea COMMANDS_TEXT_AREA = new InfoTextArea();
 
 	private final CLI_api api;
 
@@ -39,6 +39,9 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 	CommandsPanel(final CLI_api api)
 	{
 		this.api = api;
+
+		COMMANDS_TEXT_AREA.setEditable(true);
+		COMMANDS_TEXT_AREA.setFocusable(true);
 
 		commandsStart = "java -jar " + api.getProjectName() + ' ';
 
@@ -214,6 +217,16 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 			try
 			{
 				CLI_output.getOutput().println(error.getMessage());
+
+				if (api.checkDebug(commands))
+				{
+					StackTraceElement[] traces = error.getStackTrace();
+
+					for (final StackTraceElement trace : traces)
+					{
+						CLI_output.getOutput().println(trace.toString());
+					}
+				}
 			}
 			catch (StoppedProgramException stop)
 			{

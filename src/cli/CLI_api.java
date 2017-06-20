@@ -9,6 +9,8 @@ import cli.exceptions.StoppedProgramException;
 
 public final class CLI_api
 {
+	private static final String DEBUG_OPTION_NAME = "-debug";
+
 	private final List<CLI_program> programs = new ArrayList<CLI_program>();
 
 	private final String programOptionName;
@@ -92,6 +94,24 @@ public final class CLI_api
 		cli_xml.exportFiles(programs, outputDirectory);
 	}
 
+	public boolean checkDebug(final String commands)
+	{
+		return checkDebug(commands.split(" "));
+	}
+
+	public boolean checkDebug(final String[] commands)
+	{
+		for (final String command : commands)
+		{
+			if (command.equals(DEBUG_OPTION_NAME))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * This method will split a {@code String} variable in a {@code String}
 	 * array and parse its values, then the corresponding program will be
@@ -120,7 +140,7 @@ public final class CLI_api
 
 		setProgramName(programName);
 
-		String[] updatedCommands = removeProgOption(commands, programName);
+		String[] updatedCommands = removeSpecialOptions(commands, programName);
 
 		currentProgram.parse(updatedCommands);
 	}
@@ -133,7 +153,7 @@ public final class CLI_api
 		{
 			final String command = commands[commandID];
 
-			if (isProgramOption(command))
+			if (isSpecialOption(command))
 			{
 				if (commandID + 1 < commands.length)
 				{
@@ -152,13 +172,13 @@ public final class CLI_api
 		return programName;
 	}
 
-	private String[] removeProgOption(final String[] commands, final String programName)
+	private String[] removeSpecialOptions(final String[] commands, final String programName)
 	{
 		final List<String> updatedCommands = new ArrayList<String>();
 
 		for (final String command : commands)
 		{
-			if (! isProgramOption(command) && ! command.equals(programName))
+			if (! isSpecialOption(command) && ! command.equals(programName))
 			{
 				updatedCommands.add(command);
 			}
@@ -198,9 +218,9 @@ public final class CLI_api
 		return programs;
 	}
 
-	private boolean isProgramOption(final String command)
+	private boolean isSpecialOption(final String command)
 	{
-		return command.equals('-' + programOptionName);
+		return command.equals('-' + programOptionName) || command.equals(DEBUG_OPTION_NAME);
 	}
 
 	/**
