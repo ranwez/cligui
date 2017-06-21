@@ -153,7 +153,7 @@ public final class CLI_api
 		{
 			final String command = commands[commandID];
 
-			if (isSpecialOption(command))
+			if (isProgOption(command))
 			{
 				if (commandID + 1 < commands.length)
 				{
@@ -178,7 +178,7 @@ public final class CLI_api
 
 		for (final String command : commands)
 		{
-			if (! isSpecialOption(command) && ! command.equals(programName))
+			if (! isProgOption(command) && ! command.equals(DEBUG_OPTION_NAME) && ! command.equals(programName))
 			{
 				updatedCommands.add(command);
 			}
@@ -218,9 +218,9 @@ public final class CLI_api
 		return programs;
 	}
 
-	private boolean isSpecialOption(final String command)
+	private boolean isProgOption(final String command)
 	{
-		return command.equals('-' + programOptionName) || command.equals(DEBUG_OPTION_NAME);
+		return command.equals('-' + programOptionName);
 	}
 
 	void setProgramName(final String programName) throws ProgramNotFoundException
