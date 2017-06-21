@@ -1,6 +1,8 @@
 package cli;
 
 import cli.exceptions.StoppedProgramException;
+import cli.logger.CLI_logger;
+import cli.logger.CLI_windowHandler;
 
 final class WindowsManager extends OutputManager
 {
@@ -11,7 +13,11 @@ final class WindowsManager extends OutputManager
 
 	void openNewConsole(final String title)
 	{
-		THREAD.set(new GUIconsole(title));
+		final GUIconsole guiConsole = new GUIconsole(title);
+
+		CLI_logger.getLogger().addHandler(new CLI_windowHandler(guiConsole));
+
+		THREAD.set(guiConsole);
 	}
 
 	@Override

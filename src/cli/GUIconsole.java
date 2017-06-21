@@ -11,7 +11,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
-final class GUIconsole extends JFrame implements WindowListener
+public final class GUIconsole extends JFrame implements WindowListener
 {
 	private static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
 	private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -53,7 +53,7 @@ final class GUIconsole extends JFrame implements WindowListener
 		return windowsCount;
 	}
 
-	void print(final String text)
+	public void print(final String text)
 	{
 		textArea.append(text);
 

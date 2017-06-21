@@ -58,7 +58,6 @@ public final class BillProgram extends AbstractProgram
 	@Override
 	public void execute() throws Exception {}
 
-
 	@Override
 	public String getXMLfilter(final String optionName)
 	{
