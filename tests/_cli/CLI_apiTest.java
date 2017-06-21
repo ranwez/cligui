@@ -49,16 +49,6 @@ public class CLI_apiTest
 	}
 
 	@Test
-	public void parseOneProgramOnly() throws Exception
-	{
-		CLI_api api = new CLI_api("CLI.jar", "files/tests.properties", "prog");
-
-		api.addProgram("bill", BillProgram.class);
-
-		api.parse("-prog bill -id 4 -name table -price 42.3 -currency £ -credit");
-	}
-
-	@Test
 	public void displayPrograms() throws Exception
 	{
 		api.displayPrograms();
