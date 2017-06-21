@@ -223,17 +223,6 @@ public final class CLI_api
 		return command.equals('-' + programOptionName) || command.equals(DEBUG_OPTION_NAME);
 	}
 
-	/**
-	 * Adds a citation before each program/option help and in the window help
-	 * menu.
-	 * 
-	 * @param citation the text to be displayed in console and window
-	 */
-	public void setCitation(final String citation)
-	{
-		CLI_bundle.setCitation(citation);
-	}
-
 	void setProgramName(final String programName) throws ProgramNotFoundException
 	{
 		for (final CLI_program program : programs)

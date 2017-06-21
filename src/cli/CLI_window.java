@@ -110,8 +110,6 @@ public final class CLI_window extends JFrame implements ActionListener
 	{
 		final JMenu helpMenu = new JMenu(CLI_bundle.getPropertyDescription("CLI_window_help"));
 
-		helpCitationMenuItem.setVisible(! CLI_bundle.getCitation().isEmpty());
-
 		helpCitationMenuItem.addActionListener(this);
 		helpTipsMenuItem.addActionListener(this);
 

@@ -9,8 +9,6 @@ public final class CLI_bundle
 {
 	private static final Properties PROPERTIES = readProperties("files/english.properties");
 
-	private static String citation = "";
-
 	static void addProperties(final String filepath)
 	{
 		final Properties newProperties = readProperties(filepath);
@@ -47,12 +45,7 @@ public final class CLI_bundle
 
 	static String getCitation()
 	{
-		return citation;
-	}
-
-	static void setCitation(final String citation)
-	{
-		CLI_bundle.citation = citation;
+		return CLI_bundle.getPropertyDescription("CLI_citation");
 	}
 
 	/**
