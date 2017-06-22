@@ -207,17 +207,17 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 		{
 			final String consoleTitle = api.getCurrentProgram().getName() + " - " + date;
 
-			((WindowsManager) CLI_logger.getOutput()).openNewConsole(consoleTitle);
+			WindowLogger.openNewConsole(consoleTitle);
 
 			api.parse(commands);
 
-			CLI_logger.getCurrentLogger().info(CLI_bundle.getPropertyDescription("CLI_program_finished"));
+			CLI_logger.getLogger().info(CLI_bundle.getPropertyDescription("CLI_program_finished"));
 		}
 		catch (Exception error)
 		{
 			try
 			{
-				CLI_logger.getCurrentLogger().info(error.getMessage());
+				CLI_logger.getLogger().info(error.getMessage());
 
 				if (api.checkDebug(commands))
 				{
@@ -225,7 +225,7 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 
 					for (final StackTraceElement trace : traces)
 					{
-						CLI_logger.getCurrentLogger().info(trace.toString());
+						CLI_logger.getLogger().info(trace.toString());
 					}
 				}
 			}

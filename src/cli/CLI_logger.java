@@ -9,22 +9,7 @@ public abstract class CLI_logger
 	private static final String BIG_SPACING_BAR = computeLine('=', 100);
 	private static final String SMALL_SPACING_BAR = computeLine('-', 100);
 
-	private static CLI_logger output;
-
-	static void setOutput(final CLI_logger output)
-	{
-		CLI_logger.output = output;
-	}
-
-	static CLI_logger getOutput()
-	{
-		return output;
-	}
-
-	public static Logger getCurrentLogger() throws StoppedProgramException
-	{
-		return output.getLogger();
-	}
+	private static CLI_logger cliLogger;
 
 	private static String computeLine(final char letter, final int nbLetters)
 	{
@@ -42,6 +27,7 @@ public abstract class CLI_logger
 	{
 		final StringBuilder builder = new StringBuilder();
 
+		builder.append('\n');
 		builder.append(BIG_SPACING_BAR);
 		builder.append("\n# ");
 		builder.append(title);
@@ -52,7 +38,17 @@ public abstract class CLI_logger
 		builder.append(BIG_SPACING_BAR);
 		builder.append("\n\n");
 
-		output.getLogger().info(builder.toString());
+		getLogger().info(builder.toString());
+	}
+
+	public static Logger getLogger() throws StoppedProgramException
+	{
+		return cliLogger.getOutputLogger();
+	}
+
+	static void setOutput(final CLI_logger cliLogger)
+	{
+		CLI_logger.cliLogger = cliLogger;
 	}
 
 	public static void printUnusedOptionWarning(final String optionName, final boolean isUnused) throws StoppedProgramException
@@ -65,7 +61,7 @@ public abstract class CLI_logger
 
 	public static void printBundleDescription(final String key, final Object... values) throws StoppedProgramException
 	{
-		output.getLogger().info(CLI_bundle.getPropertyDescription(key, values));
+		getLogger().info(CLI_bundle.getPropertyDescription(key, values));
 	}
 
 	/**
@@ -74,7 +70,7 @@ public abstract class CLI_logger
 	 * @param text text to be displayed
 	 * @throws StoppedProgramException if the current running program is stopped before ending
 	 */
-	public abstract Logger getLogger() throws StoppedProgramException;
+	public abstract Logger getOutputLogger() throws StoppedProgramException;
 
 	protected CLI_logger() {}
 }

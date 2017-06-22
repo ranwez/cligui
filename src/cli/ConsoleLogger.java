@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import cli.exceptions.StoppedProgramException;
 
-final class ConsolesManager extends CLI_logger
+final class ConsoleLogger extends CLI_logger
 {
 	private static final Logger LOGGER = initLogger();
 
@@ -15,7 +15,7 @@ final class ConsolesManager extends CLI_logger
 
 		consoleHandler.setFormatter(new CLI_loggerFormatter());
 
-		Logger logger = Logger.getLogger("console");
+		final Logger logger = Logger.getLogger("console");
 
 		logger.addHandler(consoleHandler);
 
@@ -25,7 +25,7 @@ final class ConsolesManager extends CLI_logger
 	}
 
 	@Override
-	public Logger getLogger() throws StoppedProgramException
+	public Logger getOutputLogger() throws StoppedProgramException
 	{
 		return LOGGER;
 	}

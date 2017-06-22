@@ -59,7 +59,7 @@ public final class BillProgram extends AbstractProgram
 	@Override
 	public void execute() throws Exception
 	{
-		CLI_logger.getCurrentLogger().info("testOK : " + receipt);
+		CLI_logger.getLogger().info("testOK");
 	}
 
 	@Override

@@ -4,14 +4,14 @@ import java.util.logging.Logger;
 
 import cli.exceptions.StoppedProgramException;
 
-final class WindowsManager extends CLI_logger
+final class WindowLogger extends CLI_logger
 {
 	// l'utilisation de la classe ThreadLocal permet d'outrepasser la staticité dans les threads
 	// c'est-à-dire que la variable est accessible de manière statique mais aussi spécifique à
 	// chaque thread
 	private static final ThreadLocal<GUIconsole> THREAD = new ThreadLocal<GUIconsole>();
 
-	void openNewConsole(final String title)
+	static void openNewConsole(final String title)
 	{
 		final GUIconsole guiConsole = new GUIconsole(title);
 
@@ -19,7 +19,7 @@ final class WindowsManager extends CLI_logger
 	}
 
 	@Override
-	public Logger getLogger() throws StoppedProgramException
+	public Logger getOutputLogger() throws StoppedProgramException
 	{
 		final GUIconsole guiConsole = THREAD.get();
 
