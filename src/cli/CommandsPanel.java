@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import cli.exceptions.StoppedProgramException;
-import cli.exceptions.parsing.ProgramNotFoundException;
 
 @SuppressWarnings("serial")
 final class CommandsPanel extends JPanel implements ActionListener, Runnable
@@ -100,11 +99,13 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 		}
 		catch (Exception error)
 		{
-			CLI_output.getOutput().printError(error);
+			// TODO à améliorer
+
+			//error.printStackTrace();
 		}
 	}
 
-	void updateCommandsLine() throws IllegalArgumentException, IllegalAccessException, ProgramNotFoundException
+	void updateCommandsLine() throws IllegalArgumentException, IllegalAccessException
 	{
 		final String programOptionName = api.getProgramOptionName();
 
@@ -206,17 +207,17 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 		{
 			final String consoleTitle = api.getCurrentProgram().getName() + " - " + date;
 
-			((WindowsManager) CLI_output.getOutput()).openNewConsole(consoleTitle);
+			((WindowsManager) CLI_logger.getOutput()).openNewConsole(consoleTitle);
 
 			api.parse(commands);
 
-			CLI_output.getOutput().println('\n' + CLI_bundle.getPropertyDescription("CLI_program_finished"));
+			CLI_logger.getCurrentLogger().info('\n' + CLI_bundle.getPropertyDescription("CLI_program_finished"));
 		}
 		catch (Exception error)
 		{
 			try
 			{
-				CLI_output.getOutput().println(error.getMessage());
+				CLI_logger.getCurrentLogger().info(error.getMessage());
 
 				if (api.checkDebug(commands))
 				{
@@ -224,7 +225,7 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 
 					for (final StackTraceElement trace : traces)
 					{
-						CLI_output.getOutput().println(trace.toString());
+						CLI_logger.getCurrentLogger().info(trace.toString());
 					}
 				}
 			}

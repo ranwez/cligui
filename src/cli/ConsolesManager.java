@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import cli.exceptions.StoppedProgramException;
 
-final class ConsolesManager extends OutputManager
+final class ConsolesManager extends CLI_logger
 {
 	private static final Logger LOGGER = initLogger();
 

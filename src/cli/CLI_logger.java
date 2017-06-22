@@ -4,10 +4,27 @@ import java.util.logging.Logger;
 
 import cli.exceptions.StoppedProgramException;
 
-public abstract class OutputManager
+public abstract class CLI_logger
 {
 	private static final String BIG_SPACING_BAR = computeLine('=', 100);
 	private static final String SMALL_SPACING_BAR = computeLine('-', 100);
+
+	private static CLI_logger output;
+
+	static void setOutput(final CLI_logger output)
+	{
+		CLI_logger.output = output;
+	}
+
+	public static CLI_logger getOutput()
+	{
+		return output;
+	}
+
+	public static Logger getCurrentLogger() throws StoppedProgramException
+	{
+		return output.getLogger();
+	}
 
 	private static String computeLine(final char letter, final int nbLetters)
 	{
@@ -38,18 +55,6 @@ public abstract class OutputManager
 		println(builder.toString());
 	}
 
-	public final void printError(final Exception error)
-	{
-		try
-		{
-			println(error.getMessage());
-		}
-		catch (StoppedProgramException stopError)
-		{
-			stopError.printStackTrace();
-		}
-	}
-
 	public final void println(final String text) throws StoppedProgramException
 	{
 		getLogger().info(text + '\n');
@@ -75,4 +80,6 @@ public abstract class OutputManager
 	 * @throws StoppedProgramException if the current running program is stopped before ending
 	 */
 	public abstract Logger getLogger() throws StoppedProgramException;
+
+	protected CLI_logger() {}
 }

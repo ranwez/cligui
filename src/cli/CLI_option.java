@@ -176,7 +176,7 @@ public final class CLI_option implements Comparable<CLI_option>
 
 		builder.append('\n');
 
-		CLI_output.getOutput().println(builder.toString());
+		CLI_logger.getCurrentLogger().info(builder.toString());
 	}
 
 	public boolean isHidden()

@@ -55,7 +55,7 @@ public final class CLI_window extends JFrame implements ActionListener
 	{
 		this.api = api;
 
-		CLI_output.setOutput(new WindowsManager());
+		CLI_logger.setOutput(new WindowsManager());
 
 		optionsPanel = new OptionsPanel(api, optionsFactory);
 
@@ -158,7 +158,7 @@ public final class CLI_window extends JFrame implements ActionListener
 		}
 		catch (Exception error)
 		{
-			CLI_output.getOutput().printError(error);
+			CLI_logger.getCurrentLogger().info(error.getMessage());
 		}
 
 		optionsPanel.updateGroupsPanel();

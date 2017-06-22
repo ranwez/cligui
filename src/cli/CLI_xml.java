@@ -54,7 +54,7 @@ final class CLI_xml
 
 		createTransformer().transform(source, new StreamResult(url));
 
-		CLI_output.getOutput().println("File \"" + url + "\" was created successfully.");
+		CLI_logger.getCurrentLogger().info("File \"" + url + "\" was created successfully.");
 	}
 
 	private Transformer createTransformer() throws TransformerConfigurationException

@@ -34,7 +34,7 @@ public final class CLI_api
 		this.projectName = projectName;
 		this.programOptionName = programOptionName;
 
-		CLI_output.setOutput(new ConsolesManager());
+		CLI_logger.setOutput(new ConsolesManager());
 
 		if (! bundlePath.isEmpty())
 		{
@@ -267,6 +267,6 @@ public final class CLI_api
 			builder.append('\n');
 		}
 
-		CLI_output.getOutput().println(builder.toString());
+		CLI_logger.getCurrentLogger().info(builder.toString());
 	}
 }

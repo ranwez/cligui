@@ -1,7 +1,7 @@
 package data;
 
 import cli.AbstractProgram;
-import cli.CLI_output;
+import cli.CLI_logger;
 import cli.annotations.Delegate;
 import cli.annotations.InputFile;
 import cli.annotations.InternalFile;
@@ -59,7 +59,7 @@ public final class BillProgram extends AbstractProgram
 	@Override
 	public void execute() throws Exception
 	{
-		CLI_output.getOutput().println("testOK : " + receipt);
+		CLI_logger.getCurrentLogger().info("testOK : " + receipt);
 	}
 
 	@Override

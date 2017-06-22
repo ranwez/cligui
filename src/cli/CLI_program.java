@@ -262,7 +262,7 @@ public final class CLI_program
 		builder.append(getDescription());
 		builder.append('\n');
 
-		CLI_output.getOutput().println(builder.toString());
+		CLI_logger.getCurrentLogger().info(builder.toString());
 
 		for (final CLI_option option : options)
 		{

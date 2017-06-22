@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import cli.exceptions.StoppedProgramException;
 
-final class WindowsManager extends OutputManager
+final class WindowsManager extends CLI_logger
 {
 	// l'utilisation de la classe ThreadLocal permet d'outrepasser la staticité dans les threads
 	// c'est-à-dire que la variable est accessible de manière statique mais aussi spécifique à
