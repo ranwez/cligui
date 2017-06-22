@@ -18,14 +18,6 @@ public abstract class CLI_logger
 		CLI_logger.cliLogger = cliLogger;
 	}
 
-	public static void printUnusedOptionWarning(final String optionName, final boolean isUnused) throws StoppedProgramException
-	{
-		if (isUnused)
-		{
-			printBundleDescription("ConsolesManager_unusedOption", optionName);
-		}
-	}
-
 	public static void printBundleDescription(final String key, final Object... values) throws StoppedProgramException
 	{
 		getLogger().info(CLI_bundle.getPropertyDescription(key, values));

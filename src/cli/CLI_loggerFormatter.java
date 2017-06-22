@@ -35,8 +35,16 @@ final class CLI_loggerFormatter extends Formatter
 		}
 
 		builder.append(": ");
-		builder.append(record.getMessage());
-		//builder.append(CLI_bundle.getPropertyDescription(record.getMessage(), record.getParameters()));
+
+		if (record.getParameters() == null)
+		{
+			builder.append(record.getMessage());
+		}
+		else
+		{
+			builder.append(CLI_bundle.getPropertyDescription(record.getMessage(), record.getParameters()));
+		}
+
 		builder.append('\n');
 
 		return builder.toString();
