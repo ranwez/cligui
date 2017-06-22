@@ -13,6 +13,6 @@ public class CLI_outputTest
 	{
 		new CLI_api("", "", ""); // initialize CLI_output
 
-		CLI_logger.getOutput().displayInfo("TEST", "test content\n");
+		CLI_logger.displayInfo("TEST", "test content\n");
 	}
 }

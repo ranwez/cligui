@@ -16,7 +16,7 @@ public abstract class CLI_logger
 		CLI_logger.output = output;
 	}
 
-	public static CLI_logger getOutput()
+	static CLI_logger getOutput()
 	{
 		return output;
 	}
@@ -38,7 +38,7 @@ public abstract class CLI_logger
 		return builder.toString();
 	}
 
-	public final void displayInfo(final String title, final String content) throws StoppedProgramException
+	public static void displayInfo(final String title, final String content) throws StoppedProgramException
 	{
 		final StringBuilder builder = new StringBuilder();
 
@@ -52,15 +52,10 @@ public abstract class CLI_logger
 		builder.append(BIG_SPACING_BAR);
 		builder.append("\n\n");
 
-		println(builder.toString());
+		output.getLogger().info(builder.toString());
 	}
 
-	public final void println(final String text) throws StoppedProgramException
-	{
-		getLogger().info(text + '\n');
-	}
-
-	public final void printUnusedOptionWarning(final String optionName, final boolean isUnused) throws StoppedProgramException
+	public static void printUnusedOptionWarning(final String optionName, final boolean isUnused) throws StoppedProgramException
 	{
 		if (isUnused)
 		{
@@ -68,9 +63,9 @@ public abstract class CLI_logger
 		}
 	}
 
-	public final void printBundleDescription(final String key, final Object... values) throws StoppedProgramException
+	public static void printBundleDescription(final String key, final Object... values) throws StoppedProgramException
 	{
-		println(CLI_bundle.getPropertyDescription(key, values));
+		output.getLogger().info(CLI_bundle.getPropertyDescription(key, values));
 	}
 
 	/**

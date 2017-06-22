@@ -211,7 +211,7 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 
 			api.parse(commands);
 
-			CLI_logger.getCurrentLogger().info('\n' + CLI_bundle.getPropertyDescription("CLI_program_finished"));
+			CLI_logger.getCurrentLogger().info(CLI_bundle.getPropertyDescription("CLI_program_finished"));
 		}
 		catch (Exception error)
 		{
