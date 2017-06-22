@@ -18,23 +18,26 @@ final class CLI_loggerFormatter extends Formatter
 
 		final StringBuilder builder = new StringBuilder();
 
-		builder.append('[');
-		builder.append(record.getLevel());
-		builder.append("] ");
-		builder.append(time);
-
-		builder.append(' ');
-
-		if (record.getLevel().intValue() > Level.INFO.intValue())
+		if (record.getLevel().intValue() < Level.INFO.intValue())
 		{
 			builder.append('[');
-			builder.append(record.getSourceClassName());
-			builder.append('.');
-			builder.append(record.getSourceMethodName());
-			builder.append("()] ");
-		}
+			builder.append(record.getLevel());
+			builder.append("] ");
+			builder.append(time);
 
-		builder.append(": ");
+			builder.append(' ');
+
+			if (record.getLevel().intValue() < Level.CONFIG.intValue())
+			{
+				builder.append('[');
+				builder.append(record.getSourceClassName());
+				builder.append('.');
+				builder.append(record.getSourceMethodName());
+				builder.append("()] ");
+			}
+
+			builder.append(": ");
+		}
 
 		if (record.getParameters() == null)
 		{
