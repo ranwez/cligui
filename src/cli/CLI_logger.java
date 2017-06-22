@@ -18,11 +18,6 @@ public abstract class CLI_logger
 		CLI_logger.cliLogger = cliLogger;
 	}
 
-	public static void printBundleDescription(final String key, final Object... values) throws StoppedProgramException
-	{
-		getLogger().info(CLI_bundle.getPropertyDescription(key, values));
-	}
-
 	/**
 	 * This method will print a {@code String} variable in an output.
 	 * 
