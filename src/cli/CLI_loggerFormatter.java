@@ -1,4 +1,4 @@
-package cli.logger;
+package cli;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,10 +20,10 @@ final class CLI_loggerFormatter extends Formatter
 
 		builder.append('[');
 		builder.append(record.getLevel());
-		builder.append("] [");
+		builder.append("] ");
 		builder.append(time);
 
-		builder.append("] ");
+		builder.append(' ');
 
 		if (record.getLevel().intValue() > Level.INFO.intValue())
 		{
@@ -36,7 +36,6 @@ final class CLI_loggerFormatter extends Formatter
 
 		builder.append(": ");
 		builder.append(record.getMessage());
-		builder.append('\n');
 
 		return builder.toString();
 	}

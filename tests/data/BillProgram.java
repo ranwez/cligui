@@ -1,6 +1,7 @@
 package data;
 
 import cli.AbstractProgram;
+import cli.CLI_output;
 import cli.annotations.Delegate;
 import cli.annotations.InputFile;
 import cli.annotations.InternalFile;
@@ -56,7 +57,10 @@ public final class BillProgram extends AbstractProgram
 
 
 	@Override
-	public void execute() throws Exception {}
+	public void execute() throws Exception
+	{
+		CLI_output.getOutput().println("testOK : " + receipt);
+	}
 
 	@Override
 	public String getXMLfilter(final String optionName)

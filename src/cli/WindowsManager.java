@@ -1,8 +1,8 @@
 package cli;
 
+import java.util.logging.Logger;
+
 import cli.exceptions.StoppedProgramException;
-import cli.logger.CLI_logger;
-import cli.logger.CLI_windowHandler;
 
 final class WindowsManager extends OutputManager
 {
@@ -15,13 +15,11 @@ final class WindowsManager extends OutputManager
 	{
 		final GUIconsole guiConsole = new GUIconsole(title);
 
-		CLI_logger.getLogger().addHandler(new CLI_windowHandler(guiConsole));
-
 		THREAD.set(guiConsole);
 	}
 
 	@Override
-	public void print(final String text) throws StoppedProgramException
+	public Logger getLogger() throws StoppedProgramException
 	{
 		final GUIconsole guiConsole = THREAD.get();
 
@@ -33,8 +31,10 @@ final class WindowsManager extends OutputManager
 			}
 			else
 			{
-				guiConsole.print(text);
+				return guiConsole.getLogger();
 			}
 		}
+
+		throw new StoppedProgramException(); // TODO à vérifier
 	}
 }

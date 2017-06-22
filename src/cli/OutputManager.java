@@ -1,5 +1,7 @@
 package cli;
 
+import java.util.logging.Logger;
+
 import cli.exceptions.StoppedProgramException;
 
 public abstract class OutputManager
@@ -50,7 +52,7 @@ public abstract class OutputManager
 
 	public final void println(final String text) throws StoppedProgramException
 	{
-		print(text + '\n');
+		getLogger().info(text + '\n');
 	}
 
 	public final void printUnusedOptionWarning(final String optionName, final boolean isUnused) throws StoppedProgramException
@@ -72,5 +74,5 @@ public abstract class OutputManager
 	 * @param text text to be displayed
 	 * @throws StoppedProgramException if the current running program is stopped before ending
 	 */
-	public abstract void print(String text) throws StoppedProgramException;
+	public abstract Logger getLogger() throws StoppedProgramException;
 }

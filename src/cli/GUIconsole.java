@@ -5,6 +5,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollBar;
@@ -23,10 +24,18 @@ public final class GUIconsole extends JFrame implements WindowListener
 
 	private final JScrollPane scrollPanel = new JScrollPane(textArea);
 
+	private final Logger logger;
+
 	private boolean isDisposed;
 
 	GUIconsole(final String title)
 	{
+		logger = Logger.getLogger(title);
+
+		logger.addHandler(new CLI_windowHandler(this));
+
+		logger.setUseParentHandlers(false);
+
 		windowsCount++;
 
 		textArea.setMargin(new Insets(5, 5, 5, 5));
@@ -52,14 +61,24 @@ public final class GUIconsole extends JFrame implements WindowListener
 	{
 		return windowsCount;
 	}
+	
+	public Logger getLogger()
+	{
+		return logger;
+	}
 
 	public void print(final String text)
 	{
-		textArea.append(text);
+		logger.info(text);
 
 		final JScrollBar scrollBar = scrollPanel.getVerticalScrollBar();
 
 		scrollBar.setValue(scrollBar.getMaximum());
+	}
+
+	public InfoTextArea getTextArea()
+	{
+		return textArea;
 	}
 
 	@Override
