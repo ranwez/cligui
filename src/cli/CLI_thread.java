@@ -5,13 +5,13 @@ import java.util.logging.Level;
 
 import cli.exceptions.StoppedProgramException;
 
-public final class CLI_thread extends Thread
+final class CLI_thread extends Thread
 {
 	private final CLI_api api;
 
 	private final String commands;
 
-	public CLI_thread(final CLI_api api, final String commands)
+	CLI_thread(final CLI_api api, final String commands)
 	{
 		this.api = api;
 		this.commands = commands;

@@ -4,6 +4,8 @@ import cli.exceptions.StoppedProgramException;
 
 public abstract class AbstractProgram
 {
+	protected AbstractProgram() {}
+
 	protected abstract void execute() throws Exception;
 
 	protected final void printUnusedOptionWarning(final String optionName, final boolean isUnused) throws StoppedProgramException
