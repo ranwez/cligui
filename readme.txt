@@ -109,11 +109,84 @@ You now have an API containing your custom program.
 
 IV) Use the API
 
+Once your API is ready, it is very important that you define the cligui logger level
+(default : OFF).
+
+The cligui logger is used to direct outputs in the console / windows and is disabled to avoid to
+flood unit tests with unnecessary data.
+
+You can enable logging this way :
+
+	CLI_logger.getLogger().setLevel(Level.INFO);
 
 
+In this case, all messages with priorities higher or equals to INFO will be printed in the console.
+
+You can also use this line to enable logging in some unit tests that may be of interest.
+
+Note that the window mode use the INFO level and cannot be changed.
 
 
+a) Parse commands
 
+The parse() method use a String or String array object (as you wish) and parse its elements to
+"execute()" the program.
+
+For instance, you can type the following :
+
+	api.parse("-prog bill -id 4 -name productA01 -price 1.25");
+
+
+Cligui will look for a program named "bill" and set the values you chose to the options :
+
+	id => 4
+	name => "productA01"
+	price => 1.25
+
+
+Note that if you did something wrong, cligui will output an error and print the programs list or
+your program options list.
+
+
+b) Window mode
+
+If you are done using the console mode, you can now test the window interface, a runnable class can
+be found at "tests/gui/WindowRunner.java".
+
+As you see, you only need to create a new instance of CLI_gui with an API to open the window mode :
+
+	new CLI_window(api);
+
+
+c) XML files
+
+The cligui API also allows you to create XML files compatible with Galaxy :
+
+	api.exportXML("projectVersion", "outputDirectory");
+
+
+You just have to define your project version (which will be stored in the XML file) and the output
+directory which will contain the XML file.
+
+Moreover, you can also add a filter to refrain some output files from being created (see
+SplitAlignment program in MACSE) by overriding the getXMLfilter() method.
+
+
+V) Print data (do not use System.out)
+
+Cligui uses a logger to print data, so it is highly recommended you do not use System.out.
+
+Instead, data printing can be achieved like this :
+
+	CLI_logger.getLogger().info("text");
+
+
+The CLI_logger.getLogger() method will return a java Logger (see JRE documentation if needed).
+
+
+As for exceptions, the following line is more convenient :
+
+	CLI_logger.logError(Level.SEVERE, error);
 
 
 
