@@ -9,6 +9,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -99,9 +100,14 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 		}
 		catch (Exception error)
 		{
-			// TODO à améliorer
-
-			//error.printStackTrace();
+			try
+			{
+				CLI_logger.logError(Level.SEVERE, error);
+			}
+			catch (StoppedProgramException stop)
+			{
+				stop.printStackTrace();
+			}
 		}
 	}
 
@@ -221,12 +227,7 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 
 				if (api.checkDebug(commands))
 				{
-					StackTraceElement[] traces = error.getStackTrace();
-
-					for (final StackTraceElement trace : traces)
-					{
-						CLI_logger.getLogger().info(trace.toString());
-					}
+					CLI_logger.logError(Level.INFO, error);
 				}
 			}
 			catch (StoppedProgramException stop)

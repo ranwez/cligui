@@ -7,13 +7,16 @@ import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import cli.CLI_option;
 import cli.AbstractFocusablePanel;
+import cli.CLI_logger;
 import cli.OptionBean;
 import cli.annotations.InputFile;
 import cli.annotations.InternalFile;
 import cli.annotations.OutputFile;
+import cli.exceptions.StoppedProgramException;
 
 public class OptionsFactory
 {
@@ -105,7 +108,14 @@ public class OptionsFactory
 		}
 		catch (Exception error)
 		{
-			error.printStackTrace();
+			try
+			{
+				CLI_logger.logError(Level.CONFIG, error);
+			}
+			catch (StoppedProgramException stop)
+			{
+				stop.printStackTrace();
+			}
 		}
 
 		return items.toArray(new String[items.size()]);

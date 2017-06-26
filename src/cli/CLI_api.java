@@ -34,8 +34,6 @@ public final class CLI_api
 		this.projectName = projectName;
 		this.programOptionName = programOptionName;
 
-		CLI_logger.setOutput(new ConsoleLogger());
-
 		if (! bundlePath.isEmpty())
 		{
 			CLI_bundle.addProperties(bundlePath);

@@ -3,6 +3,7 @@ package cli;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -55,7 +56,7 @@ public final class CLI_window extends JFrame implements ActionListener
 	{
 		this.api = api;
 
-		CLI_logger.setOutput(new WindowLogger());
+		CLI_logger.setWindowOutput();
 
 		optionsPanel = new OptionsPanel(api, optionsFactory);
 
@@ -158,7 +159,7 @@ public final class CLI_window extends JFrame implements ActionListener
 		}
 		catch (Exception error)
 		{
-			CLI_logger.getLogger().info(error.getMessage());
+			CLI_logger.logError(Level.SEVERE, error);
 		}
 
 		optionsPanel.updateGroupsPanel();

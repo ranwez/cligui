@@ -4,6 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.Level;
+
+import cli.exceptions.StoppedProgramException;
 
 public final class CLI_bundle
 {
@@ -37,7 +40,14 @@ public final class CLI_bundle
 		}
 		catch (IOException error)
 		{
-			error.printStackTrace();
+			try
+			{
+				CLI_logger.logError(Level.CONFIG, error);
+			}
+			catch (StoppedProgramException stop)
+			{
+				stop.printStackTrace();
+			}
 		}
 
 		return properties;
