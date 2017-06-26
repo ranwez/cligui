@@ -1,6 +1,11 @@
 package cli;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cli.exceptions.ProgramDoublonException;
@@ -10,6 +15,7 @@ import cli.exceptions.parsing.ProgramNotFoundException;
 public final class CLI_api
 {
 	private static final String DEBUG_OPTION_NAME = "-debug";
+	private static final String TIME_OPTION_NAME = "-timeTest";
 
 	private final List<CLI_program> programs = new ArrayList<CLI_program>();
 
@@ -92,6 +98,11 @@ public final class CLI_api
 		cli_xml.exportFiles(programs, outputDirectory);
 	}
 
+	/**
+	 * This method is only used in Window mode
+	 * @param commands
+	 * @return
+	 */
 	public boolean checkDebug(final String commands)
 	{
 		return checkDebug(commands.split(" "));
@@ -99,9 +110,14 @@ public final class CLI_api
 
 	public boolean checkDebug(final String[] commands)
 	{
+		return checkOptionExists(commands, DEBUG_OPTION_NAME);
+	}
+
+	private boolean checkOptionExists(final String[] commands, final String optionName)
+	{
 		for (final String command : commands)
 		{
-			if (command.equals(DEBUG_OPTION_NAME))
+			if (command.equals(optionName))
 			{
 				return true;
 			}
@@ -138,9 +154,30 @@ public final class CLI_api
 
 		setProgramName(programName);
 
+		final boolean showTime = checkOptionExists(commands, TIME_OPTION_NAME);
+
 		String[] updatedCommands = removeSpecialOptions(commands, programName);
 
+		long elapsedTime = System.currentTimeMillis();
+
 		currentProgram.parse(updatedCommands);
+
+		if (showTime)
+		{
+			final DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
+			final String time = dateFormat.format(new Date());
+
+			elapsedTime = System.currentTimeMillis() - elapsedTime;
+
+			elapsedTime /= 1000.0;
+
+			final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("time.txt", true));
+
+			bufferedWriter.write(time + '\t' + elapsedTime + " sec\n");
+
+			bufferedWriter.close();
+		}
 	}
 
 	private String findProgram(final String[] commands) throws ProgramNotFoundException
@@ -176,7 +213,7 @@ public final class CLI_api
 
 		for (final String command : commands)
 		{
-			if (! isProgOption(command) && ! command.equals(DEBUG_OPTION_NAME) && ! command.equals(programName))
+			if (! isProgOption(command) && ! command.equals(DEBUG_OPTION_NAME) && ! command.equals(TIME_OPTION_NAME) && ! command.equals(programName))
 			{
 				updatedCommands.add(command);
 			}
