@@ -8,7 +8,6 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
@@ -21,7 +20,7 @@ import javax.swing.JTextArea;
 import cli.exceptions.StoppedProgramException;
 
 @SuppressWarnings("serial")
-final class CommandsPanel extends JPanel implements ActionListener, Runnable
+final class CommandsPanel extends JPanel implements ActionListener
 {
 	private static final int MARGIN = 10;
 
@@ -33,8 +32,6 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 	private final JButton buttonStart = new JButton(CLI_bundle.getPropertyDescription("CLI_window_executeProgram"));
 
 	private final String commandsStart;
-
-	private Thread thread;
 
 	CommandsPanel(final CLI_api api)
 	{
@@ -161,11 +158,16 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 	{
 		if (buttonStart.equals(event.getSource()))
 		{
+			String commands = COMMANDS_TEXT_AREA.getText().replace(commandsStart, "");
+
+			if (commands.isEmpty())
+			{
+				commands = " "; // to prevent StringIndexOutOfRangeException
+			}
+
 			if (GUIconsole.getWindowsCount() < 2)
 			{
-				thread = new Thread(this);
-
-				thread.start();
+				new CLI_thread(api, commands);
 			}
 			else
 			{
@@ -185,55 +187,13 @@ final class CommandsPanel extends JPanel implements ActionListener, Runnable
 
 				if (choice == 0) // yes
 				{
-					thread = new Thread(this);
-
-					thread.start();
+					new CLI_thread(api, commands);
 				}
 			}
 		}
 		else if (buttonCopy.equals(event.getSource()))
 		{
 			copyToClipboard();
-		}
-	}
-
-	@Override
-	public void run()
-	{
-		String commands = COMMANDS_TEXT_AREA.getText().replace(commandsStart, "");
-
-		if (commands.isEmpty())
-		{
-			commands = " "; // to prevent StringIndexOutOfRangeException
-		}
-
-		final Date date = new Date();
-
-		try
-		{
-			final String consoleTitle = api.getCurrentProgram().getName() + " - " + date;
-
-			WindowLogger.openNewConsole(consoleTitle);
-
-			api.parse(commands);
-
-			CLI_logger.getLogger().info(CLI_bundle.getPropertyDescription("CLI_program_finished"));
-		}
-		catch (Exception error)
-		{
-			try
-			{
-				CLI_logger.getLogger().info(error.getMessage());
-
-				if (api.checkDebug(commands))
-				{
-					CLI_logger.logError(Level.INFO, error);
-				}
-			}
-			catch (StoppedProgramException stop)
-			{
-				thread.interrupt();
-			}
 		}
 	}
 
