@@ -189,4 +189,23 @@ As for exceptions, the following line is more convenient :
 	CLI_logger.logError(Level.SEVERE, error);
 
 
+In case you need to display some dynamic data, you can always use the bundle with the @ letter :
+
+	KEY						MESSAGE
+
+	unexpectedError			The file @ could not be read.
+
+
+However, you will need to call CLI_bundle.getPropertyDescription(KEY, DYNAMIC_DATA).
+
+Example :
+
+	CLI_bundle.getPropertyDescription("unexpectedError", "sequences.fasta");
+
+	Result : "The file sequences.fasta could not be read."
+
+
+You can add as much dynamic data as you wish, if you only define the key, then no @ letter will be
+updated.
+
 
