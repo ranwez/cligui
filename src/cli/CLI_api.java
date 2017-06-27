@@ -156,7 +156,7 @@ public final class CLI_api
 
 		final boolean showTime = checkOptionExists(commands, TIME_OPTION_NAME);
 
-		String[] updatedCommands = removeSpecialOptions(commands, programName);
+		final String[] updatedCommands = removeSpecialOptions(commands, programName);
 
 		long elapsedTime = System.currentTimeMillis();
 
