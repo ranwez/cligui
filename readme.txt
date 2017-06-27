@@ -209,3 +209,10 @@ You can add as much dynamic data as you wish, if you only define the key, then n
 updated.
 
 
+VI) Analyze a program execution time
+
+You can run a program and compute its execution time just by adding the "timeTest" option in the
+commands line.
+
+The execution time will then be stored in a file "time.txt", you can even run several programs
+with a bash command, each time result will be appended to the others in the file.
