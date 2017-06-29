@@ -44,7 +44,7 @@ public final class BillProgram extends AbstractProgram
 	private String receipt = "";
 
 
-	@InternalFile("files/receivers.txt")
+	@InternalFile("files/data/receivers.txt")
 
 	@Parameter(name = "receiver")
 
@@ -59,7 +59,7 @@ public final class BillProgram extends AbstractProgram
 	@Override
 	public void execute() throws Exception
 	{
-		CLI_logger.getLogger().info("testOK");
+		CLI_logger.getLogger().info("test OK");
 	}
 
 	@Override

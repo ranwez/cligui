@@ -16,7 +16,7 @@ public class CLI_apiTest
 	@BeforeClass
 	public static void initTests() throws Exception
 	{
-		api = new CLI_api(WindowRunner.PROJECT_NAME, "files/tests.properties", "prog");
+		api = new CLI_api(WindowRunner.PROJECT_NAME, "files/bundle/tests.properties", "prog");
 
 		api.addProgram("bill", BillProgram.class);
 		api.addProgram("billCopy", BillProgram.class);

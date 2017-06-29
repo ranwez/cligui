@@ -10,7 +10,7 @@ import cli.exceptions.StoppedProgramException;
 
 public final class CLI_bundle
 {
-	private static final Properties PROPERTIES = readProperties("files/english.properties");
+	private static final Properties PROPERTIES = readProperties("files/bundle/english.properties");
 
 	static void addProperties(final String filepath)
 	{

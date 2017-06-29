@@ -15,7 +15,7 @@ public final class Product
 	private String name = "";
 
 
-	@InternalFile("files/gencodes.txt")
+	@InternalFile("files/data/gencodes.txt")
 
 	@Parameter(name = "gencode")
 

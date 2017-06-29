@@ -26,7 +26,7 @@ public class CLI_programTest
 	@BeforeClass
 	public static void initTests() throws Exception
 	{
-		api = new CLI_api(WindowRunner.PROJECT_NAME, "files/tests.properties", "prog");
+		api = new CLI_api(WindowRunner.PROJECT_NAME, "files/bundle/tests.properties", "prog");
 
 		api.addProgram("bill", BillProgram.class);
 	}
@@ -40,11 +40,11 @@ public class CLI_programTest
 	@Test(expected = FileNotFoundException.class)
 	public void CLI_xmlTest_internalFileNotFound() throws Exception
 	{
-		CLI_api api = new CLI_api(WindowRunner.PROJECT_NAME, "files/tests.properties", "prog");
+		CLI_api wrongAPI = new CLI_api(WindowRunner.PROJECT_NAME, "files/bundle/tests.properties", "prog");
 
-		api.addProgram("wrongProgram", WrongProgram.class);
+		wrongAPI.addProgram("wrongProgram", WrongProgram.class);
 
-		api.exportXML("testVersion", "tests/xml/");
+		wrongAPI.exportXML("testVersion", "tests/xml/");
 	}
 
 	@Test

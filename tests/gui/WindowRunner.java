@@ -10,7 +10,7 @@ public final class WindowRunner
 
 	public static void main(final String[] args) throws Exception
 	{
-		final CLI_api api = new CLI_api(PROJECT_NAME, "files/tests.properties", "prog");
+		final CLI_api api = new CLI_api(PROJECT_NAME, "files/bundle/tests.properties", "prog");
 
 		api.addProgram("bill", BillProgram.class);
 

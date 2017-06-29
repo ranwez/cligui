@@ -6,7 +6,7 @@ import cli.annotations.Parameter;
 
 public final class WrongProgram extends AbstractProgram
 {
-	@InternalFile("files/wrongName.txt")
+	@InternalFile("files/data/wrongName.txt")
 
 	@Parameter(name = "")
 
