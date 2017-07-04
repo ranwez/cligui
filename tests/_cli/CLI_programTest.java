@@ -17,7 +17,7 @@ import cli.exceptions.parsing.MissingRequiredOptionException;
 import cli.exceptions.parsing.OptionNotFoundException;
 import data.BillProgram;
 import data.WrongProgram;
-import gui.WindowRunner;
+import runnables.WindowRunner;
 
 public class CLI_programTest
 {

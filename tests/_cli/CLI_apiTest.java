@@ -7,7 +7,7 @@ import cli.CLI_api;
 import cli.exceptions.ProgramDoublonException;
 import cli.exceptions.parsing.ProgramNotFoundException;
 import data.BillProgram;
-import gui.WindowRunner;
+import runnables.WindowRunner;
 
 public class CLI_apiTest
 {
@@ -49,16 +49,10 @@ public class CLI_apiTest
 	}
 
 	@Test
-	public void displayPrograms() throws Exception
+	public void exportMarkdownToHTML() throws Exception
 	{
-		api.displayPrograms();
-	}
+		api.parseDocumentation("bill/credit/", "-prog bill -id 1 -name p1 -price 12.5");
 
-	@Test
-	public void unusedGetters() throws ProgramNotFoundException
-	{
-		api.getProjectName();
-		api.getProgramOptionName();
-		api.getPrograms();
+		api.exportMarkdownToHTML("markdown/bill.md", "markdown/");
 	}
 }

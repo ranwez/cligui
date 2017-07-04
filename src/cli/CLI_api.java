@@ -2,8 +2,11 @@ package cli;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,12 +17,17 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.tautua.markdownpapers.Markdown;
+import org.tautua.markdownpapers.parser.ParseException;
+
 import cli.exceptions.ProgramDoublonException;
 import cli.exceptions.StoppedProgramException;
 import cli.exceptions.parsing.ProgramNotFoundException;
 
 public final class CLI_api
 {
+	private static final File MARKDOWN_TMP_FILE = new File("tmp.md");
+
 	private static final String DEBUG_OPTION_NAME = "-debug";
 	private static final String TIME_OPTION_NAME = "-timeTest";
 
@@ -148,7 +156,36 @@ public final class CLI_api
 		parse(command);
 	}
 
-	public void exportMarkdown(final String markdownFilepath) throws Exception
+	public void exportMarkdownToHTML(final String markdownFilepath, final String htmlDirectory) throws FileNotFoundException, IOException, ParseException
+	{
+		createCommandsMarkdown(markdownFilepath);
+
+		final Markdown markdown = new Markdown();
+
+		final BufferedReader bufferedReader = new BufferedReader(new FileReader(MARKDOWN_TMP_FILE));
+
+		final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(htmlDirectory + currentProgram.getName() + ".html"));
+
+		markdown.transform(bufferedReader, bufferedWriter);
+
+		bufferedWriter.close();
+		bufferedReader.close();
+
+		MARKDOWN_TMP_FILE.delete();
+	}
+
+	private void createCommandsMarkdown(final String markdownFilepath) throws FileNotFoundException, IOException
+	{
+		final StringBuilder builder = readMarkdown(markdownFilepath);
+
+		final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(MARKDOWN_TMP_FILE));
+
+		bufferedWriter.write(builder.toString());
+
+		bufferedWriter.close();
+	}
+
+	private StringBuilder readMarkdown(final String markdownFilepath) throws FileNotFoundException, IOException
 	{
 		final BufferedReader bufferedReader = new BufferedReader(new FileReader(markdownFilepath));
 
@@ -160,9 +197,9 @@ public final class CLI_api
 		{
 			// TODO utiliser un builder au lieu d'une regex si c'est plus rapide
 
-			Pattern pattern = Pattern.compile("\\{\\{.+\\}\\}");
+			final Pattern pattern = Pattern.compile("\\{\\{.+\\}\\}");
 
-			Matcher matcher = pattern.matcher(line);
+			final Matcher matcher = pattern.matcher(line);
 
 			if (matcher.find())
 			{
@@ -183,11 +220,7 @@ public final class CLI_api
 
 		bufferedReader.close();
 
-		final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("tmp.md"));
-
-		bufferedWriter.write(builder.toString());
-
-		bufferedWriter.close();
+		return builder;
 	}
 
 	/**
