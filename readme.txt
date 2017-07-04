@@ -109,22 +109,18 @@ You now have an API containing your custom program.
 
 IV) Use the API
 
-Once your API is ready, it is very important that you define the cligui logger level
-(default : OFF).
+The cligui logger is used to direct outputs in the console / windows and its level can be changed
+by doing the following :
 
-The cligui logger is used to direct outputs in the console / windows and is disabled to avoid to
-flood unit tests with unnecessary data.
-
-You can enable logging this way :
-
-	CLI_logger.getLogger().setLevel(Level.INFO);
+	CLI_logger.getLogger().setLevel(...);
 
 
-In this case, all messages with priorities higher or equals to INFO will be printed in the console.
+All messages with priorities higher or equals to the level you defined will be printed in the
+console.
 
-You can also use this line to enable logging in some unit tests that may be of interest.
+You can disable logging using Level.OFF.
 
-Note that the window mode use the INFO level and cannot be changed.
+Note that the window mode only uses the INFO level and cannot be changed.
 
 
 a) Parse commands
