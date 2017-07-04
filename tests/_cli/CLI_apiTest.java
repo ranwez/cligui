@@ -1,9 +1,12 @@
 package _cli;
 
+import java.util.logging.Level;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import cli.CLI_api;
+import cli.CLI_logger;
 import cli.exceptions.ProgramDoublonException;
 import cli.exceptions.parsing.ProgramNotFoundException;
 import data.BillProgram;
@@ -16,6 +19,8 @@ public class CLI_apiTest
 	@BeforeClass
 	public static void initTests() throws Exception
 	{
+		CLI_logger.getLogger().setLevel(Level.OFF);
+		
 		api = new CLI_api(WindowRunner.PROJECT_NAME, "files/bundle/tests.properties", "prog");
 
 		api.addProgram("bill", BillProgram.class);

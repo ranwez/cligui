@@ -4,11 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.Method;
+import java.util.logging.Level;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import cli.CLI_api;
+import cli.CLI_logger;
 import cli.CLI_option;
 import cli.CLI_program;
 import cli.exceptions.parsing.MissingOptionException;
@@ -26,6 +28,8 @@ public class CLI_programTest
 	@BeforeClass
 	public static void initTests() throws Exception
 	{
+		CLI_logger.getLogger().setLevel(Level.OFF);
+
 		api = new CLI_api(WindowRunner.PROJECT_NAME, "files/bundle/tests.properties", "prog");
 
 		api.addProgram("bill", BillProgram.class);

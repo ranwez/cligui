@@ -1,7 +1,6 @@
 package cli;
 
 import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import cli.exceptions.StoppedProgramException;
@@ -19,8 +18,6 @@ final class ConsoleLogger extends CLI_logger
 		final Logger logger = Logger.getLogger("console");
 
 		logger.addHandler(consoleHandler);
-
-		logger.setLevel(Level.OFF);
 
 		logger.setUseParentHandlers(false);
 
