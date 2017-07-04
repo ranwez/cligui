@@ -1,12 +1,18 @@
 package cli;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cli.exceptions.ProgramDoublonException;
 import cli.exceptions.StoppedProgramException;
@@ -17,8 +23,11 @@ public final class CLI_api
 	private static final String DEBUG_OPTION_NAME = "-debug";
 	private static final String TIME_OPTION_NAME = "-timeTest";
 
-	private final List<CLI_program> programs = new ArrayList<CLI_program>();
+	private final List<CLI_program> programs = new ArrayList<CLI_program>(); // TODO use a set ?
 
+	private final Map<String, String> markdownElements = new LinkedHashMap<String, String>();
+
+	private final String commandPrefix;
 	private final String programOptionName;
 	private final String projectName;
 
@@ -39,6 +48,8 @@ public final class CLI_api
 	{
 		this.projectName = projectName;
 		this.programOptionName = programOptionName;
+
+		commandPrefix = "java -jar " + projectName + ' ';
 
 		if (! bundlePath.isEmpty())
 		{
@@ -126,37 +137,90 @@ public final class CLI_api
 		return false;
 	}
 
+	public void parseDocumentation(final String directoryPath, final String annotatedCommand) throws Exception
+	{
+		final String shortCommand = commandPrefix + annotatedCommand.replace("@", "");
+
+		markdownElements.put(directoryPath, shortCommand);
+
+		final String command = annotatedCommand.replace("@", directoryPath);
+
+		parse(command);
+	}
+
+	public void exportMarkdown(final String markdownFilepath) throws Exception
+	{
+		final BufferedReader bufferedReader = new BufferedReader(new FileReader(markdownFilepath));
+
+		final StringBuilder builder = new StringBuilder();
+
+		String line = bufferedReader.readLine();
+
+		while (line != null)
+		{
+			// TODO utiliser un builder au lieu d'une regex si c'est plus rapide
+
+			Pattern pattern = Pattern.compile("\\{\\{.+\\}\\}");
+
+			Matcher matcher = pattern.matcher(line);
+
+			if (matcher.find())
+			{
+				final String fullElement = matcher.group();
+
+				final String element = fullElement.substring(2, fullElement.length() - 2) + '/';
+
+				final String command = markdownElements.get(element);
+
+				line = line.replace(fullElement, command);
+			}
+
+			builder.append(line);
+			builder.append('\n');
+
+			line = bufferedReader.readLine();
+		}
+
+		bufferedReader.close();
+
+		final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("tmp.md"));
+
+		bufferedWriter.write(builder.toString());
+
+		bufferedWriter.close();
+	}
+
 	/**
 	 * This method will split a {@code String} variable in a {@code String}
 	 * array and parse its values, then the corresponding program will be
 	 * executed with the commands parameters.
 	 * 
-	 * @param commands a {@code String} variable of commands to be parsed
+	 * @param command a {@code String} variable of command to be parsed
 	 * @throws Exception if the commands are wrong of if the executed program
 	 * throws an error
 	 */
-	public void parse(final String commands) throws Exception
+	public void parse(final String command) throws Exception
 	{
-		parse(commands.split(" "));
+		parse(command.split(" "));
 	}
 
 	/**
 	 * This method will read a {@code String} array and parse its values, then
 	 * the corresponding program will be executed with the commands parameters.
 	 * 
-	 * @param commands a {@code String} array of commands to be parsed
+	 * @param command a {@code String} array of command to be parsed
 	 * @throws Exception if the commands are wrong of if the executed program
 	 * throws an error
 	 */
-	public void parse(final String[] commands) throws Exception
+	public void parse(final String[] command) throws Exception
 	{
-		final String programName = findProgram(commands);
+		final String programName = findProgram(command);
 
 		setProgramName(programName);
 
-		final boolean showTime = checkOptionExists(commands, TIME_OPTION_NAME);
+		final boolean showTime = checkOptionExists(command, TIME_OPTION_NAME);
 
-		final String[] updatedCommands = removeSpecialOptions(commands, programName);
+		final String[] updatedCommands = removeSpecialOptions(command, programName);
 
 		long elapsedTime = System.currentTimeMillis();
 
