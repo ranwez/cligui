@@ -1,3 +1,3 @@
 # Bill program
 
-Command example : **{{bill/credit}}**
+Command example : **{{credit}}**

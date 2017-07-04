@@ -3,10 +3,8 @@ package cli;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,7 +16,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.tautua.markdownpapers.Markdown;
-import org.tautua.markdownpapers.parser.ParseException;
 
 import cli.exceptions.ProgramDoublonException;
 import cli.exceptions.StoppedProgramException;
@@ -145,18 +142,18 @@ public final class CLI_api
 		return false;
 	}
 
-	public void parseDocumentation(final String directoryPath, final String annotatedCommand) throws Exception
+	public void parseDocumentation(final String markdownKey, final String directoryPath, final String annotatedCommand) throws Exception
 	{
 		final String shortCommand = commandPrefix + annotatedCommand.replace("@", "");
 
-		markdownElements.put(directoryPath, shortCommand);
+		markdownElements.put(markdownKey, shortCommand);
 
 		final String command = annotatedCommand.replace("@", directoryPath);
 
 		parse(command);
 	}
 
-	public void exportMarkdownToHTML(final String markdownFilepath, final String htmlDirectory) throws FileNotFoundException, IOException, ParseException
+	public void exportMarkdownToHTML(final String markdownFilepath, final String htmlDirectory) throws Exception
 	{
 		createCommandsMarkdown(markdownFilepath);
 
@@ -172,9 +169,11 @@ public final class CLI_api
 		bufferedReader.close();
 
 		MARKDOWN_TMP_FILE.delete();
+
+		markdownElements.clear();
 	}
 
-	private void createCommandsMarkdown(final String markdownFilepath) throws FileNotFoundException, IOException
+	private void createCommandsMarkdown(final String markdownFilepath) throws Exception
 	{
 		final StringBuilder builder = readMarkdown(markdownFilepath);
 
@@ -185,7 +184,7 @@ public final class CLI_api
 		bufferedWriter.close();
 	}
 
-	private StringBuilder readMarkdown(final String markdownFilepath) throws FileNotFoundException, IOException
+	private StringBuilder readMarkdown(final String markdownFilepath) throws Exception
 	{
 		final BufferedReader bufferedReader = new BufferedReader(new FileReader(markdownFilepath));
 
@@ -205,11 +204,18 @@ public final class CLI_api
 			{
 				final String fullElement = matcher.group();
 
-				final String element = fullElement.substring(2, fullElement.length() - 2) + '/';
+				final String element = fullElement.substring(2, fullElement.length() - 2);
 
 				final String command = markdownElements.get(element);
 
-				line = line.replace(fullElement, command);
+				if (command == null)
+				{
+					CLI_logger.getLogger().warning(CLI_bundle.getPropertyDescription("CLI_warning_markdownKey", element, markdownFilepath));
+				}
+				else
+				{
+					line = line.replace(fullElement, command);
+				}
 			}
 
 			builder.append(line);

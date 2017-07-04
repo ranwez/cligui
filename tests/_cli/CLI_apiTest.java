@@ -56,7 +56,7 @@ public class CLI_apiTest
 	@Test
 	public void exportMarkdownToHTML() throws Exception
 	{
-		api.parseDocumentation("bill/credit/", "-prog bill -id 1 -name p1 -price 12.5");
+		api.parseDocumentation("credit", "bill/credit/", "-prog bill -id 1 -name p1 -price 12.5");
 
 		api.exportMarkdownToHTML("markdown/bill.md", "markdown/");
 	}
