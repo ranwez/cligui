@@ -1,5 +1,6 @@
 package _cli;
 
+import java.io.File;
 import java.util.logging.Level;
 
 import org.junit.BeforeClass;
@@ -10,6 +11,7 @@ import cli.CLI_logger;
 import cli.exceptions.ProgramDoublonException;
 import cli.exceptions.parsing.ProgramNotFoundException;
 import data.BillProgram;
+import markdown.CLI_markdown;
 import runnables.WindowRunner;
 
 public class CLI_apiTest
@@ -20,7 +22,7 @@ public class CLI_apiTest
 	public static void initTests() throws Exception
 	{
 		CLI_logger.getLogger().setLevel(Level.OFF);
-		
+
 		api = new CLI_api(WindowRunner.PROJECT_NAME, "files/bundle/tests.properties", "prog");
 
 		api.addProgram("bill", BillProgram.class);
@@ -60,4 +62,27 @@ public class CLI_apiTest
 
 		api.exportMarkdownToHTML("markdown/bill.md", "markdown/");
 	}
+
+	@Test
+	public void markTest() throws Exception
+	{
+		//api.parseDocumentation("credit", "bill/credit/", "-prog bill -id 1 -name p1 -price 12.5");
+
+		//api.exportMarkdownToHTML("markTest.md", "");
+
+		createHTML("markTest.md");
+
+		new CLI_markdown("markTest.md", "result.html");
+	}
+
+
+	private void createHTML(final String markdownFilepath) throws Exception
+	{
+		final ProcessBuilder processBuilder = new ProcessBuilder("/usr/local/bin/multimarkdown", markdownFilepath);
+
+		processBuilder.redirectOutput(new File("multimarkdown.html"));
+
+		processBuilder.start();
+	}
+
 }
