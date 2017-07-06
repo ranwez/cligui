@@ -2,6 +2,8 @@ package markdown;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -35,35 +37,65 @@ public final class CLI_markdown
 		Element lineTag;
 		Element listTag = null;
 
-		StringBuilder line = new StringBuilder();
+		StringBuilder lineBuilder = new StringBuilder();
 
-		String lineString = bufferedReader.readLine();
+		String line = bufferedReader.readLine();
 
-		while (lineString != null)
+		// note : le test "null" permet de s'assurer que la dernière ligne soit bien ajoutée
+		// sinon, il faut ajouter une ligne vide supplémentaire
+
+		while (line != null || ! lineBuilder.toString().isEmpty())
 		{
-			if (lineString.isEmpty())
+			if (line == null || line.isEmpty())
 			{
-				boolean isPuce = isPuce(line.toString());
+				line = lineBuilder.toString();
 
-				int tabsCount = computeTabsCount(line.toString());
+				boolean isPuce = isPuce(line);
+				boolean isNumerotation = isNumerotation(line);
 
-				int titleLevel = computeTitleLevel(line.toString());
+				if (isPuce)
+				{
+					line = line.substring(2);
+				}
+				else if (isNumerotation)
+				{
+					line = line.substring(3);
+				}
 
-				//System.out.println(isPuce(line.toString()) + " => " + line.toString());
+				int titleLevel = computeTitleLevel(line);
 
 				Text lineText;
 
 				if (isPuce)
 				{
-					lineText = document.createTextNode(line.toString().substring(2));
+					lineText = document.createTextNode(line);
 
 					lineTag = document.createElement("li");
 
-					lineTag.appendChild(lineText);
+					tokenize(document, lineTag, line);
 
 					if (! isList)
 					{
 						listTag = document.createElement("ul");
+
+						isList = true;
+					}
+
+					listTag.appendChild(lineTag);
+
+					root.appendChild(listTag);
+				}
+				else if (isNumerotation)
+				{
+					lineText = document.createTextNode(line);
+
+					lineTag = document.createElement("li");
+
+					tokenize(document, lineTag, line);
+
+					if (! isList)
+					{
+						listTag = document.createElement("ol");
 
 						isList = true;
 					}
@@ -95,22 +127,27 @@ public final class CLI_markdown
 					{
 						lineTag = document.createElement("p");
 
-						lineText = document.createTextNode(line.toString());
+						tokenize(document, lineTag, line);
 
-						lineTag.appendChild(lineText);
+						lineText = document.createTextNode(line);
 
 						root.appendChild(lineTag);
 					}
 				}
 
-				line = new StringBuilder();
+				lineBuilder = new StringBuilder();
 			}
 			else
 			{
-				line.append(lineString);
+				if (! lineBuilder.toString().isEmpty())
+				{
+					lineBuilder.append(' ');
+				}
+
+				lineBuilder.append(line);
 			}
 
-			lineString = bufferedReader.readLine();
+			line = bufferedReader.readLine();
 		}
 
 		bufferedReader.close();
@@ -120,6 +157,53 @@ public final class CLI_markdown
 		final DOMSource source = new DOMSource(document);
 
 		createTransformer().transform(source, new StreamResult(htmlFilepath));
+	}
+
+	private void tokenize(final Document document, final Element element, final String line)
+	{
+		final StarToken token = new StarToken(line);
+
+		for (int i = 0; i < token.getGroups().size(); i++)
+		{
+			final Phrase subLine = token.getGroups().get(i);
+
+			Text lineText = document.createTextNode(subLine.getText());
+
+			//if (i % 2 == 0) // TODO utiliser un opérateur binaire pour améliorer les performances
+			if (subLine.getType() == PhraseType.NORMAL)
+			{
+				element.appendChild(lineText);
+			}
+			else
+			{
+				Element elementTag = null;
+
+				if (subLine.getType() == PhraseType.ITALIC)
+				{
+					elementTag = document.createElement("em");
+
+					elementTag.appendChild(lineText);
+				}
+				else if (subLine.getType() == PhraseType.BOLD)
+				{
+					elementTag = document.createElement("strong");
+
+					elementTag.appendChild(lineText);
+				}
+				else if (subLine.getType() == PhraseType.BOLD_ITALIC)
+				{
+					Element inter = document.createElement("em");
+
+					inter.appendChild(lineText);
+
+					elementTag = document.createElement("strong");
+
+					elementTag.appendChild(inter);
+				}
+
+				element.appendChild(elementTag);
+			}
+		}
 	}
 
 	private int computeTitleLevel(final String line)
@@ -167,48 +251,24 @@ public final class CLI_markdown
 		return false;
 	}
 
-	private int computeTabsCount(final String line)
+	private boolean isNumerotation(final String line)
 	{
-		int nbSpaces = 0;
-		int nbTabs = 0;
+		boolean previousDigit = false;
+		boolean previousDot = false;
 
 		for (final char letter : line.toCharArray())
 		{
-			if (letter == '\t')
+			if (Character.isDigit(letter))
 			{
-				nbTabs++;
+				previousDigit = true;
+			}
+			else if (letter == '.' && previousDigit)
+			{
+				previousDot = true;
 			}
 			else if (letter == ' ')
 			{
-				nbSpaces++;
-			}
-			else
-			{
-				break;
-			}
-		}
-
-		return nbTabs + nbSpaces / 4;
-	}
-
-	private boolean isTabbed(final String line)
-	{
-		int nbSpaces = 0;
-
-		for (final char letter : line.toCharArray())
-		{
-			if (letter == '\t')
-			{
-				return true;
-			}
-			else if (letter == ' ')
-			{
-				nbSpaces++;
-
-				if (nbSpaces == 4)
-				{
-					return true;
-				}
+				return previousDot;
 			}
 			else
 			{
@@ -231,5 +291,226 @@ public final class CLI_markdown
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
 		return transformer;
+	}
+
+	public class StarToken
+	{
+		private final List<Phrase> groups = new ArrayList<Phrase>();
+
+		public StarToken(final String line)
+		{
+			boolean star = false;
+
+			StringBuilder builder = new StringBuilder();
+
+			for (int position = 0; position < line.length(); position++)
+			{
+				final char letter = line.charAt(position);
+
+				if (isBoldItalic(line, position, '*') || isBoldItalic(line, position, '_'))
+				{
+					if (! builder.toString().isEmpty())
+					{
+						PhraseType type;
+
+						if (star)
+						{
+							type = PhraseType.BOLD_ITALIC;
+						}
+						else
+						{
+							type = PhraseType.NORMAL;
+						}
+
+						star = ! star;
+
+						Phrase phrase = new Phrase(builder.toString(), type);
+
+						groups.add(phrase);
+
+						builder = new StringBuilder();
+					}
+				}
+				else if (isBold(line, position, '*') || isBold(line, position, '_'))
+				{
+					if (! builder.toString().isEmpty())
+					{
+						PhraseType type;
+
+						if (star)
+						{
+							type = PhraseType.BOLD;
+						}
+						else
+						{
+							type = PhraseType.NORMAL;
+						}
+
+						star = ! star;
+
+						Phrase phrase = new Phrase(builder.toString(), type);
+
+						groups.add(phrase);
+
+						builder = new StringBuilder();
+					}
+				}
+				else if (isStar(line, position, '*') || isStar(line, position, '_'))
+				{
+					if (! builder.toString().isEmpty())
+					{
+						PhraseType type;
+
+						if (star)
+						{
+							type = PhraseType.ITALIC;
+						}
+						else
+						{
+							type = PhraseType.NORMAL;
+						}
+
+						star = ! star;
+
+						Phrase phrase = new Phrase(builder.toString(), type);
+
+						groups.add(phrase);
+
+						builder = new StringBuilder();
+					}
+				}
+				else
+				{
+					builder.append(letter);
+				}
+			}
+
+			if (! builder.toString().isEmpty())
+			{
+				PhraseType type;
+
+				if (star)
+				{
+					type = PhraseType.ITALIC;
+				}
+				else
+				{
+					type = PhraseType.NORMAL;
+				}
+
+				Phrase phrase = new Phrase(builder.toString(), type);
+
+				groups.add(phrase);
+			}
+		}
+
+		private boolean isBoldItalic(final String line, int position, final char code)
+		{
+			boolean isBoldItalic;
+
+			if (line.charAt(position) == code)
+			{
+				if (position < line.length() - 1 && isBold(line, position + 1, code))
+				{
+					isBoldItalic = isBold(line, position + 1, code);
+				}
+				else
+				{
+					isBoldItalic = false;
+				}
+			}
+			else
+			{
+				isBoldItalic = false;
+			}
+
+			return isBoldItalic;
+		}
+
+		private boolean isBold(final String line, int position, final char code)
+		{
+			boolean isBold;
+
+			if (line.charAt(position) == code)
+			{
+				if (position < line.length() - 1 && isStar(line, position + 1, code))
+				{
+					isBold = isStar(line, position + 1, code);
+				}
+				else
+				{
+					isBold = false;
+				}
+			}
+			else
+			{
+				isBold = false;
+			}
+
+			return isBold;
+		}
+
+		private boolean isStar(final String line, final int position, final char code)
+		{
+			boolean isStar;
+
+			if (line.charAt(position) == code)
+			{
+				if (position > 0 && line.charAt(position - 1) != ' ')
+				{
+					isStar = line.charAt(position - 1) != ' ';
+				}
+				else if (position < line.length() - 1 && line.charAt(position + 1) != ' ')
+				{
+					isStar = line.charAt(position + 1) != ' ';
+				}
+				else
+				{
+					isStar = false;
+				}
+			}
+			else
+			{
+				isStar = false;
+			}
+
+			return isStar;
+		}
+
+		public List<Phrase> getGroups()
+		{
+			return groups;
+		}
+	}
+
+	public class Phrase
+	{
+		private final PhraseType type;
+
+		private final String text;
+
+		public Phrase(String text, PhraseType type)
+		{
+			this.text = text;
+			this.type = type;
+		}
+
+		public String getText()
+		{
+			return text;
+		}
+
+		public PhraseType getType()
+		{
+			return type;
+		}
+	}
+
+	public enum PhraseType
+	{
+		BOLD,
+		BOLD_ITALIC,
+		ITALIC,
+		NORMAL
 	}
 }
