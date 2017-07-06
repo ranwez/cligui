@@ -1,9 +1,6 @@
 package cli;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,10 +9,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.tautua.markdownpapers.Markdown;
 
 import cli.exceptions.ProgramDoublonException;
 import cli.exceptions.StoppedProgramException;
@@ -23,14 +16,12 @@ import cli.exceptions.parsing.ProgramNotFoundException;
 
 public final class CLI_api
 {
-	private static final File MARKDOWN_TMP_FILE = new File("tmp.md");
-
 	private static final String DEBUG_OPTION_NAME = "-debug";
 	private static final String TIME_OPTION_NAME = "-timeTest";
 
 	private final List<CLI_program> programs = new ArrayList<CLI_program>(); // TODO use a set ?
 
-	private final Map<String, String> markdownElements = new LinkedHashMap<String, String>();
+	public final Map<String, String> markdownElements = new LinkedHashMap<String, String>();
 
 	private final String commandPrefix;
 	private final String programOptionName;
@@ -153,80 +144,9 @@ public final class CLI_api
 		parse(command);
 	}
 
-	public void exportMarkdownToHTML(final String markdownFilepath, final String htmlDirectory) throws Exception
+	public void exportMarkdownToHTML(final String markdownFilepath, final String htmlFilepath) throws Exception
 	{
-		createCommandsMarkdown(markdownFilepath);
-
-		final Markdown markdown = new Markdown();
-
-		final BufferedReader bufferedReader = new BufferedReader(new FileReader(MARKDOWN_TMP_FILE));
-
-		final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(htmlDirectory + currentProgram.getName() + ".html"));
-
-		markdown.transform(bufferedReader, bufferedWriter);
-
-		bufferedWriter.close();
-		bufferedReader.close();
-
-		MARKDOWN_TMP_FILE.delete();
-
-		markdownElements.clear();
-	}
-
-	private void createCommandsMarkdown(final String markdownFilepath) throws Exception
-	{
-		final StringBuilder builder = readMarkdown(markdownFilepath);
-
-		final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(MARKDOWN_TMP_FILE));
-
-		bufferedWriter.write(builder.toString());
-
-		bufferedWriter.close();
-	}
-
-	private StringBuilder readMarkdown(final String markdownFilepath) throws Exception
-	{
-		final BufferedReader bufferedReader = new BufferedReader(new FileReader(markdownFilepath));
-
-		final StringBuilder builder = new StringBuilder();
-
-		String line = bufferedReader.readLine();
-
-		while (line != null)
-		{
-			// TODO utiliser un builder au lieu d'une regex si c'est plus rapide
-
-			final Pattern pattern = Pattern.compile("\\{\\{.+\\}\\}");
-
-			final Matcher matcher = pattern.matcher(line);
-
-			if (matcher.find())
-			{
-				final String fullElement = matcher.group();
-
-				final String element = fullElement.substring(2, fullElement.length() - 2);
-
-				final String command = markdownElements.get(element);
-
-				if (command == null)
-				{
-					CLI_logger.getLogger().warning(CLI_bundle.getPropertyDescription("CLI_warning_markdownKey", element, markdownFilepath));
-				}
-				else
-				{
-					line = line.replace(fullElement, command);
-				}
-			}
-
-			builder.append(line);
-			builder.append('\n');
-
-			line = bufferedReader.readLine();
-		}
-
-		bufferedReader.close();
-
-		return builder;
+		new CLI_markdown(this, markdownFilepath, htmlFilepath);
 	}
 
 	/**

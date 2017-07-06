@@ -1,4 +1,4 @@
-package markdown;
+package cli;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -18,10 +18,19 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
-public final class CLI_markdown
+import cli.exceptions.StoppedProgramException;
+
+final class CLI_markdown
 {
-	public CLI_markdown(final String markdownFilepath, final String htmlFilepath) throws Exception
+	private final CLI_api api;
+
+	private final String markdownFilepath;
+
+	CLI_markdown(final CLI_api api, final String markdownFilepath, final String htmlFilepath) throws Exception
 	{
+		this.api = api;
+		this.markdownFilepath = markdownFilepath;
+
 		final DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
 
 		final DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
@@ -159,7 +168,7 @@ public final class CLI_markdown
 		createTransformer().transform(source, new StreamResult(htmlFilepath));
 	}
 
-	private void tokenize(final Document document, final Element element, final String line)
+	private void tokenize(final Document document, final Element element, final String line) throws StoppedProgramException
 	{
 		final StarToken token = new StarToken(line);
 
@@ -169,7 +178,6 @@ public final class CLI_markdown
 
 			Text lineText = document.createTextNode(subLine.getText());
 
-			//if (i % 2 == 0) // TODO utiliser un opérateur binaire pour améliorer les performances
 			if (subLine.getType() == PhraseType.NORMAL)
 			{
 				element.appendChild(lineText);
@@ -293,27 +301,56 @@ public final class CLI_markdown
 		return transformer;
 	}
 
-	public class StarToken
+	private class StarToken
 	{
 		private final List<Phrase> groups = new ArrayList<Phrase>();
 
-		public StarToken(final String line)
+		private StarToken(final String line) throws StoppedProgramException
 		{
-			boolean star = false;
+			boolean transclusion = false;
+
+			boolean isBold = false;
+			boolean isItalic = false;
 
 			StringBuilder builder = new StringBuilder();
+			StringBuilder builderTransclusion = new StringBuilder();
 
 			for (int position = 0; position < line.length(); position++)
 			{
 				final char letter = line.charAt(position);
 
-				if (isBoldItalic(line, position, '*') || isBoldItalic(line, position, '_'))
+				if (letter == '{' && isTransclusion(line, position, letter))
+				{
+					transclusion = true;
+
+					position++;
+				}
+				else if (letter == '}' && isTransclusion(line, position, letter))
+				{
+					final String command = api.markdownElements.get(builderTransclusion.toString());
+
+					if (command == null)
+					{
+						CLI_logger.getLogger().warning(CLI_bundle.getPropertyDescription("CLI_warning_markdownKey", builderTransclusion.toString(), markdownFilepath));
+					}
+					else
+					{
+						builder.append(command);
+					}
+
+					builderTransclusion = new StringBuilder();
+
+					transclusion = false;
+
+					position++;
+				}
+				else if (isBoldItalic(line, position, '*') || isBoldItalic(line, position, '_'))
 				{
 					if (! builder.toString().isEmpty())
 					{
 						PhraseType type;
 
-						if (star)
+						if (isBold && isItalic)
 						{
 							type = PhraseType.BOLD_ITALIC;
 						}
@@ -321,8 +358,6 @@ public final class CLI_markdown
 						{
 							type = PhraseType.NORMAL;
 						}
-
-						star = ! star;
 
 						Phrase phrase = new Phrase(builder.toString(), type);
 
@@ -337,7 +372,7 @@ public final class CLI_markdown
 					{
 						PhraseType type;
 
-						if (star)
+						if (isBold)
 						{
 							type = PhraseType.BOLD;
 						}
@@ -346,14 +381,14 @@ public final class CLI_markdown
 							type = PhraseType.NORMAL;
 						}
 
-						star = ! star;
-
 						Phrase phrase = new Phrase(builder.toString(), type);
 
 						groups.add(phrase);
 
 						builder = new StringBuilder();
 					}
+
+					isBold = ! isBold;
 				}
 				else if (isStar(line, position, '*') || isStar(line, position, '_'))
 				{
@@ -361,7 +396,7 @@ public final class CLI_markdown
 					{
 						PhraseType type;
 
-						if (star)
+						if (isItalic)
 						{
 							type = PhraseType.ITALIC;
 						}
@@ -370,18 +405,25 @@ public final class CLI_markdown
 							type = PhraseType.NORMAL;
 						}
 
-						star = ! star;
-
 						Phrase phrase = new Phrase(builder.toString(), type);
 
 						groups.add(phrase);
 
 						builder = new StringBuilder();
 					}
+
+					isItalic = ! isItalic;
 				}
 				else
 				{
-					builder.append(letter);
+					if (transclusion)
+					{
+						builderTransclusion.append(letter);
+					}
+					else
+					{
+						builder.append(letter);
+					}
 				}
 			}
 
@@ -389,9 +431,17 @@ public final class CLI_markdown
 			{
 				PhraseType type;
 
-				if (star)
+				if (isBold)
+				{
+					type = PhraseType.BOLD;
+				}
+				if (isItalic)
 				{
 					type = PhraseType.ITALIC;
+				}
+				else if (isBold && isItalic)
+				{
+					type = PhraseType.BOLD_ITALIC;
 				}
 				else
 				{
@@ -402,6 +452,29 @@ public final class CLI_markdown
 
 				groups.add(phrase);
 			}
+		}
+
+		private boolean isTransclusion(final String line, int position, final char code)
+		{
+			boolean isTransclusion;
+
+			if (line.charAt(position) == code)
+			{
+				if (position < line.length() - 1 && line.charAt(position + 1) == code)
+				{
+					isTransclusion = line.charAt(position + 1) == code;
+				}
+				else
+				{
+					isTransclusion = false;
+				}
+			}
+			else
+			{
+				isTransclusion = false;
+			}
+
+			return isTransclusion;
 		}
 
 		private boolean isBoldItalic(final String line, int position, final char code)
@@ -454,8 +527,15 @@ public final class CLI_markdown
 		{
 			boolean isStar;
 
+			// *Début* de phrase en italique
+
 			if (line.charAt(position) == code)
 			{
+				/*if (position == 0 && position < line.length() - 1 && line.charAt(position + 1) != ' ')
+				{
+					isStar = line.charAt(position + 1) != ' ';
+				}
+				else */
 				if (position > 0 && line.charAt(position - 1) != ' ')
 				{
 					isStar = line.charAt(position - 1) != ' ';
@@ -477,36 +557,36 @@ public final class CLI_markdown
 			return isStar;
 		}
 
-		public List<Phrase> getGroups()
+		private List<Phrase> getGroups()
 		{
 			return groups;
 		}
 	}
 
-	public class Phrase
+	private class Phrase
 	{
 		private final PhraseType type;
 
 		private final String text;
 
-		public Phrase(String text, PhraseType type)
+		private Phrase(String text, PhraseType type)
 		{
 			this.text = text;
 			this.type = type;
 		}
 
-		public String getText()
+		private String getText()
 		{
 			return text;
 		}
 
-		public PhraseType getType()
+		private PhraseType getType()
 		{
 			return type;
 		}
 	}
 
-	public enum PhraseType
+	private enum PhraseType
 	{
 		BOLD,
 		BOLD_ITALIC,

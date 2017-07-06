@@ -13,13 +13,14 @@ sur deux lignes.
 
 * Multiplication : 2 * 3 * 4 = 24
 
+*Début* de phrase en italique puis *fin*
 
-Style numérotations :
+**Début** de phrase en gras puis **fin**
+
+***Début*** de phrase en gras-italique ***fin***
 
 1. Première ligne numérotée
 
 2. Deuxième ligne numérotée
 
-Commande MACSE :
-
-{{option}}
+Commande MACSE : *{{credit}}*

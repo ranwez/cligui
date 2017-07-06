@@ -11,7 +11,6 @@ import cli.CLI_logger;
 import cli.exceptions.ProgramDoublonException;
 import cli.exceptions.parsing.ProgramNotFoundException;
 import data.BillProgram;
-import markdown.CLI_markdown;
 import runnables.WindowRunner;
 
 public class CLI_apiTest
@@ -58,23 +57,12 @@ public class CLI_apiTest
 	@Test
 	public void exportMarkdownToHTML() throws Exception
 	{
+		createHTML("markTest.md"); // TODO remove this line
+
 		api.parseDocumentation("credit", "bill/credit/", "-prog bill -id 1 -name p1 -price 12.5");
 
-		api.exportMarkdownToHTML("markdown/bill.md", "markdown/");
+		api.exportMarkdownToHTML("markTest.md", "result.html");
 	}
-
-	@Test
-	public void markTest() throws Exception
-	{
-		//api.parseDocumentation("credit", "bill/credit/", "-prog bill -id 1 -name p1 -price 12.5");
-
-		//api.exportMarkdownToHTML("markTest.md", "");
-
-		createHTML("markTest.md");
-
-		new CLI_markdown("markTest.md", "result.html");
-	}
-
 
 	private void createHTML(final String markdownFilepath) throws Exception
 	{
@@ -84,5 +72,4 @@ public class CLI_apiTest
 
 		processBuilder.start();
 	}
-
 }
