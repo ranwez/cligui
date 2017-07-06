@@ -312,12 +312,22 @@ final class CLI_markdown
 			boolean isBold = false;
 			boolean isItalic = false;
 
+			char currentCode = '\0';
+
 			StringBuilder builder = new StringBuilder();
 			StringBuilder builderTransclusion = new StringBuilder();
 
 			for (int position = 0; position < line.length(); position++)
 			{
 				final char letter = line.charAt(position);
+
+				if (currentCode == '\0')
+				{
+					if (letter == '*' || letter == '_')
+					{
+						currentCode = letter;
+					}
+				}
 
 				if (letter == '{' && isTransclusion(line, position, letter))
 				{
@@ -344,7 +354,7 @@ final class CLI_markdown
 
 					position++;
 				}
-				else if (isBoldItalic(line, position, '*') || isBoldItalic(line, position, '_'))
+				else if (isBoldItalic(line, position, currentCode))
 				{
 					if (! builder.toString().isEmpty())
 					{
@@ -366,7 +376,7 @@ final class CLI_markdown
 						builder = new StringBuilder();
 					}
 				}
-				else if (isBold(line, position, '*') || isBold(line, position, '_'))
+				else if (isBold(line, position, currentCode))
 				{
 					if (! builder.toString().isEmpty())
 					{
@@ -390,7 +400,7 @@ final class CLI_markdown
 
 					isBold = ! isBold;
 				}
-				else if (isStar(line, position, '*') || isStar(line, position, '_'))
+				else if (isStar(line, position, currentCode))
 				{
 					if (! builder.toString().isEmpty())
 					{
@@ -413,6 +423,11 @@ final class CLI_markdown
 					}
 
 					isItalic = ! isItalic;
+
+					if (! isItalic)
+					{
+						currentCode = '\0';
+					}
 				}
 				else
 				{
@@ -485,7 +500,7 @@ final class CLI_markdown
 			{
 				if (position < line.length() - 1 && isBold(line, position + 1, code))
 				{
-					isBoldItalic = isBold(line, position + 1, code);
+					isBoldItalic = true;
 				}
 				else
 				{
@@ -508,7 +523,7 @@ final class CLI_markdown
 			{
 				if (position < line.length() - 1 && isStar(line, position + 1, code))
 				{
-					isBold = isStar(line, position + 1, code);
+					isBold = true;
 				}
 				else
 				{
@@ -527,26 +542,48 @@ final class CLI_markdown
 		{
 			boolean isStar;
 
-			// *Début* de phrase en italique
-
 			if (line.charAt(position) == code)
 			{
-				/*if (position == 0 && position < line.length() - 1 && line.charAt(position + 1) != ' ')
+				if (position == 0)
 				{
-					isStar = line.charAt(position + 1) != ' ';
+					if (position < line.length() - 1)
+					{
+						isStar = line.charAt(position + 1) != ' ';
+					}
+					else
+					{
+						isStar = true;
+					}
 				}
-				else */
-				if (position > 0 && line.charAt(position - 1) != ' ')
+				else if (position == line.length() - 1)
 				{
-					isStar = line.charAt(position - 1) != ' ';
-				}
-				else if (position < line.length() - 1 && line.charAt(position + 1) != ' ')
-				{
-					isStar = line.charAt(position + 1) != ' ';
+					if (position > 0)
+					{
+						isStar = line.charAt(position - 1) != ' ';
+					}
+					else
+					{
+						isStar = true;
+					}
 				}
 				else
 				{
-					isStar = false;
+					if (line.charAt(position - 1) == ' ' && line.charAt(position + 1) == ' ')
+					{
+						isStar = false;
+					}
+					else if (line.charAt(position - 1) == ' ' && line.charAt(position + 1) != ' ')
+					{
+						isStar = true;
+					}
+					else if (line.charAt(position + 1) == ' ' && line.charAt(position - 1) != ' ')
+					{
+						isStar = true;
+					}
+					else
+					{
+						isStar = true;
+					}
 				}
 			}
 			else
