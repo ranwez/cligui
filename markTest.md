@@ -6,7 +6,6 @@ Ceci est une phrase
 sur deux lignes.
 
 * Phrase en italique *étoiles* et _underscores_
-
 * Phrase en gras **étoiles** et __underscores__
 
 * Phrase en gras-italique ***étoiles*** et ___underscores___
@@ -24,3 +23,5 @@ sur deux lignes.
 2. Deuxième ligne numérotée
 
 Commande MACSE : *{{credit}}*
+
+Lien : [chemin](Lien cliquable)

@@ -41,108 +41,15 @@ final class CLI_markdown
 
 		final Element root = document.createElement("html");
 
-		boolean isList = false;
-
-		Element lineTag;
-		Element listTag = null;
-
 		StringBuilder lineBuilder = new StringBuilder();
 
 		String line = bufferedReader.readLine();
 
-		// note : le test "null" permet de s'assurer que la dernière ligne soit bien ajoutée
-		// sinon, il faut ajouter une ligne vide supplémentaire
-
-		while (line != null || ! lineBuilder.toString().isEmpty())
+		while (line != null)
 		{
-			if (line == null || line.isEmpty())
+			if (line.isEmpty())
 			{
-				line = lineBuilder.toString();
-
-				boolean isPuce = isPuce(line);
-				boolean isNumerotation = isNumerotation(line);
-
-				if (isPuce)
-				{
-					line = line.substring(2);
-				}
-				else if (isNumerotation)
-				{
-					line = line.substring(3);
-				}
-
-				int titleLevel = computeTitleLevel(line);
-
-				Text lineText;
-
-				if (isPuce)
-				{
-					lineText = document.createTextNode(line);
-
-					lineTag = document.createElement("li");
-
-					tokenize(document, lineTag, line);
-
-					if (! isList)
-					{
-						listTag = document.createElement("ul");
-
-						isList = true;
-					}
-
-					listTag.appendChild(lineTag);
-
-					root.appendChild(listTag);
-				}
-				else if (isNumerotation)
-				{
-					lineText = document.createTextNode(line);
-
-					lineTag = document.createElement("li");
-
-					tokenize(document, lineTag, line);
-
-					if (! isList)
-					{
-						listTag = document.createElement("ol");
-
-						isList = true;
-					}
-
-					listTag.appendChild(lineTag);
-
-					root.appendChild(listTag);
-				}
-				else
-				{
-					if (isList)
-					{
-						root.appendChild(listTag);
-
-						isList = false;
-					}
-
-					if (titleLevel > 0)
-					{
-						lineTag = document.createElement("h" + titleLevel);
-
-						lineText = document.createTextNode(line.substring(titleLevel));
-
-						lineTag.appendChild(lineText);
-
-						root.appendChild(lineTag);
-					}
-					else
-					{
-						lineTag = document.createElement("p");
-
-						tokenize(document, lineTag, line);
-
-						lineText = document.createTextNode(line);
-
-						root.appendChild(lineTag);
-					}
-				}
+				readLine(document, root, lineBuilder.toString());
 
 				lineBuilder = new StringBuilder();
 			}
@@ -161,11 +68,64 @@ final class CLI_markdown
 
 		bufferedReader.close();
 
+		readLine(document, root, lineBuilder.toString());
+
 		document.appendChild(root);
 
 		final DOMSource source = new DOMSource(document);
 
 		createTransformer().transform(source, new StreamResult(htmlFilepath));
+	}
+
+	private void readLine(final Document document, final Element root, final String line) throws StoppedProgramException
+	{
+		if (isPuce(line))
+		{
+			final Element lineTag = document.createElement("li");
+
+			tokenize(document, lineTag, line.substring(2));
+
+			final Element listTag = document.createElement("ul");
+
+			listTag.appendChild(lineTag);
+
+			root.appendChild(listTag);
+		}
+		else if (isNumerotation(line))
+		{
+			final Element lineTag = document.createElement("li");
+
+			tokenize(document, lineTag, line.substring(3));
+
+			final Element listTag = document.createElement("ol");
+
+			listTag.appendChild(lineTag);
+
+			root.appendChild(listTag);
+		}
+		else
+		{
+			final int titleLevel = computeTitleLevel(line);
+
+			if (titleLevel > 0)
+			{
+				final Element lineTag = document.createElement("h" + titleLevel);
+
+				final Text lineText = document.createTextNode(line.substring(titleLevel));
+
+				lineTag.appendChild(lineText);
+
+				root.appendChild(lineTag);
+			}
+			else
+			{
+				final Element lineTag = document.createElement("p");
+
+				tokenize(document, lineTag, line);
+
+				root.appendChild(lineTag);
+			}
+		}
 	}
 
 	private void tokenize(final Document document, final Element element, final String line) throws StoppedProgramException
