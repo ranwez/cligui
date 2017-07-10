@@ -337,9 +337,9 @@ final class CLI_markdown
 				{
 					final Element linkTag = document.createElement("a");
 
-					final Text linkText = document.createTextNode(builderParenthesis.toString());
+					final Text linkText = document.createTextNode(builderBrackets.toString());
 
-					linkTag.setAttribute("href", builderBrackets.toString());
+					linkTag.setAttribute("href", builderParenthesis.toString());
 
 					linkTag.appendChild(linkText);
 
