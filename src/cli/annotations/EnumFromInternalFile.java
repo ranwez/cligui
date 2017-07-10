@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface InternalFile
+public @interface EnumFromInternalFile
 {
 	/**
 	 * @return an internal file path containing a list of filenames which will be stored in the

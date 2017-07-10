@@ -276,7 +276,7 @@ final class CLI_markdown
 				}
 				else if (letter == '}' && isTransclusion(line, position, letter))
 				{
-					final String command = api.markdownElements.get(builderTransclusion.toString());
+					final String command = api.getMarkdownElements().get(builderTransclusion.toString());
 
 					if (command == null)
 					{

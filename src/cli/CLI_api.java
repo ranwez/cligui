@@ -21,7 +21,7 @@ public final class CLI_api
 
 	private final List<CLI_program> programs = new ArrayList<CLI_program>(); // TODO use a set ?
 
-	public final Map<String, String> markdownElements = new LinkedHashMap<String, String>();
+	private final Map<String, String> markdownElements = new LinkedHashMap<String, String>();
 
 	private final String commandPrefix;
 	private final String programOptionName;
@@ -133,6 +133,16 @@ public final class CLI_api
 		return false;
 	}
 
+	/**
+	 * This method will parse a command and add its content in an internal
+	 * array.
+	 * @param markdownKey the key name to be used in the markdown file to get
+	 * the command
+	 * @param directoryPath the path which will be used to replace '@' letters
+	 * @param annotatedCommand the command to be parsed with relative pathes
+	 * (starting with '@' letter)
+	 * @throws Exception
+	 */
 	public void parseDocumentation(final String markdownKey, final String directoryPath, final String annotatedCommand) throws Exception
 	{
 		final String shortCommand = commandPrefix + annotatedCommand.replace("@", "");
@@ -144,6 +154,13 @@ public final class CLI_api
 		parse(command);
 	}
 
+	/**
+	 * This method will read a markdown file and export it into a HTML file
+	 * with the commands defined in the {@link parseDocumentation} method.
+	 * @param markdownFilepath the markdown filepath
+	 * @param htmlFilepath the HTML filepath to be used for markdown exporting
+	 * @throws Exception
+	 */
 	public void exportMarkdownToHTML(final String markdownFilepath, final String htmlFilepath) throws Exception
 	{
 		new CLI_markdown(this, markdownFilepath, htmlFilepath);
@@ -251,6 +268,11 @@ public final class CLI_api
 	public CLI_program getCurrentProgram()
 	{
 		return currentProgram;
+	}
+
+	Map<String, String> getMarkdownElements()
+	{
+		return markdownElements;
 	}
 
 	/**

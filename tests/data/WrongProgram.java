@@ -1,12 +1,12 @@
 package data;
 
 import cli.AbstractProgram;
-import cli.annotations.InternalFile;
+import cli.annotations.EnumFromInternalFile;
 import cli.annotations.Parameter;
 
 public final class WrongProgram extends AbstractProgram
 {
-	@InternalFile("files/data/wrongName.txt")
+	@EnumFromInternalFile("files/data/wrongName.txt")
 
 	@Parameter(name = "")
 

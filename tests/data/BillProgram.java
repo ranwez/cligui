@@ -4,7 +4,7 @@ import cli.AbstractProgram;
 import cli.CLI_logger;
 import cli.annotations.Delegate;
 import cli.annotations.InputFile;
-import cli.annotations.InternalFile;
+import cli.annotations.EnumFromInternalFile;
 import cli.annotations.OutputFile;
 import cli.annotations.Parameter;
 
@@ -44,7 +44,7 @@ public final class BillProgram extends AbstractProgram
 	private String receipt = "";
 
 
-	@InternalFile("files/data/receivers.txt")
+	@EnumFromInternalFile("files/data/receivers.txt")
 
 	@Parameter(name = "receiver")
 

@@ -1,6 +1,5 @@
 package _cli;
 
-import java.io.File;
 import java.util.logging.Level;
 
 import org.junit.BeforeClass;
@@ -57,19 +56,8 @@ public class CLI_apiTest
 	@Test
 	public void exportMarkdownToHTML() throws Exception
 	{
-		createHTML("markTest.md"); // TODO remove this line
-
 		api.parseDocumentation("credit", "bill/credit/", "-prog bill -id 1 -name p1 -price 12.5");
 
-		api.exportMarkdownToHTML("markTest.md", "result.html");
-	}
-
-	private void createHTML(final String markdownFilepath) throws Exception
-	{
-		final ProcessBuilder processBuilder = new ProcessBuilder("/usr/local/bin/multimarkdown", markdownFilepath);
-
-		processBuilder.redirectOutput(new File("multimarkdown.html"));
-
-		processBuilder.start();
+		api.exportMarkdownToHTML("markdown/markTest.md", "result.html");
 	}
 }

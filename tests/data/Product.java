@@ -1,6 +1,6 @@
 package data;
 
-import cli.annotations.InternalFile;
+import cli.annotations.EnumFromInternalFile;
 import cli.annotations.Parameter;
 
 public final class Product
@@ -15,7 +15,7 @@ public final class Product
 	private String name = "";
 
 
-	@InternalFile("files/data/gencodes.txt")
+	@EnumFromInternalFile("files/data/gencodes.txt")
 
 	@Parameter(name = "gencode")
 

@@ -14,7 +14,7 @@ import cli.AbstractFocusablePanel;
 import cli.CLI_logger;
 import cli.OptionBean;
 import cli.annotations.InputFile;
-import cli.annotations.InternalFile;
+import cli.annotations.EnumFromInternalFile;
 import cli.annotations.OutputFile;
 import cli.exceptions.StoppedProgramException;
 
@@ -56,7 +56,7 @@ public class OptionsFactory
 		}
 		else
 		{
-			final InternalFile internalFile = option.getAnnotation(InternalFile.class);
+			final EnumFromInternalFile internalFile = option.getAnnotation(EnumFromInternalFile.class);
 
 			if (internalFile != null)
 			{

@@ -21,7 +21,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
 import cli.annotations.InputFile;
-import cli.annotations.InternalFile;
+import cli.annotations.EnumFromInternalFile;
 import cli.annotations.OutputFile;
 import cli.annotations.Parameter;
 
@@ -202,7 +202,7 @@ final class CLI_xml
 		{
 			className = "data";
 		}
-		else if (option.getAnnotation(InternalFile.class) != null)
+		else if (option.getAnnotation(EnumFromInternalFile.class) != null)
 		{
 			createStringComboBox(document, param, option);
 
@@ -267,7 +267,7 @@ final class CLI_xml
 	{
 		final boolean isInteger = option.getType().equals(int.class);
 
-		final InternalFile annotation = option.getAnnotation(InternalFile.class);
+		final EnumFromInternalFile annotation = option.getAnnotation(EnumFromInternalFile.class);
 
 		final String filesPath = annotation.value();
 
