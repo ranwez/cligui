@@ -26,6 +26,8 @@ final class CLI_markdown
 
 	private final String markdownFilepath;
 
+	private Element listTag;
+
 	CLI_markdown(final CLI_api api, final String markdownFilepath, final String htmlFilepath) throws Exception
 	{
 		this.api = api;
@@ -47,7 +49,7 @@ final class CLI_markdown
 
 		while (line != null)
 		{
-			if (line.isEmpty())
+			if (line.isEmpty() && ! lineBuilder.toString().isEmpty())
 			{
 				readLine(document, root, lineBuilder.toString());
 
@@ -55,12 +57,21 @@ final class CLI_markdown
 			}
 			else
 			{
-				if (! lineBuilder.toString().isEmpty())
+				if (isPuce(line) || isNumerotation(line))
 				{
-					lineBuilder.append(' ');
-				}
+					readLine(document, root, line);
 
-				lineBuilder.append(line);
+					lineBuilder = new StringBuilder();
+				}
+				else
+				{
+					if (! lineBuilder.toString().isEmpty())
+					{
+						lineBuilder.append(' ');
+					}
+
+					lineBuilder.append(line);
+				}
 			}
 
 			line = bufferedReader.readLine();
@@ -81,11 +92,14 @@ final class CLI_markdown
 	{
 		if (isPuce(line))
 		{
+			if (listTag == null)
+			{
+				listTag = document.createElement("ul");
+			}
+
 			final Element lineTag = document.createElement("li");
 
 			tokenize(document, lineTag, line.substring(2));
-
-			final Element listTag = document.createElement("ul");
 
 			listTag.appendChild(lineTag);
 
@@ -93,11 +107,14 @@ final class CLI_markdown
 		}
 		else if (isNumerotation(line))
 		{
+			if (listTag == null)
+			{
+				listTag = document.createElement("ol");
+			}
+
 			final Element lineTag = document.createElement("li");
 
 			tokenize(document, lineTag, line.substring(3));
-
-			final Element listTag = document.createElement("ol");
 
 			listTag.appendChild(lineTag);
 
@@ -105,6 +122,8 @@ final class CLI_markdown
 		}
 		else
 		{
+			listTag = null;
+
 			final int titleLevel = computeTitleLevel(line);
 
 			if (titleLevel > 0)

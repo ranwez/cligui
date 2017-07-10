@@ -19,8 +19,9 @@ sur deux lignes.
 ***Début*** de phrase en gras-italique ***fin***
 
 1. Première ligne numérotée
-
 2. Deuxième ligne numérotée
+
+3. Troisième ligne numérotée
 
 Commande MACSE : *{{credit}}*
 
