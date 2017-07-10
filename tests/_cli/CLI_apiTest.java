@@ -58,6 +58,8 @@ public class CLI_apiTest
 	{
 		api.parseDocumentation("credit", "bill/credit/", "-prog bill -id 1 -name p1 -price 12.5");
 
-		api.exportMarkdownToHTML("markdown/markTest.md", "result.html");
+		api.parseDocumentation("attachment", "bill/attachment/", "-prog bill -id 2 -name p2 -price 14.0 -attachment @file.txt");
+
+		api.exportMarkdownToHTML("markdown/markTest.md", "markdown/result.html");
 	}
 }

@@ -23,6 +23,9 @@ sur deux lignes.
 
 3. Troisième ligne numérotée
 
-Commande MACSE : *{{credit}}*
+Commandes BillProgram :
+
+* credit : *{{credit}}*
+* attachment : *{{attachment}}*
 
 Lien : [chemin](Lien cliquable)
