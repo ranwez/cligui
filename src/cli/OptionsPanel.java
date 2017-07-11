@@ -275,6 +275,8 @@ final class OptionsPanel extends JPanel implements ActionListener
 		{
 			final JPanel optionPanel = optionButton.getOptionPanel(panelID);
 
+			optionPanel.setBackground(CLI_ihm.getOptionsColor());
+
 			constraint.gridy++;
 
 			optionsPanel.add(optionPanel, constraint);
