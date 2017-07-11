@@ -2,16 +2,21 @@ package cli;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -21,9 +26,14 @@ import cli.exceptions.StoppedProgramException;
 @SuppressWarnings("serial")
 final class CommandsPanel extends JPanel implements ActionListener
 {
+	private static final String LOGO_FILEPATH = "cli_logo.png";
+
+	private static final int LOGO_SIZE = 50;
 	private static final int MARGIN = 10;
 
 	private static final InfoTextArea COMMANDS_TEXT_AREA = new InfoTextArea();
+
+	private static final JLabel LOGO_LABEL = createLogoLabel();
 
 	private final CLI_api api;
 
@@ -31,6 +41,32 @@ final class CommandsPanel extends JPanel implements ActionListener
 	private final JButton buttonStart = new JButton(CLI_bundle.getPropertyDescription("CLI_window_executeProgram"));
 
 	private final String commandsStart;
+
+	private static JLabel createLogoLabel()
+	{
+		final File file = new File(LOGO_FILEPATH);
+
+		JLabel logoLabel;
+
+		if (file.exists())
+		{
+			final ImageIcon imageIcon = new ImageIcon(LOGO_FILEPATH);
+
+			final Image image = imageIcon.getImage();
+
+			final Image resizedImage = image.getScaledInstance(LOGO_SIZE, LOGO_SIZE, Image.SCALE_SMOOTH);
+
+			final ImageIcon resizedImageIcon = new ImageIcon(resizedImage);
+
+			logoLabel = new JLabel(resizedImageIcon, JLabel.CENTER);
+		}
+		else
+		{
+			logoLabel = new JLabel();
+		}
+
+		return logoLabel;
+	}
 
 	CommandsPanel(final CLI_api api)
 	{
@@ -52,7 +88,12 @@ final class CommandsPanel extends JPanel implements ActionListener
 		final GridBagConstraints constraints = new GridBagConstraints();
 
 		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.insets = new Insets(0, 0, 0, 20);
 		constraints.weightx = 1;
+
+		add(LOGO_LABEL, constraints);
+
+		constraints.insets = new Insets(0, 0, 0, 0);
 
 		add(COMMANDS_TEXT_AREA, constraints);
 
