@@ -136,21 +136,20 @@ public final class CLI_program
 		{
 			final File file = new File(filepath);
 
-			if (file.getParent() != null)
+			if (readingMode)
 			{
-				if (readingMode)
+				if (! file.exists() || ! file.canRead())
 				{
-					if (! file.getParentFile().canRead())
-					{
-						throw new CLI_fileException(filepath);
-					}
+					throw new CLI_fileException(filepath);
 				}
-				else
+			}
+			else
+			{
+				final File directory = file.getParentFile();
+
+				if (directory != null && ! directory.canWrite())
 				{
-					if (! file.getParentFile().canWrite())
-					{
-						throw new CLI_fileException(filepath);
-					}
+					throw new CLI_fileException(filepath);
 				}
 			}
 		}

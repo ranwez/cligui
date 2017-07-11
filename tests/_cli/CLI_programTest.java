@@ -93,15 +93,27 @@ public class CLI_programTest
 	}
 
 	@Test(expected = CLI_fileException.class)
-	public void parse_fileInputException() throws Exception
+	public void parse_fileInputException_directory() throws Exception
 	{
-		api.parse("-prog bill -id 4 -name table -price 42.3 -credit -currency £ -attachment directory/wrongFile");
+		api.parse("-prog bill -id 4 -name table -price 42.3 -credit -currency £ -attachment wrongDirectory/bill.md");
 	}
 
 	@Test(expected = CLI_fileException.class)
-	public void parse_fileOutputException() throws Exception
+	public void parse_fileInputException_file() throws Exception
 	{
-		api.parse("-prog bill -id 4 -name table -price 42.3 -credit -currency £ -receipt directory/wrongFile");
+		api.parse("-prog bill -id 4 -name table -price 42.3 -credit -currency £ -attachment markdown/wrongFile");
+	}
+
+	@Test(expected = CLI_fileException.class)
+	public void parse_fileOutputException_directory() throws Exception
+	{
+		api.parse("-prog bill -id 4 -name table -price 42.3 -credit -currency £ -receipt wrongDirectory/bill.md");
+	}
+
+	@Test
+	public void parse_fileOutputException_file() throws Exception
+	{
+		api.parse("-prog bill -id 4 -name table -price 42.3 -credit -currency £ -receipt markdown/wrongFile");
 	}
 
 	@Test(expected = MissingOptionException.class)
