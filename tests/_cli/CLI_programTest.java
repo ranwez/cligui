@@ -13,6 +13,7 @@ import cli.CLI_api;
 import cli.CLI_logger;
 import cli.CLI_option;
 import cli.CLI_program;
+import cli.exceptions.CLI_fileException;
 import cli.exceptions.parsing.MissingOptionException;
 import cli.exceptions.parsing.MissingParameterException;
 import cli.exceptions.parsing.MissingRequiredOptionException;
@@ -89,6 +90,18 @@ public class CLI_programTest
 		assertEquals("", option02.getValue());
 
 		api.getCurrentProgram().displayOptions();
+	}
+
+	@Test(expected = CLI_fileException.class)
+	public void parse_fileInputException() throws Exception
+	{
+		api.parse("-prog bill -id 4 -name table -price 42.3 -credit -currency £ -attachment directory/wrongFile");
+	}
+
+	@Test(expected = CLI_fileException.class)
+	public void parse_fileOutputException() throws Exception
+	{
+		api.parse("-prog bill -id 4 -name table -price 42.3 -credit -currency £ -receipt directory/wrongFile");
 	}
 
 	@Test(expected = MissingOptionException.class)

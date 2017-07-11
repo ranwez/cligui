@@ -1,12 +1,16 @@
 package cli;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import cli.annotations.Delegate;
+import cli.annotations.InputFile;
+import cli.annotations.OutputFile;
 import cli.annotations.Parameter;
+import cli.exceptions.CLI_fileException;
 import cli.exceptions.StoppedProgramException;
 import cli.exceptions.parsing.MissingOptionException;
 import cli.exceptions.parsing.MissingParameterException;
@@ -99,7 +103,57 @@ public final class CLI_program
 			throw new MissingRequiredOptionException(requiredOptions.get(0).getName());
 		}
 
+		checkFilePathsValidity();
+
 		program.execute();
+	}
+
+	private void checkFilePathsValidity() throws CLI_fileException, IllegalAccessException, IllegalArgumentException
+	{
+		for (final CLI_option option : options)
+		{
+			if (option.getType().equals(String.class))
+			{
+				if (option.getAnnotation(InputFile.class) != null)
+				{
+					checkReadWriteFile(option, true);
+				}
+				else if (option.getAnnotation(OutputFile.class) != null)
+				{
+					checkReadWriteFile(option, false);
+				}
+			}
+		}
+	}
+
+	private void checkReadWriteFile(final CLI_option option, final boolean readingMode)
+
+			throws CLI_fileException, IllegalAccessException, IllegalArgumentException
+	{
+		final String filepath = option.getValue().toString();
+
+		if (! filepath.isEmpty())
+		{
+			final File file = new File(filepath);
+
+			if (file.getParent() != null)
+			{
+				if (readingMode)
+				{
+					if (! file.getParentFile().canRead())
+					{
+						throw new CLI_fileException(filepath);
+					}
+				}
+				else
+				{
+					if (! file.getParentFile().canWrite())
+					{
+						throw new CLI_fileException(filepath);
+					}
+				}
+			}
+		}
 	}
 
 	void resetOptionsValues() throws IllegalAccessException, IllegalArgumentException
