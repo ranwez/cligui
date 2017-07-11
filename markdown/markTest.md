@@ -2,7 +2,7 @@
 
 ##Titre 2
 
-Ceci est une phrase
+Ceci est une <mark>phrase</mark>
 sur deux lignes.
 
 * Phrase en italique *étoiles* et _underscores_

@@ -20,6 +20,8 @@ import cli.exceptions.StoppedProgramException;
 
 final class CLI_markdown
 {
+	private static final String MARK_TAG = "mark";
+
 	private final CLI_api api;
 
 	private final String markdownFilepath;
@@ -237,6 +239,7 @@ final class CLI_markdown
 		private StarToken(final Document document, final Element lineTag, final String line) throws StoppedProgramException
 		{
 			boolean brackets = false;
+			boolean chevrons = false;
 			boolean parenthesis = false;
 			boolean transclusion = false;
 
@@ -246,6 +249,7 @@ final class CLI_markdown
 			char currentCode = '\0';
 
 			StringBuilder builderBrackets = new StringBuilder();
+			StringBuilder builderChevrons = new StringBuilder();
 			StringBuilder builderLine = new StringBuilder();
 			StringBuilder builderParenthesis = new StringBuilder();
 			StringBuilder builderTransclusion = new StringBuilder();
@@ -332,6 +336,64 @@ final class CLI_markdown
 				else if (letter == '(' && ! builderBrackets.toString().isEmpty())
 				{
 					parenthesis = true;
+				}
+				else if (letter == '<')
+				{
+					chevrons = true;
+				}
+				else if (letter == '>')
+				{
+					if (builderChevrons.toString().equals(MARK_TAG))
+					{
+						if (! builderLine.toString().isEmpty())
+						{
+							PhraseType type;
+
+							if (bold)
+							{
+								type = PhraseType.BOLD;
+							}
+							if (italic)
+							{
+								type = PhraseType.ITALIC;
+							}
+							else if (bold && italic)
+							{
+								type = PhraseType.BOLD_ITALIC;
+							}
+							else
+							{
+								type = PhraseType.NORMAL;
+							}
+
+							Phrase phrase = new Phrase(builderLine.toString(), type);
+
+							writeTagType(document, lineTag, phrase);
+						}
+
+						builderLine = new StringBuilder();
+
+						builderChevrons = new StringBuilder();
+
+						markTagOpen = true;
+					}
+					else if (builderChevrons.toString().equals('/' + MARK_TAG))
+					{
+						final Element markTag = document.createElement(MARK_TAG);
+
+						final Text linkText = document.createTextNode(builderLine.toString());
+
+						markTag.appendChild(linkText);
+
+						lineTag.appendChild(markTag);
+
+						builderChevrons = new StringBuilder();
+						builderLine = new StringBuilder();
+
+						markTagOpen = false;
+					}
+
+					chevrons = false;
 				}
 				else if (letter == ')' && ! builderBrackets.toString().isEmpty())
 				{
@@ -430,6 +492,10 @@ final class CLI_markdown
 					if (brackets)
 					{
 						builderBrackets.append(letter);
+					}
+					else if (chevrons)
+					{
+						builderChevrons.append(letter);
 					}
 					else if (parenthesis)
 					{
