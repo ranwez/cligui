@@ -16,6 +16,8 @@ final class GroupsPanel extends JPanel
 
 	GroupsPanel()
 	{
+		setBackground(CLI_ihm.getButtonsBackgroundColor());
+
 		setLayout(new GridBagLayout());
 
 		CONSTRAINTS.fill = GridBagConstraints.HORIZONTAL;

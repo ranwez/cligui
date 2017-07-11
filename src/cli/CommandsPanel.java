@@ -1,6 +1,5 @@
 package cli;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
@@ -46,7 +45,7 @@ final class CommandsPanel extends JPanel implements ActionListener
 
 		setBorder(BorderFactory.createEmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN));
 
-		setBackground(Color.LIGHT_GRAY);
+		setBackground(CLI_ihm.getCommandsColor());
 
 		final JPanel buttonsPanel = createButtonsPanel();
 

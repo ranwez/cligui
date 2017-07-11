@@ -73,20 +73,31 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 		setLayout(new GridBagLayout());
 
-		setBackground(Color.WHITE);
+		setBackground(CLI_ihm.getDescriptionColor());
 
 		commandsPanel = new CommandsPanel(api);
 
 		groupsPanel = new GroupsPanel();
 
-		optionsPanel = new JPanel();
-		optionsPanel.setBorder(BorderFactory.createEmptyBorder(BIG_MARGIN, BIG_MARGIN, BIG_MARGIN, BIG_MARGIN));
-		optionsPanel.setLayout(new GridBagLayout());
+		optionsPanel = createOptionsPanel();
 
 		addComponents();
 
 		updateGroupsPanel();
 		updateOptionsPanel();
+	}
+
+	private JPanel createOptionsPanel()
+	{
+		final JPanel optionsPanel = new JPanel();
+
+		optionsPanel.setBackground(CLI_ihm.getOptionsColor());
+
+		optionsPanel.setBorder(BorderFactory.createEmptyBorder(BIG_MARGIN, BIG_MARGIN, BIG_MARGIN, BIG_MARGIN));
+
+		optionsPanel.setLayout(new GridBagLayout());
+
+		return optionsPanel;
 	}
 
 	private void addComponents() throws IOException
