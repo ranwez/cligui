@@ -374,8 +374,6 @@ final class CLI_markdown
 						builderLine = new StringBuilder();
 
 						builderChevrons = new StringBuilder();
-
-						markTagOpen = true;
 					}
 					else if (builderChevrons.toString().equals('/' + MARK_TAG))
 					{
@@ -389,8 +387,6 @@ final class CLI_markdown
 
 						builderChevrons = new StringBuilder();
 						builderLine = new StringBuilder();
-
-						markTagOpen = false;
 					}
 
 					chevrons = false;
