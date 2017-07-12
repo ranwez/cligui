@@ -52,9 +52,17 @@ final class CommandPanel extends JPanel implements ActionListener
 		{
 			final ImageIcon imageIcon = new ImageIcon(LOGO_FILEPATH);
 
+			float height = imageIcon.getIconHeight();
+			float width = imageIcon.getIconWidth();
+
+			final float ratio = Math.max(width, height) / LOGO_SIZE;
+
+			final int reducedHeight = (int) (height / ratio);
+			final int reducedWidth = (int) (width / ratio);
+
 			final Image image = imageIcon.getImage();
 
-			final Image resizedImage = image.getScaledInstance(LOGO_SIZE, LOGO_SIZE, Image.SCALE_SMOOTH);
+			final Image resizedImage = image.getScaledInstance(reducedWidth, reducedHeight, Image.SCALE_SMOOTH);
 
 			final ImageIcon resizedImageIcon = new ImageIcon(resizedImage);
 
