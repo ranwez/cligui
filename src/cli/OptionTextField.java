@@ -1,6 +1,9 @@
 package cli;
 
-import java.awt.Color;
+import static cli.CLI_color.OPTIONS_AREA_BACKGROUND_COLOR;
+import static cli.CLI_color.OPTIONS_AREA_HIDDEN_COLOR;
+import static cli.CLI_color.OPTIONS_AREA_NORMAL_COLOR;
+
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -11,10 +14,6 @@ import javax.swing.event.CaretListener;
 @SuppressWarnings("serial")
 public final class OptionTextField extends JFormattedTextField implements CaretListener, FocusListener
 {
-	private static final Color BACKGROUND_COLOR = CLI_bundle.getBundleColor("CLI_ihm_optionsAreaBackground");
-	private static final Color HIDDEN_COLOR = CLI_bundle.getBundleColor("CLI_ihm_optionsAreaHidden");
-	private static final Color NORMAL_COLOR = CLI_bundle.getBundleColor("CLI_ihm_optionsArea");
-
 	private final OptionBean optionBean;
 
 	public OptionTextField(final OptionBean optionBean)
@@ -28,7 +27,7 @@ public final class OptionTextField extends JFormattedTextField implements CaretL
 
 		this.optionBean = optionBean;
 
-		setBackground(BACKGROUND_COLOR);
+		setBackground(OPTIONS_AREA_BACKGROUND_COLOR);
 		setOpaque(false);
 
 		final String textValue = optionBean.getOption().getDefaultValue().toString();
@@ -56,7 +55,7 @@ public final class OptionTextField extends JFormattedTextField implements CaretL
 		{
 			if (! currentValue.isEmpty())
 			{
-				setForeground(NORMAL_COLOR);
+				setForeground(OPTIONS_AREA_NORMAL_COLOR);
 			}
 		}
 
@@ -81,7 +80,7 @@ public final class OptionTextField extends JFormattedTextField implements CaretL
 	{
 		if (! getText().isEmpty())
 		{
-			setForeground(HIDDEN_COLOR);
+			setForeground(OPTIONS_AREA_HIDDEN_COLOR);
 		}
 	}
 }

@@ -1,5 +1,9 @@
 package cli;
 
+import static cli.CLI_color.COMMAND_BUTTONS_COLOR;
+import static cli.CLI_color.COMMAND_PANEL_COLOR;
+import static cli.CLI_color.COMMAND_TEXT_COLOR;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -82,7 +86,7 @@ final class CommandPanel extends JPanel implements ActionListener
 
 		COMMANDS_TEXT_AREA.setEditable(true);
 		COMMANDS_TEXT_AREA.setFocusable(true);
-		COMMANDS_TEXT_AREA.setForeground(CLI_bundle.getBundleColor("CLI_ihm_commandText"));
+		COMMANDS_TEXT_AREA.setForeground(COMMAND_TEXT_COLOR);
 
 		commandsStart = "java -jar " + api.getProjectName() + ' ';
 
@@ -90,7 +94,7 @@ final class CommandPanel extends JPanel implements ActionListener
 
 		setBorder(BorderFactory.createEmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN));
 
-		setBackground(CLI_bundle.getBundleColor("CLI_ihm_commandPanel"));
+		setBackground(COMMAND_PANEL_COLOR);
 
 		final JPanel buttonsPanel = createButtonsPanel();
 
@@ -110,8 +114,8 @@ final class CommandPanel extends JPanel implements ActionListener
 
 		add(buttonsPanel, constraints);
 
-		buttonStart.setForeground(CLI_bundle.getBundleColor("CLI_ihm_commandButtons"));
-		buttonCopy.setForeground(CLI_bundle.getBundleColor("CLI_ihm_commandButtons"));
+		buttonStart.setForeground(COMMAND_BUTTONS_COLOR);
+		buttonCopy.setForeground(COMMAND_BUTTONS_COLOR);
 
 		buttonStart.setFocusable(false);
 		buttonCopy.setFocusable(false);

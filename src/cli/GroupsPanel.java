@@ -1,5 +1,7 @@
 package cli;
 
+import static cli.CLI_color.GROUPS_PANEL_COLOR;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ final class GroupsPanel extends JPanel
 
 	GroupsPanel()
 	{
-		setBackground(CLI_bundle.getBundleColor("CLI_ihm_groupsPanel"));
+		setBackground(GROUPS_PANEL_COLOR);
 
 		setLayout(new GridBagLayout());
 

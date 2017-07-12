@@ -1,5 +1,12 @@
 package cli;
 
+import static cli.CLI_color.DESCRIPTION_PANEL_COLOR;
+import static cli.CLI_color.DESCRIPTION_TEXT_COLOR;
+import static cli.CLI_color.OPTIONS_BORDER_COLOR;
+import static cli.CLI_color.OPTIONS_NAME_NORMAL_COLOR;
+import static cli.CLI_color.OPTIONS_NAME_REQUIRED_COLOR;
+import static cli.CLI_color.OPTIONS_PANEL_COLOR;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -39,6 +46,8 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 	private static final InfoTextArea OPTION_TEXT_AREA = new InfoTextArea();
 
+	private static final JLabel INFORMATION_LABEL = createInformationLabel();
+
 	private final CommandPanel commandPanel;
 
 	private final JPanel optionsPanel;
@@ -59,6 +68,35 @@ final class OptionsPanel extends JPanel implements ActionListener
 		return annotations;
 	}
 
+	private static JLabel createInformationLabel()
+	{
+		BufferedImage bufferedImage = null;
+
+		try
+		{
+			bufferedImage = ImageIO.read(OptionsPanel.class.getResource("lamp.gif"));
+		}
+		catch (IOException error)
+		{
+			try
+			{
+				CLI_logger.getLogger().config(error.getMessage());
+			}
+			catch (StoppedProgramException stop) // should never happen
+			{
+				stop.printStackTrace();
+			}
+		}
+
+		final Icon icon = new ImageIcon(bufferedImage);
+
+		final JLabel informationLabel = new JLabel(icon);
+
+		informationLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+
+		return informationLabel;
+	}
+
 	OptionsPanel(final CLI_api api, final OptionsFactory optionsFactory) throws ProgramNotFoundException, StoppedProgramException, IOException
 	{
 		this.optionsFactory = optionsFactory;
@@ -69,11 +107,11 @@ final class OptionsPanel extends JPanel implements ActionListener
 		}
 
 		OPTION_TEXT_AREA.setBorder(BorderFactory.createEmptyBorder(SMALL_MARGIN, SMALL_MARGIN, SMALL_MARGIN, SMALL_MARGIN));
-		OPTION_TEXT_AREA.setForeground(CLI_bundle.getBundleColor("CLI_ihm_descriptionText"));
+		OPTION_TEXT_AREA.setForeground(DESCRIPTION_TEXT_COLOR);
 
 		setLayout(new GridBagLayout());
 
-		setBackground(CLI_bundle.getBundleColor("CLI_ihm_descriptionPanel"));
+		setBackground(DESCRIPTION_PANEL_COLOR);
 
 		commandPanel = new CommandPanel(api);
 
@@ -91,7 +129,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 	{
 		final JPanel optionsPanel = new JPanel();
 
-		optionsPanel.setBackground(CLI_bundle.getBundleColor("CLI_ihm_optionsPanel"));
+		optionsPanel.setBackground(OPTIONS_PANEL_COLOR);
 
 		optionsPanel.setBorder(BorderFactory.createEmptyBorder(BIG_MARGIN, BIG_MARGIN, BIG_MARGIN, BIG_MARGIN));
 
@@ -135,21 +173,13 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 	private JPanel createDescriptionPanel() throws IOException
 	{
-		final BufferedImage bufferedImage = ImageIO.read(getClass().getResource("lamp.gif"));
-
-		final Icon icon = new ImageIcon(bufferedImage);
-
-		final JLabel informationLabel = new JLabel(icon);
-
-		informationLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-
 		final JPanel descriptionPanel = new JPanel();
 
 		descriptionPanel.setLayout(new BoxLayout(descriptionPanel, BoxLayout.X_AXIS));
 
 		descriptionPanel.setOpaque(false);
 
-		descriptionPanel.add(informationLabel);
+		descriptionPanel.add(INFORMATION_LABEL);
 		descriptionPanel.add(OPTION_TEXT_AREA);
 
 		return descriptionPanel;
@@ -219,7 +249,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 		final AbstractFocusablePanel internalOptionPanel = optionsFactory.createOptionPanel(optionBean);
 
-		internalOptionPanel.setBackground(CLI_bundle.getBundleColor("CLI_ihm_optionsPanel"));
+		internalOptionPanel.setBackground(OPTIONS_PANEL_COLOR);
 
 		externalOptionPanel.add(internalOptionPanel);
 
@@ -236,15 +266,15 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 		final TitledBorder titledBorder = BorderFactory.createTitledBorder(option.getName());
 
-		titledBorder.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, CLI_bundle.getBundleColor("CLI_ihm_optionsBorder")));
+		titledBorder.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, OPTIONS_BORDER_COLOR));
 
 		if (option.isRequired())
 		{
-			titledBorder.setTitleColor(CLI_bundle.getBundleColor("CLI_ihm_optionsNameRequired"));
+			titledBorder.setTitleColor(OPTIONS_NAME_REQUIRED_COLOR);
 		}
 		else
 		{
-			titledBorder.setTitleColor(CLI_bundle.getBundleColor("CLI_ihm_optionsName"));
+			titledBorder.setTitleColor(OPTIONS_NAME_NORMAL_COLOR);
 		}
 
 		externalOptionPanel.setBorder(titledBorder);
@@ -283,7 +313,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 		{
 			final JPanel optionPanel = optionButton.getOptionPanel(panelID);
 
-			optionPanel.setBackground(CLI_bundle.getBundleColor("CLI_ihm_optionsPanel"));
+			optionPanel.setBackground(OPTIONS_PANEL_COLOR);
 
 			constraint.gridy++;
 

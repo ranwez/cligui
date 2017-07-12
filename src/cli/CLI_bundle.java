@@ -1,6 +1,5 @@
 package cli;
 
-import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,8 +10,6 @@ import cli.exceptions.StoppedProgramException;
 
 public final class CLI_bundle
 {
-	private static final Color DEFAULT_COLOR = new Color(238, 238, 238);
-
 	private static final Properties PROPERTIES = readProperties("files/bundle/english.properties");
 
 	/**
@@ -84,44 +81,6 @@ public final class CLI_bundle
 	static String getCitation()
 	{
 		return getPropertyDescription("CLI_citation");
-	}
-
-	static Color getBundleColor(final String bundleKey)
-	{
-		final String colorName = getPropertyDescription(bundleKey);
-
-		Color color;
-
-		try
-		{
-			color = (Color) Color.class.getField(colorName).get(null);
-		}
-		catch (Exception error)
-		{
-			if (colorName.charAt(0) == '#')
-			{
-				color = hexaToColor(colorName);
-			}
-			else
-			{
-				color = DEFAULT_COLOR;
-			}
-		}
-
-		return color;
-	}
-
-	private static Color hexaToColor(final String colorHexaCode)
-	{
-		final String hexRed = colorHexaCode.substring(1, 3);
-		final String hexGreen = colorHexaCode.substring(3, 5);
-		final String hexBlue = colorHexaCode.substring(5, 7);
-
-		final int red = Integer.valueOf(hexRed, 16);
-		final int green = Integer.valueOf(hexGreen, 16);
-		final int blue = Integer.valueOf(hexBlue, 16);
-
-		return new Color(red, green, blue);
 	}
 
 	private CLI_bundle() {}
