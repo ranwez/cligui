@@ -295,15 +295,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 			updateProgramDescription();
 		}
-		catch (ProgramNotFoundException error)
-		{
-			error.printStackTrace();
-		}
-		catch (IllegalArgumentException error)
-		{
-			error.printStackTrace();
-		}
-		catch (IllegalAccessException error)
+		catch (Exception error)
 		{
 			error.printStackTrace();
 		}

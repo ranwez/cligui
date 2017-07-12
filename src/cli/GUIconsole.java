@@ -16,6 +16,7 @@ public final class GUIconsole extends JFrame implements WindowListener
 {
 	private static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
 	private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
+	private static final int WINDOWS_SPACE = 40;
 
 	private static int windowsCount;
 	private static int windowPosition;
@@ -47,7 +48,7 @@ public final class GUIconsole extends JFrame implements WindowListener
 
 		setLocation(windowPosition % SCREEN_WIDTH, windowPosition % SCREEN_HEIGHT);
 
-		windowPosition += 40;
+		windowPosition += WINDOWS_SPACE;
 
 		setContentPane(scrollPanel);
 
@@ -61,7 +62,7 @@ public final class GUIconsole extends JFrame implements WindowListener
 	{
 		return windowsCount;
 	}
-	
+
 	public Logger getLogger()
 	{
 		return logger;
@@ -104,6 +105,8 @@ public final class GUIconsole extends JFrame implements WindowListener
 	public void windowClosed(final WindowEvent event)
 	{
 		windowsCount--;
+
+		windowPosition -= WINDOWS_SPACE;
 	}
 
 	@Override

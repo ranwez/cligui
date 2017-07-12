@@ -110,6 +110,9 @@ final class CommandPanel extends JPanel implements ActionListener
 
 		add(buttonsPanel, constraints);
 
+		buttonStart.setForeground(CLI_bundle.getBundleColor("CLI_ihm_commandButtons"));
+		buttonCopy.setForeground(CLI_bundle.getBundleColor("CLI_ihm_commandButtons"));
+
 		buttonStart.setFocusable(false);
 		buttonCopy.setFocusable(false);
 
