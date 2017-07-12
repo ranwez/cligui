@@ -2,7 +2,7 @@ package cli;
 
 import java.awt.Color;
 
-final class CLI_color
+final class CLI_bundleColor
 {
 	private static final Color DEFAULT_COLOR = new Color(238, 238, 238);
 
@@ -64,5 +64,5 @@ final class CLI_color
 		return new Color(red, green, blue);
 	}
 
-	private CLI_color() {}
+	private CLI_bundleColor() {}
 }

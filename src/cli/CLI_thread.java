@@ -1,5 +1,7 @@
 package cli;
 
+import static cli.CLI_bundleMessage.PROGRAM_FINISHED;
+
 import java.util.Date;
 import java.util.logging.Level;
 
@@ -32,7 +34,7 @@ final class CLI_thread extends Thread
 		{
 			api.parse(commands);
 
-			CLI_logger.getLogger().info(CLI_bundle.getPropertyDescription("CLI_program_finished"));
+			CLI_logger.getLogger().info(PROGRAM_FINISHED);
 		}
 		catch (Exception error)
 		{

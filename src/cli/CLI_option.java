@@ -1,5 +1,7 @@
 package cli;
 
+import static cli.CLI_bundleMessage.OPTION_EMPTY_STRING;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
@@ -195,12 +197,10 @@ public final class CLI_option implements Comparable<CLI_option>
 
 		if (stringValue.isEmpty())
 		{
-			final String description = CLI_bundle.getPropertyDescription("CLI_option_emptyString");
-
 			final StringBuilder builder = new StringBuilder();
 
 			builder.append('<');
-			builder.append(description);
+			builder.append(OPTION_EMPTY_STRING);
 			builder.append('>');
 
 			stringValue = builder.toString();

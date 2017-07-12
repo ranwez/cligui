@@ -1,8 +1,12 @@
 package cli;
 
-import static cli.CLI_color.COMMAND_BUTTONS_COLOR;
-import static cli.CLI_color.COMMAND_PANEL_COLOR;
-import static cli.CLI_color.COMMAND_TEXT_COLOR;
+import static cli.CLI_bundleColor.COMMAND_BUTTONS_COLOR;
+import static cli.CLI_bundleColor.COMMAND_PANEL_COLOR;
+import static cli.CLI_bundleColor.COMMAND_TEXT_COLOR;
+import static cli.CLI_bundleMessage.WINDOW_COPY_CLIPBOARD;
+import static cli.CLI_bundleMessage.WINDOW_EXECUTE_PROGRAM;
+import static cli.CLI_bundleMessage.WINDOW_POPUP_MESSAGE;
+import static cli.CLI_bundleMessage.WINDOW_POPUP_TITLE;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -41,8 +45,8 @@ final class CommandPanel extends JPanel implements ActionListener
 
 	private final CLI_api api;
 
-	private final JButton buttonCopy = new JButton(CLI_bundle.getPropertyDescription("CLI_window_copyClipboard"));
-	private final JButton buttonStart = new JButton(CLI_bundle.getPropertyDescription("CLI_window_executeProgram"));
+	private final JButton buttonCopy = new JButton(WINDOW_COPY_CLIPBOARD);
+	private final JButton buttonStart = new JButton(WINDOW_EXECUTE_PROGRAM);
 
 	private final String commandsStart;
 
@@ -227,10 +231,7 @@ final class CommandPanel extends JPanel implements ActionListener
 			}
 			else
 			{
-				final String title = CLI_bundle.getPropertyDescription("CLI_window_multiWindowTitle");
-				final String message = CLI_bundle.getPropertyDescription("CLI_window_multiWindowWarning");
-
-				final JTextArea textArea = new JTextArea(message);
+				final JTextArea textArea = new JTextArea(WINDOW_POPUP_MESSAGE);
 				textArea.setOpaque(false);
 
 				textArea.setLineWrap(true);
@@ -238,7 +239,7 @@ final class CommandPanel extends JPanel implements ActionListener
 
 				textArea.setSize(300, 200);
 
-				final int choice = JOptionPane.showOptionDialog(null, textArea, title, JOptionPane.OK_CANCEL_OPTION,
+				final int choice = JOptionPane.showOptionDialog(null, textArea, WINDOW_POPUP_TITLE, JOptionPane.OK_CANCEL_OPTION,
 						JOptionPane.WARNING_MESSAGE, null, null, null);
 
 				if (choice == 0) // yes

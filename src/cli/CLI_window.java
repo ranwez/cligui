@@ -1,5 +1,12 @@
 package cli;
 
+import static cli.CLI_bundleKey.WINDOW_HELP_CITATION_TITLE;
+import static cli.CLI_bundleMessage.CITATION;
+import static cli.CLI_bundleMessage.WINDOW_HELP;
+import static cli.CLI_bundleMessage.WINDOW_HELP_TIPS_CONTENT;
+import static cli.CLI_bundleMessage.WINDOW_HELP_TIPS_TITLE;
+import static cli.CLI_bundleMessage.WINDOW_PROGRAMS;
+
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +34,7 @@ public final class CLI_window extends JFrame implements ActionListener
 	private final CLI_api api;
 
 	private final JMenuItem helpCitationMenuItem;
-	private final JMenuItem helpTipsMenuItem = new JMenuItem(CLI_bundle.getPropertyDescription("CLI_window_helpTipsTitle"));
+	private final JMenuItem helpTipsMenuItem = new JMenuItem(WINDOW_HELP_TIPS_TITLE);
 
 	private final OptionsPanel optionsPanel;
 
@@ -65,7 +72,7 @@ public final class CLI_window extends JFrame implements ActionListener
 		setTitle(title);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		citationTitle = CLI_bundle.getPropertyDescription("CLI_window_helpCitationTitle") + ' ' + title;
+		citationTitle = CLI_bundle.getPropertyDescription(WINDOW_HELP_CITATION_TITLE, title);
 
 		helpCitationMenuItem = new JMenuItem(citationTitle);
 
@@ -93,7 +100,7 @@ public final class CLI_window extends JFrame implements ActionListener
 
 	private JMenu createProgramsMenu()
 	{
-		final JMenu programsMenu = new JMenu(CLI_bundle.getPropertyDescription("CLI_window_programs"));
+		final JMenu programsMenu = new JMenu(WINDOW_PROGRAMS);
 
 		for (final CLI_program program : api.getPrograms())
 		{
@@ -109,7 +116,7 @@ public final class CLI_window extends JFrame implements ActionListener
 
 	private JMenu createHelpMenu()
 	{
-		final JMenu helpMenu = new JMenu(CLI_bundle.getPropertyDescription("CLI_window_help"));
+		final JMenu helpMenu = new JMenu(WINDOW_HELP);
 
 		helpCitationMenuItem.addActionListener(this);
 		helpTipsMenuItem.addActionListener(this);
@@ -125,14 +132,11 @@ public final class CLI_window extends JFrame implements ActionListener
 	{
 		if (helpTipsMenuItem.equals(event.getSource()))
 		{
-			final String title = CLI_bundle.getPropertyDescription("CLI_window_helpTipsTitle");
-			final String message = CLI_bundle.getPropertyDescription("CLI_window_helpTipsContent");
-
-			JOptionPane.showMessageDialog(this, message, title, JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, WINDOW_HELP_TIPS_CONTENT, WINDOW_HELP_TIPS_TITLE, JOptionPane.INFORMATION_MESSAGE);
 		}
 		else if (helpCitationMenuItem.equals(event.getSource()))
 		{
-			JOptionPane.showMessageDialog(this, CLI_bundle.getCitation(), citationTitle, JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, CITATION, citationTitle, JOptionPane.INFORMATION_MESSAGE);
 		}
 		else
 		{

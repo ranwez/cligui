@@ -1,11 +1,13 @@
 package cli;
 
-import static cli.CLI_color.DESCRIPTION_PANEL_COLOR;
-import static cli.CLI_color.DESCRIPTION_TEXT_COLOR;
-import static cli.CLI_color.OPTIONS_BORDER_COLOR;
-import static cli.CLI_color.OPTIONS_NAME_NORMAL_COLOR;
-import static cli.CLI_color.OPTIONS_NAME_REQUIRED_COLOR;
-import static cli.CLI_color.OPTIONS_PANEL_COLOR;
+import static cli.CLI_bundleColor.DESCRIPTION_PANEL_COLOR;
+import static cli.CLI_bundleColor.DESCRIPTION_TEXT_COLOR;
+import static cli.CLI_bundleColor.OPTIONS_BORDER_COLOR;
+import static cli.CLI_bundleColor.OPTIONS_NAME_NORMAL_COLOR;
+import static cli.CLI_bundleColor.OPTIONS_NAME_REQUIRED_COLOR;
+import static cli.CLI_bundleColor.OPTIONS_PANEL_COLOR;
+import static cli.CLI_bundleKey.WINDOW_BUTTON_PREFIX;
+import static cli.CLI_bundleKey.WINDOW_PROGRAM_DESCRIPTION;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -37,6 +39,8 @@ import cli.panels.OptionsFactory;
 @SuppressWarnings("serial")
 final class OptionsPanel extends JPanel implements ActionListener
 {
+	private static final String LAMP_FILEPATH = "lamp.gif";
+
 	private static final int BIG_MARGIN = 20;
 	private static final int DEFAULT_GROUP_ID = 1;
 	private static final int NB_FIXED_TABS = 3;
@@ -74,7 +78,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 		try
 		{
-			bufferedImage = ImageIO.read(OptionsPanel.class.getResource("lamp.gif"));
+			bufferedImage = ImageIO.read(OptionsPanel.class.getResource(LAMP_FILEPATH));
 		}
 		catch (IOException error)
 		{
@@ -208,7 +212,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 	private void addOptionButton(final String buttonType)
 	{
-		final String buttonName = CLI_bundle.getPropertyDescription("CLI_window_button" + buttonType);
+		final String buttonName = CLI_bundle.getPropertyDescription(WINDOW_BUTTON_PREFIX + buttonType);
 
 		final OptionButton optionButton = new OptionButton(buttonName);
 
@@ -339,7 +343,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 	{
 		final CLI_api api = commandPanel.getApi();
 
-		final String description = CLI_bundle.getPropertyDescription("CLI_window_programDescription", api.getCurrentProgram().getDescription());
+		final String description = CLI_bundle.getPropertyDescription(WINDOW_PROGRAM_DESCRIPTION, api.getCurrentProgram().getDescription());
 
 		OPTION_TEXT_AREA.setText(description);
 	}

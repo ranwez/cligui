@@ -14,6 +14,9 @@ import cli.exceptions.ProgramDoublonException;
 import cli.exceptions.StoppedProgramException;
 import cli.exceptions.parsing.ProgramNotFoundException;
 
+import static cli.CLI_bundleMessage.*;
+import static cli.CLI_bundleKey.*;
+
 public final class CLI_api
 {
 	private static final String DEBUG_OPTION_NAME = "-debug";
@@ -329,18 +332,18 @@ public final class CLI_api
 		final StringBuilder builder = new StringBuilder();
 
 		builder.append('\n');
-		builder.append(CLI_bundle.getCitation());
+		builder.append(CITATION);
 		builder.append("\n\n\n");
 
-		builder.append(CLI_bundle.getPropertyDescription("CLI_program_usage"));
+		builder.append(PROGRAM_USAGE);
 		builder.append("\n\n");
 
-		builder.append(CLI_bundle.getPropertyDescription("CLI_program_title"));
+		builder.append(PROGRAM_TITLE);
 		builder.append(" :\n");
 
 		for (final CLI_program program : programs)
 		{
-			final String description = CLI_bundle.getPropertyDescription("CLI_program_desc", program.getName(), program.getDescription());
+			final String description = CLI_bundle.getPropertyDescription(PROGRAM_DESCRIPTION, program.getName(), program.getDescription());
 
 			builder.append("  ");
 			builder.append(description);

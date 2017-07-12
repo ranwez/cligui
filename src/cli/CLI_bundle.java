@@ -78,10 +78,5 @@ public final class CLI_bundle
 		return properties;
 	}
 
-	static String getCitation()
-	{
-		return getPropertyDescription("CLI_citation");
-	}
-
 	private CLI_bundle() {}
 }

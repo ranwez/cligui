@@ -1,8 +1,8 @@
 package cli;
 
-import static cli.CLI_color.OPTIONS_AREA_BACKGROUND_COLOR;
-import static cli.CLI_color.OPTIONS_AREA_HIDDEN_COLOR;
-import static cli.CLI_color.OPTIONS_AREA_NORMAL_COLOR;
+import static cli.CLI_bundleColor.OPTIONS_AREA_BACKGROUND_COLOR;
+import static cli.CLI_bundleColor.OPTIONS_AREA_HIDDEN_COLOR;
+import static cli.CLI_bundleColor.OPTIONS_AREA_NORMAL_COLOR;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;

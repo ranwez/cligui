@@ -1,5 +1,7 @@
 package cli;
 
+import static cli.CLI_bundleKey.OPTION_UNUSED;
+
 import cli.exceptions.StoppedProgramException;
 
 public abstract class AbstractProgram
@@ -12,7 +14,7 @@ public abstract class AbstractProgram
 	{
 		if (isUnused)
 		{
-			CLI_logger.getLogger().info(CLI_bundle.getPropertyDescription("CLI_option_unused", optionName));
+			CLI_logger.getLogger().info(CLI_bundle.getPropertyDescription(OPTION_UNUSED, optionName));
 		}
 	}
 

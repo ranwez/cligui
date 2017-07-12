@@ -1,5 +1,7 @@
 package cli;
 
+import static cli.CLI_bundleMessage.CITATION;
+
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -307,7 +309,7 @@ public final class CLI_program
 	{
 		final StringBuilder builder = new StringBuilder();
 
-		builder.append(CLI_bundle.getCitation());
+		builder.append(CITATION);
 		builder.append("\n\n\n");
 
 		builder.append(name);

@@ -1,6 +1,6 @@
 package cli;
 
-import static cli.CLI_color.GROUPS_PANEL_COLOR;
+import static cli.CLI_bundleColor.GROUPS_PANEL_COLOR;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

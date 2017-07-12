@@ -1,5 +1,7 @@
 package cli;
 
+import static cli.CLI_bundleKey.WARNING_MARKDOWN_KEY;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 
@@ -284,7 +286,9 @@ final class CLI_markdown
 
 					if (command == null)
 					{
-						CLI_logger.getLogger().warning(CLI_bundle.getPropertyDescription("CLI_warning_markdownKey", builderTransclusion.toString(), markdownFilepath));
+						final String message = CLI_bundle.getPropertyDescription(WARNING_MARKDOWN_KEY, builderTransclusion.toString(), markdownFilepath);
+
+						CLI_logger.getLogger().warning(message);
 					}
 					else
 					{

@@ -1,7 +1,7 @@
 package cli;
 
-import static cli.CLI_color.GROUPS_TEXT_DISABLED_COLOR;
-import static cli.CLI_color.GROUPS_TEXT_ENABLED_COLOR;
+import static cli.CLI_bundleColor.GROUPS_TEXT_DISABLED_COLOR;
+import static cli.CLI_bundleColor.GROUPS_TEXT_ENABLED_COLOR;
 
 import java.util.ArrayList;
 import java.util.List;
