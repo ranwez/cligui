@@ -1,5 +1,6 @@
 package cli;
 
+import java.awt.GraphicsEnvironment;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.text.DateFormat;
@@ -319,6 +320,22 @@ public final class CLI_api
 		}
 
 		throw new ProgramNotFoundException(programName);
+	}
+
+	/**
+	 * This method will display the fonts available on your operating system,
+	 * you can then use the "CLI_font_name" in your bundle file to change the
+	 * window font (the size can also be changed with "CLI_font_size").
+	 * @throws StoppedProgramException
+	 */
+	public void displayAvailableFonts() throws StoppedProgramException
+	{
+		final String[] fontsNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+
+		for (final String fontName : fontsNames)
+		{
+			CLI_logger.getLogger().info(fontName);
+		}
 	}
 
 	/**

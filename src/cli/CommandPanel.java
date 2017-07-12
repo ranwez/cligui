@@ -118,14 +118,16 @@ final class CommandPanel extends JPanel implements ActionListener
 
 		add(buttonsPanel, constraints);
 
-		buttonStart.setForeground(COMMAND_BUTTONS_COLOR);
-		buttonCopy.setForeground(COMMAND_BUTTONS_COLOR);
+		configureButton(buttonCopy);
+		configureButton(buttonStart);
+	}
 
-		buttonStart.setFocusable(false);
-		buttonCopy.setFocusable(false);
+	private void configureButton(final JButton button)
+	{
+		button.setFocusable(false);
+		button.setForeground(COMMAND_BUTTONS_COLOR);
 
-		buttonStart.addActionListener(this);
-		buttonCopy.addActionListener(this);
+		button.addActionListener(this);
 	}
 
 	private JPanel createButtonsPanel()

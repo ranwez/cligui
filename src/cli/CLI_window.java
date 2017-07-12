@@ -2,11 +2,14 @@ package cli;
 
 import static cli.CLI_bundleKey.WINDOW_HELP_CITATION_TITLE;
 import static cli.CLI_bundleMessage.CITATION;
+import static cli.CLI_bundleMessage.FONT_NAME;
+import static cli.CLI_bundleMessage.FONT_SIZE;
 import static cli.CLI_bundleMessage.WINDOW_HELP;
 import static cli.CLI_bundleMessage.WINDOW_HELP_TIPS_CONTENT;
 import static cli.CLI_bundleMessage.WINDOW_HELP_TIPS_TITLE;
 import static cli.CLI_bundleMessage.WINDOW_PROGRAMS;
 
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +20,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import cli.exceptions.StoppedProgramException;
 import cli.exceptions.parsing.ProgramNotFoundException;
@@ -34,7 +38,7 @@ public final class CLI_window extends JFrame implements ActionListener
 	private final CLI_api api;
 
 	private final JMenuItem helpCitationMenuItem;
-	private final JMenuItem helpTipsMenuItem = new JMenuItem(WINDOW_HELP_TIPS_TITLE);
+	private final JMenuItem helpTipsMenuItem;
 
 	private final OptionsPanel optionsPanel;
 
@@ -62,6 +66,10 @@ public final class CLI_window extends JFrame implements ActionListener
 	public CLI_window(final CLI_api api, final OptionsFactory optionsFactory) throws Exception
 	{
 		this.api = api;
+
+		loadFont();
+
+		helpTipsMenuItem = new JMenuItem(WINDOW_HELP_TIPS_TITLE);
 
 		CLI_logger.setWindowOutput();
 
@@ -96,6 +104,25 @@ public final class CLI_window extends JFrame implements ActionListener
 		// the following line is used to remove the first auto focus, removing this line would cause the
 		// description of the first program open to be replaced by the first option
 		getContentPane().requestFocusInWindow();
+	}
+
+	private void loadFont()
+	{
+		// UIManager keys : http://thebadprogrammer.com/swing-uimanager-keys/
+
+		// note : you can CTRL + click on the link to open it in Eclipse
+
+		final Font font = new Font(FONT_NAME, Font.PLAIN, FONT_SIZE);
+
+		UIManager.put("Button.font", font);
+		UIManager.put("ComboBox.font", font);
+		UIManager.put("FormattedTextField.font", font);
+		UIManager.put("Menu.font", font);
+		UIManager.put("MenuItem.font", font);
+		UIManager.put("OptionPane.buttonFont", font);
+		UIManager.put("OptionPane.messageFont", font);
+		UIManager.put("TextArea.font", font);
+		UIManager.put("TitledBorder.font", font);
 	}
 
 	private JMenu createProgramsMenu()
