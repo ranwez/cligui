@@ -16,7 +16,7 @@ final class GroupsPanel extends JPanel
 
 	GroupsPanel()
 	{
-		setBackground(CLI_ihm.getButtonsBackgroundColor());
+		setBackground(CLI_bundle.getBundleColor("CLI_ihm_groupsPanel"));
 
 		setLayout(new GridBagLayout());
 

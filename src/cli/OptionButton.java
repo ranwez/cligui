@@ -1,6 +1,5 @@
 package cli;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +20,11 @@ final class OptionButton extends JButton
 	{
 		if (isSelected)
 		{
-			setForeground(Color.GRAY);
+			setForeground(CLI_bundle.getBundleColor("CLI_ihm_groupsTextDisabled"));
 		}
 		else
 		{
-			setForeground(Color.BLACK);
+			setForeground(CLI_bundle.getBundleColor("CLI_ihm_groupsTextEnabled"));
 		}
 	}
 

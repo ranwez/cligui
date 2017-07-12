@@ -4,11 +4,11 @@ public final class OptionBean
 {
 	private final CLI_option option;
 
-	private final CommandsPanel commandsPanel;
+	private final CommandPanel commandsPanel;
 
 	private final InfoTextArea optionTextArea;
 
-	OptionBean(final CommandsPanel commandsPanel, final CLI_option option, final InfoTextArea optionTextArea)
+	OptionBean(final CommandPanel commandsPanel, final CLI_option option, final InfoTextArea optionTextArea)
 	{
 		this.commandsPanel = commandsPanel;
 		this.option = option;
@@ -20,7 +20,7 @@ public final class OptionBean
 		return option;
 	}
 
-	CommandsPanel getCommandsPanel()
+	CommandPanel getCommandsPanel()
 	{
 		return commandsPanel;
 	}

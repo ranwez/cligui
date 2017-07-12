@@ -17,7 +17,7 @@ public abstract class AbstractFocusablePanel extends JPanel implements FocusList
 
 	protected final void updateOption(final Object value)
 	{
-		final CommandsPanel commandsPanel = optionBean.getCommandsPanel();
+		final CommandPanel commandsPanel = optionBean.getCommandsPanel();
 
 		commandsPanel.updateOptionAndCommandsLine(optionBean.getOption(), "" + value);
 	}

@@ -24,7 +24,7 @@ import javax.swing.JTextArea;
 import cli.exceptions.StoppedProgramException;
 
 @SuppressWarnings("serial")
-final class CommandsPanel extends JPanel implements ActionListener
+final class CommandPanel extends JPanel implements ActionListener
 {
 	private static final String LOGO_FILEPATH = "cli_logo.png";
 
@@ -68,12 +68,13 @@ final class CommandsPanel extends JPanel implements ActionListener
 		return logoLabel;
 	}
 
-	CommandsPanel(final CLI_api api)
+	CommandPanel(final CLI_api api)
 	{
 		this.api = api;
 
 		COMMANDS_TEXT_AREA.setEditable(true);
 		COMMANDS_TEXT_AREA.setFocusable(true);
+		COMMANDS_TEXT_AREA.setForeground(CLI_bundle.getBundleColor("CLI_ihm_commandText"));
 
 		commandsStart = "java -jar " + api.getProjectName() + ' ';
 
@@ -81,7 +82,7 @@ final class CommandsPanel extends JPanel implements ActionListener
 
 		setBorder(BorderFactory.createEmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN));
 
-		setBackground(CLI_ihm.getCommandsColor());
+		setBackground(CLI_bundle.getBundleColor("CLI_ihm_commandPanel"));
 
 		final JPanel buttonsPanel = createButtonsPanel();
 

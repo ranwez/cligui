@@ -1,5 +1,6 @@
 package cli;
 
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +11,34 @@ import cli.exceptions.StoppedProgramException;
 
 public final class CLI_bundle
 {
+	private static final Color DEFAULT_COLOR = new Color(238, 238, 238);
+
 	private static final Properties PROPERTIES = readProperties("files/bundle/english.properties");
+
+	/**
+	 * This method will look for a description in the bundle file that matches a {@code String}
+	 * key and will replace all '@' symbols with the defined values.
+	 * 
+	 * @param key a {@code String} key present in the bundle file
+	 * @param objects any number of {@code Object} parameters whose values will be inserted into
+	 * the description of the matching key
+	 * @return a description that matches the key with the objects values
+	 */
+	public static String getPropertyDescription(final String key, final Object... objects)
+	{
+		String description = PROPERTIES.getProperty(key);
+
+		for (int id = 0; id < objects.length; id++)
+		{
+			final String value = String.valueOf(objects[id]);
+
+			final String code = '@' + String.valueOf(id + 1);
+
+			description = description.replace(code, value);
+		}
+
+		return description;
+	}
 
 	static void addProperties(final String filepath)
 	{
@@ -55,32 +83,45 @@ public final class CLI_bundle
 
 	static String getCitation()
 	{
-		return CLI_bundle.getPropertyDescription("CLI_citation");
+		return getPropertyDescription("CLI_citation");
 	}
 
-	/**
-	 * This method will look for a description in the bundle file that matches a {@code String}
-	 * key and will replace all '@' symbols with the defined values.
-	 * 
-	 * @param key a {@code String} key present in the bundle file
-	 * @param objects any number of {@code Object} parameters whose values will be inserted into
-	 * the description of the matching key
-	 * @return a description that matches the key with the objects values
-	 */
-	public static String getPropertyDescription(final String key, final Object... objects)
+	static Color getBundleColor(final String bundleKey)
 	{
-		String description = PROPERTIES.getProperty(key);
+		final String colorName = getPropertyDescription(bundleKey);
 
-		for (int id = 0; id < objects.length; id++)
+		Color color;
+
+		try
 		{
-			final String value = String.valueOf(objects[id]);
-
-			final String code = '@' + String.valueOf(id + 1);
-
-			description = description.replace(code, value);
+			color = (Color) Color.class.getField(colorName).get(null);
+		}
+		catch (Exception error)
+		{
+			if (colorName.charAt(0) == '#')
+			{
+				color = hexaToColor(colorName);
+			}
+			else
+			{
+				color = DEFAULT_COLOR;
+			}
 		}
 
-		return description;
+		return color;
+	}
+
+	private static Color hexaToColor(final String colorHexaCode)
+	{
+		final String hexRed = colorHexaCode.substring(1, 3);
+		final String hexGreen = colorHexaCode.substring(3, 5);
+		final String hexBlue = colorHexaCode.substring(5, 7);
+
+		final int red = Integer.valueOf(hexRed, 16);
+		final int green = Integer.valueOf(hexGreen, 16);
+		final int blue = Integer.valueOf(hexBlue, 16);
+
+		return new Color(red, green, blue);
 	}
 
 	private CLI_bundle() {}

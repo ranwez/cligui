@@ -1,6 +1,5 @@
 package cli;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -40,6 +39,16 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 	private static final InfoTextArea OPTION_TEXT_AREA = new InfoTextArea();
 
+	private final CommandPanel commandPanel;
+
+	private final JPanel optionsPanel;
+
+	private final GroupsPanel groupsPanel;
+
+	private final OptionsFactory optionsFactory;
+
+	private int selectedGroupID;
+
 	private static List<Class<? extends Annotation>> createAnnotations()
 	{
 		List<Class<? extends Annotation>> annotations = new ArrayList<Class<? extends Annotation>>();
@@ -49,16 +58,6 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 		return annotations;
 	}
-
-	private final CommandsPanel commandsPanel;
-
-	private final JPanel optionsPanel;
-
-	private final GroupsPanel groupsPanel;
-
-	private final OptionsFactory optionsFactory;
-
-	private int selectedGroupID;
 
 	OptionsPanel(final CLI_api api, final OptionsFactory optionsFactory) throws ProgramNotFoundException, StoppedProgramException, IOException
 	{
@@ -70,12 +69,13 @@ final class OptionsPanel extends JPanel implements ActionListener
 		}
 
 		OPTION_TEXT_AREA.setBorder(BorderFactory.createEmptyBorder(SMALL_MARGIN, SMALL_MARGIN, SMALL_MARGIN, SMALL_MARGIN));
+		OPTION_TEXT_AREA.setForeground(CLI_bundle.getBundleColor("CLI_ihm_descriptionText"));
 
 		setLayout(new GridBagLayout());
 
-		setBackground(CLI_ihm.getDescriptionColor());
+		setBackground(CLI_bundle.getBundleColor("CLI_ihm_descriptionPanel"));
 
-		commandsPanel = new CommandsPanel(api);
+		commandPanel = new CommandPanel(api);
 
 		groupsPanel = new GroupsPanel();
 
@@ -91,7 +91,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 	{
 		final JPanel optionsPanel = new JPanel();
 
-		optionsPanel.setBackground(CLI_ihm.getOptionsColor());
+		optionsPanel.setBackground(CLI_bundle.getBundleColor("CLI_ihm_optionsPanel"));
 
 		optionsPanel.setBorder(BorderFactory.createEmptyBorder(BIG_MARGIN, BIG_MARGIN, BIG_MARGIN, BIG_MARGIN));
 
@@ -115,7 +115,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.gridy++;
 
-		add(commandsPanel, constraints);
+		add(commandPanel, constraints);
 
 		constraints.gridy++;
 
@@ -189,7 +189,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 	private void fillGroupsPanelOptions() throws ProgramNotFoundException, StoppedProgramException
 	{
-		final CLI_program program = commandsPanel.getApi().getCurrentProgram();
+		final CLI_program program = commandPanel.getApi().getCurrentProgram();
 
 		for (final CLI_option option : program.getOptions())
 		{
@@ -215,7 +215,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 	{
 		final JPanel externalOptionPanel = createExternalOptionPanel(option);
 
-		final OptionBean optionBean = new OptionBean(commandsPanel, option, OPTION_TEXT_AREA);
+		final OptionBean optionBean = new OptionBean(commandPanel, option, OPTION_TEXT_AREA);
 
 		final AbstractFocusablePanel internalOptionPanel = optionsFactory.createOptionPanel(optionBean);
 
@@ -236,7 +236,11 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 		if (option.isRequired())
 		{
-			titledBorder.setTitleColor(Color.RED);
+			titledBorder.setTitleColor(CLI_bundle.getBundleColor("CLI_ihm_optionsNameRequired"));
+		}
+		else
+		{
+			titledBorder.setTitleColor(CLI_bundle.getBundleColor("CLI_ihm_optionsName"));
 		}
 
 		externalOptionPanel.setBorder(titledBorder);
@@ -275,7 +279,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 		{
 			final JPanel optionPanel = optionButton.getOptionPanel(panelID);
 
-			optionPanel.setBackground(CLI_ihm.getOptionsColor());
+			optionPanel.setBackground(CLI_bundle.getBundleColor("CLI_ihm_optionsPanel"));
 
 			constraint.gridy++;
 
@@ -287,7 +291,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 		try
 		{
-			commandsPanel.updateCommandsLine();
+			commandPanel.updateCommandsLine();
 
 			updateProgramDescription();
 		}
@@ -307,7 +311,7 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 	private void updateProgramDescription() throws ProgramNotFoundException
 	{
-		final CLI_api api = commandsPanel.getApi();
+		final CLI_api api = commandPanel.getApi();
 
 		final String description = CLI_bundle.getPropertyDescription("CLI_window_programDescription", api.getCurrentProgram().getDescription());
 
