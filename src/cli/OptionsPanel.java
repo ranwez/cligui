@@ -343,7 +343,8 @@ final class OptionsPanel extends JPanel implements ActionListener
 	{
 		final CLI_api api = commandPanel.getApi();
 
-		final String description = CLI_bundle.getPropertyDescription(WINDOW_PROGRAM_DESCRIPTION, api.getCurrentProgram().getDescription());
+		final String description = CLI_bundle.getPropertyDescription(WINDOW_PROGRAM_DESCRIPTION, api.getCurrentProgram().getName(),
+				api.getCurrentProgram().getDescription());
 
 		OPTION_TEXT_AREA.setText(description);
 	}

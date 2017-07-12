@@ -3,11 +3,14 @@ package cli;
 import static cli.CLI_bundleColor.COMMAND_BUTTONS_COLOR;
 import static cli.CLI_bundleColor.COMMAND_PANEL_COLOR;
 import static cli.CLI_bundleColor.COMMAND_TEXT_COLOR;
+import static cli.CLI_bundleMessage.COMMAND_FONT_NAME;
+import static cli.CLI_bundleMessage.COMMAND_FONT_SIZE;
 import static cli.CLI_bundleMessage.WINDOW_COPY_CLIPBOARD;
 import static cli.CLI_bundleMessage.WINDOW_EXECUTE_PROGRAM;
 import static cli.CLI_bundleMessage.WINDOW_POPUP_MESSAGE;
 import static cli.CLI_bundleMessage.WINDOW_POPUP_TITLE;
 
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -39,7 +42,7 @@ final class CommandPanel extends JPanel implements ActionListener
 	private static final int LOGO_SIZE = 50;
 	private static final int MARGIN = 10;
 
-	private static final InfoTextArea COMMANDS_TEXT_AREA = new InfoTextArea();
+	private static final InfoTextArea COMMANDS_TEXT_AREA = createCommandTextArea();
 
 	private static final JLabel LOGO_LABEL = createLogoLabel();
 
@@ -49,6 +52,17 @@ final class CommandPanel extends JPanel implements ActionListener
 	private final JButton buttonStart = new JButton(WINDOW_EXECUTE_PROGRAM);
 
 	private final String commandsStart;
+
+	private static InfoTextArea createCommandTextArea()
+	{
+		final Font font = new Font(COMMAND_FONT_NAME, Font.PLAIN, COMMAND_FONT_SIZE);
+
+		final InfoTextArea commandsTextArea = new InfoTextArea();
+
+		commandsTextArea.setFont(font);
+
+		return commandsTextArea;
+	}
 
 	private static JLabel createLogoLabel()
 	{

@@ -4,6 +4,9 @@ public final class CLI_bundleMessage
 {
 	static final String CITATION =							CLI_bundle.getPropertyDescription("CLI_citation");
 
+	static final String COMMAND_FONT_NAME =					CLI_bundle.getPropertyDescription("CLI_command_font_name");
+	static final int COMMAND_FONT_SIZE =					Integer.valueOf(CLI_bundle.getPropertyDescription("CLI_command_font_size"));
+
 	static final String FONT_NAME =							CLI_bundle.getPropertyDescription("CLI_font_name");
 	static final int FONT_SIZE =							Integer.valueOf(CLI_bundle.getPropertyDescription("CLI_font_size"));
 
