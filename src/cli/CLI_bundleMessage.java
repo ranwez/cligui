@@ -2,6 +2,7 @@ package cli;
 
 public final class CLI_bundleMessage
 {
+	static final String ABOUT =								CLI_bundle.getPropertyDescription("CLI_about");
 	static final String CITATION =							CLI_bundle.getPropertyDescription("CLI_citation");
 
 	static final String COMMAND_FONT_NAME =					CLI_bundle.getPropertyDescription("CLI_command_font_name");

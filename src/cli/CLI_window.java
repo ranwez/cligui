@@ -1,6 +1,7 @@
 package cli;
 
 import static cli.CLI_bundleKey.WINDOW_HELP_CITATION_TITLE;
+import static cli.CLI_bundleMessage.ABOUT;
 import static cli.CLI_bundleMessage.CITATION;
 import static cli.CLI_bundleMessage.FONT_NAME;
 import static cli.CLI_bundleMessage.FONT_SIZE;
@@ -37,6 +38,7 @@ public final class CLI_window extends JFrame implements ActionListener
 
 	private final CLI_api api;
 
+	private final JMenuItem helpAboutMenuItem;
 	private final JMenuItem helpCitationMenuItem;
 	private final JMenuItem helpTipsMenuItem;
 
@@ -68,6 +70,8 @@ public final class CLI_window extends JFrame implements ActionListener
 		this.api = api;
 
 		loadFont();
+
+		helpAboutMenuItem = new JMenuItem("TODO");
 
 		helpTipsMenuItem = new JMenuItem(WINDOW_HELP_TIPS_TITLE);
 
@@ -145,11 +149,21 @@ public final class CLI_window extends JFrame implements ActionListener
 	{
 		final JMenu helpMenu = new JMenu(WINDOW_HELP);
 
+		helpAboutMenuItem.addActionListener(this);
 		helpCitationMenuItem.addActionListener(this);
 		helpTipsMenuItem.addActionListener(this);
 
-		helpMenu.add(helpCitationMenuItem);
+		if (! CITATION.isEmpty())
+		{
+			helpMenu.add(helpCitationMenuItem);
+		}
+
 		helpMenu.add(helpTipsMenuItem);
+
+		if (! ABOUT.isEmpty())
+		{
+			helpMenu.add(helpAboutMenuItem);
+		}
 
 		return helpMenu;
 	}
@@ -164,6 +178,10 @@ public final class CLI_window extends JFrame implements ActionListener
 		else if (helpCitationMenuItem.equals(event.getSource()))
 		{
 			JOptionPane.showMessageDialog(this, CITATION, citationTitle, JOptionPane.INFORMATION_MESSAGE);
+		}
+		else if (helpAboutMenuItem.equals(event.getSource()))
+		{
+			JOptionPane.showMessageDialog(this, ABOUT, "TITLE", JOptionPane.INFORMATION_MESSAGE);
 		}
 		else
 		{
