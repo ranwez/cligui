@@ -11,6 +11,10 @@ import javax.swing.event.CaretListener;
 @SuppressWarnings("serial")
 public final class OptionTextField extends JFormattedTextField implements CaretListener, FocusListener
 {
+	private static final Color BACKGROUND_COLOR = CLI_bundle.getBundleColor("CLI_ihm_optionsAreaBackground");
+	private static final Color HIDDEN_COLOR = CLI_bundle.getBundleColor("CLI_ihm_optionsAreaHidden");
+	private static final Color NORMAL_COLOR = CLI_bundle.getBundleColor("CLI_ihm_optionsArea");
+
 	private final OptionBean optionBean;
 
 	public OptionTextField(final OptionBean optionBean)
@@ -24,6 +28,7 @@ public final class OptionTextField extends JFormattedTextField implements CaretL
 
 		this.optionBean = optionBean;
 
+		setBackground(BACKGROUND_COLOR);
 		setOpaque(false);
 
 		final String textValue = optionBean.getOption().getDefaultValue().toString();
@@ -51,7 +56,7 @@ public final class OptionTextField extends JFormattedTextField implements CaretL
 		{
 			if (! currentValue.isEmpty())
 			{
-				setForeground(Color.BLACK);
+				setForeground(NORMAL_COLOR);
 			}
 		}
 
@@ -76,7 +81,7 @@ public final class OptionTextField extends JFormattedTextField implements CaretL
 	{
 		if (! getText().isEmpty())
 		{
-			setForeground(Color.GRAY);
+			setForeground(HIDDEN_COLOR);
 		}
 	}
 }

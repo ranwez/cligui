@@ -219,6 +219,8 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 		final AbstractFocusablePanel internalOptionPanel = optionsFactory.createOptionPanel(optionBean);
 
+		internalOptionPanel.setBackground(CLI_bundle.getBundleColor("CLI_ihm_optionsPanel"));
+
 		externalOptionPanel.add(internalOptionPanel);
 
 		return externalOptionPanel;
@@ -233,6 +235,8 @@ final class OptionsPanel extends JPanel implements ActionListener
 		externalOptionPanel.setLayout(new BoxLayout(externalOptionPanel, BoxLayout.X_AXIS));
 
 		final TitledBorder titledBorder = BorderFactory.createTitledBorder(option.getName());
+
+		titledBorder.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, CLI_bundle.getBundleColor("CLI_ihm_optionsBorder")));
 
 		if (option.isRequired())
 		{
