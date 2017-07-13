@@ -39,9 +39,11 @@ public final class GUIconsole extends JFrame implements WindowListener
 
 		windowsCount++;
 
-		textArea.setMargin(new Insets(5, 5, 5, 5));
+		scrollPanel.setBackground(Color.WHITE);
+		scrollPanel.getViewport().setOpaque(false);
 
-		setBackground(Color.WHITE);
+		textArea.setMargin(new Insets(5, 5, 5, 5));
+		textArea.setOpaque(false);
 
 		setTitle(title);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -73,7 +75,7 @@ public final class GUIconsole extends JFrame implements WindowListener
 		logger.info(text);
 
 		final JScrollBar scrollBar = scrollPanel.getVerticalScrollBar();
-
+		scrollBar.setOpaque(false);
 		scrollBar.setValue(scrollBar.getMaximum());
 	}
 
