@@ -14,6 +14,11 @@ public abstract class CLI_logger
 		return cliLogger.getOutputLogger();
 	}
 
+	public static Logger getErrorLogger() throws StoppedProgramException
+	{
+		return cliLogger.getOutputErrorLogger();
+	}
+
 	static void setWindowOutput()
 	{
 		cliLogger = new WindowLogger();
@@ -21,13 +26,13 @@ public abstract class CLI_logger
 
 	public static void logError(final Level level, final Exception error) throws StoppedProgramException
 	{
-		CLI_logger.getLogger().log(level, error.toString());
+		CLI_logger.getErrorLogger().log(level, error.toString());
 
 		final StackTraceElement[] traces = error.getStackTrace();
 
 		for (final StackTraceElement trace : traces)
 		{
-			CLI_logger.getLogger().log(level, "\tat " + trace.toString());
+			CLI_logger.getErrorLogger().log(level, "\tat " + trace.toString());
 		}
 	}
 
@@ -38,6 +43,8 @@ public abstract class CLI_logger
 	 * @throws StoppedProgramException if the current running program is stopped before ending
 	 */
 	public abstract Logger getOutputLogger() throws StoppedProgramException;
+
+	public abstract Logger getOutputErrorLogger() throws StoppedProgramException;
 
 	protected CLI_logger() {}
 }

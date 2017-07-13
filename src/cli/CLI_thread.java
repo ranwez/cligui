@@ -40,7 +40,7 @@ final class CLI_thread extends Thread
 		{
 			try
 			{
-				CLI_logger.getLogger().info(error.getMessage());
+				CLI_logger.getErrorLogger().info(error.getMessage());
 
 				if (api.checkDebug(commands))
 				{

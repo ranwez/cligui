@@ -37,4 +37,10 @@ final class WindowLogger extends CLI_logger
 
 		throw new StoppedProgramException(); // TODO à vérifier
 	}
+
+	@Override
+	public Logger getOutputErrorLogger() throws StoppedProgramException
+	{
+		return getOutputLogger();
+	}
 }

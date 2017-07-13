@@ -1,17 +1,17 @@
 package cli;
 
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 
 import cli.exceptions.StoppedProgramException;
 
 final class ConsoleLogger extends CLI_logger
 {
-	private static final Logger LOGGER = initLogger();
+	private static final Logger ERROR_LOGGER = initLogger(false);
+	private static final Logger LOGGER = initLogger(true);
 
-	private static Logger initLogger()
+	private static Logger initLogger(final boolean isStdOut)
 	{
-		final ConsoleHandler consoleHandler = new ConsoleHandler();
+		final CLI_consoleHandler consoleHandler = new CLI_consoleHandler(isStdOut);
 
 		consoleHandler.setFormatter(new CLI_loggerFormatter());
 
@@ -28,5 +28,11 @@ final class ConsoleLogger extends CLI_logger
 	public Logger getOutputLogger() throws StoppedProgramException
 	{
 		return LOGGER;
+	}
+
+	@Override
+	public Logger getOutputErrorLogger() throws StoppedProgramException
+	{
+		return ERROR_LOGGER;
 	}
 }
