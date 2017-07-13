@@ -1,13 +1,14 @@
 package cli;
 
-import static cli.CLI_bundleKey.WINDOW_HELP_CITATION_TITLE;
-import static cli.CLI_bundleMessage.ABOUT;
-import static cli.CLI_bundleMessage.CITATION;
+import static cli.CLI_bundleKey.WINDOW_MENU_CITATION_TITLE;
+import static cli.CLI_bundleMessage.WINDOW_MENU_ABOUT_MESSAGE;
+import static cli.CLI_bundleMessage.WINDOW_MENU_ABOUT_TITLE;
+import static cli.CLI_bundleMessage.WINDOW_MENU_CITATION_MESSAGE;
 import static cli.CLI_bundleMessage.FONT_NAME;
 import static cli.CLI_bundleMessage.FONT_SIZE;
-import static cli.CLI_bundleMessage.WINDOW_HELP;
-import static cli.CLI_bundleMessage.WINDOW_HELP_TIPS_CONTENT;
-import static cli.CLI_bundleMessage.WINDOW_HELP_TIPS_TITLE;
+import static cli.CLI_bundleMessage.WINDOW_MENU;
+import static cli.CLI_bundleMessage.WINDOW_MENU_TIPS_MESSAGE;
+import static cli.CLI_bundleMessage.WINDOW_MENU_TIPS_TITLE;
 import static cli.CLI_bundleMessage.WINDOW_PROGRAMS;
 
 import java.awt.Font;
@@ -71,9 +72,8 @@ public final class CLI_window extends JFrame implements ActionListener
 
 		loadFont();
 
-		helpAboutMenuItem = new JMenuItem("TODO");
-
-		helpTipsMenuItem = new JMenuItem(WINDOW_HELP_TIPS_TITLE);
+		helpAboutMenuItem = new JMenuItem(WINDOW_MENU_ABOUT_TITLE);
+		helpTipsMenuItem = new JMenuItem(WINDOW_MENU_TIPS_TITLE);
 
 		CLI_logger.setWindowOutput();
 
@@ -84,7 +84,7 @@ public final class CLI_window extends JFrame implements ActionListener
 		setTitle(title);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		citationTitle = CLI_bundle.getPropertyDescription(WINDOW_HELP_CITATION_TITLE, title);
+		citationTitle = CLI_bundle.getPropertyDescription(WINDOW_MENU_CITATION_TITLE, title);
 
 		helpCitationMenuItem = new JMenuItem(citationTitle);
 
@@ -147,20 +147,20 @@ public final class CLI_window extends JFrame implements ActionListener
 
 	private JMenu createHelpMenu()
 	{
-		final JMenu helpMenu = new JMenu(WINDOW_HELP);
+		final JMenu helpMenu = new JMenu(WINDOW_MENU);
 
 		helpAboutMenuItem.addActionListener(this);
 		helpCitationMenuItem.addActionListener(this);
 		helpTipsMenuItem.addActionListener(this);
 
-		if (! CITATION.isEmpty())
+		if (! WINDOW_MENU_CITATION_MESSAGE.isEmpty())
 		{
 			helpMenu.add(helpCitationMenuItem);
 		}
 
 		helpMenu.add(helpTipsMenuItem);
 
-		if (! ABOUT.isEmpty())
+		if (! WINDOW_MENU_ABOUT_MESSAGE.isEmpty())
 		{
 			helpMenu.add(helpAboutMenuItem);
 		}
@@ -173,15 +173,15 @@ public final class CLI_window extends JFrame implements ActionListener
 	{
 		if (helpTipsMenuItem.equals(event.getSource()))
 		{
-			JOptionPane.showMessageDialog(this, WINDOW_HELP_TIPS_CONTENT, WINDOW_HELP_TIPS_TITLE, JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, WINDOW_MENU_TIPS_MESSAGE, WINDOW_MENU_TIPS_TITLE, JOptionPane.INFORMATION_MESSAGE);
 		}
 		else if (helpCitationMenuItem.equals(event.getSource()))
 		{
-			JOptionPane.showMessageDialog(this, CITATION, citationTitle, JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, WINDOW_MENU_CITATION_MESSAGE, citationTitle, JOptionPane.INFORMATION_MESSAGE);
 		}
 		else if (helpAboutMenuItem.equals(event.getSource()))
 		{
-			JOptionPane.showMessageDialog(this, ABOUT, "TITLE", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, WINDOW_MENU_ABOUT_MESSAGE, WINDOW_MENU_ABOUT_TITLE, JOptionPane.INFORMATION_MESSAGE);
 		}
 		else
 		{

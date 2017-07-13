@@ -349,7 +349,7 @@ public final class CLI_api
 		final StringBuilder builder = new StringBuilder();
 
 		builder.append('\n');
-		builder.append(CITATION);
+		builder.append(WINDOW_MENU_CITATION_MESSAGE);
 		builder.append("\n\n\n");
 
 		builder.append(PROGRAM_USAGE);

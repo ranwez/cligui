@@ -1,6 +1,6 @@
 package cli;
 
-import static cli.CLI_bundleMessage.CITATION;
+import static cli.CLI_bundleMessage.WINDOW_MENU_CITATION_MESSAGE;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -309,7 +309,7 @@ public final class CLI_program
 	{
 		final StringBuilder builder = new StringBuilder();
 
-		builder.append(CITATION);
+		builder.append(WINDOW_MENU_CITATION_MESSAGE);
 		builder.append("\n\n\n");
 
 		builder.append(name);
