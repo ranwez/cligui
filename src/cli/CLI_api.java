@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import cli.exceptions.ProgramDoublonException;
 import cli.exceptions.StoppedProgramException;
@@ -20,6 +21,8 @@ import static cli.CLI_bundleKey.*;
 
 public final class CLI_api
 {
+	static final String LOG_OPTION_NAME = "-hideLogs";
+
 	private static final String DEBUG_OPTION_NAME = "-debug";
 	private static final String TIME_OPTION_NAME = "-timeTest";
 
@@ -251,13 +254,17 @@ public final class CLI_api
 		return programName;
 	}
 
-	private String[] removeSpecialOptions(final String[] commands, final String programName)
+	private String[] removeSpecialOptions(final String[] commands, final String programName) throws SecurityException, StoppedProgramException
 	{
 		final List<String> updatedCommands = new ArrayList<String>();
 
 		for (final String command : commands)
 		{
-			if (! isProgOption(command) && ! command.equals(DEBUG_OPTION_NAME) && ! command.equals(TIME_OPTION_NAME) && ! command.equals(programName))
+			if (command.equals(LOG_OPTION_NAME))
+			{
+				CLI_logger.getLogger().setLevel(Level.SEVERE);
+			}
+			else if (! isProgOption(command) && ! command.equals(DEBUG_OPTION_NAME) && ! command.equals(TIME_OPTION_NAME) && ! command.equals(programName))
 			{
 				updatedCommands.add(command);
 			}

@@ -140,6 +140,8 @@ final class CLI_xml
 			}
 		}
 
+		builder.append(' ' + CLI_api.LOG_OPTION_NAME);
+
 		return builder.toString();
 	}
 
