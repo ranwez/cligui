@@ -318,14 +318,15 @@ public final class CLI_program
 		builder.append('\n');
 
 		CLI_logger.getLogger().info(builder.toString());
-
+		
+		CLI_option.display("help", "display full help instead of displaying mandatory options only");
+		
 		for (final CLI_option option : options)
 		{
 			if (! option.isHidden() && (option.isRequired() || showAll))
 			{
 				option.display();
 			}
-			CLI_option.display("help", "use this option for full help instead of mandatory options only");
 		}
-	}
+			}
 }
