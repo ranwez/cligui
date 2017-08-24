@@ -325,6 +325,7 @@ public final class CLI_program
 			{
 				option.display();
 			}
+			CLI_option.display("help", "use this option for full help instead of mandatory options only");
 		}
 	}
 }

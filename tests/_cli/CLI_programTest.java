@@ -55,12 +55,12 @@ public class CLI_programTest
 	@Test
 	public void parse() throws Exception
 	{
-		api.parse("-prog bill -id 4 -name table -price 42.3 -credit -currency Â£");
+		api.parse("-prog bill -id 4 -name table -price 42.3 -credit -currency £");
 
 		CLI_option option = findOption("currency");
 
 		assertEquals("$", "" + option.getDefaultValue());
-		assertEquals("Â£", "" + option.getValue());
+		assertEquals("£", "" + option.getValue());
 	}
 
 	@Test

@@ -180,6 +180,17 @@ public final class CLI_option implements Comparable<CLI_option>
 
 		CLI_logger.getLogger().info(builder.toString());
 	}
+	
+	public  static void display(String name, String description) throws IllegalAccessException, IllegalArgumentException, StoppedProgramException
+	{
+		final StringBuilder builder = new StringBuilder();
+		builder.append("  -");
+		builder.append(name);
+		builder.append(" : ");
+		builder.append(description);
+		builder.append('\n');
+		CLI_logger.getLogger().info(builder.toString());
+	}
 
 	public boolean isHidden()
 	{
