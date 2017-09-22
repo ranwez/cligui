@@ -42,13 +42,16 @@ final class CLI_loggerFormatter extends Formatter
 		if (record.getParameters() == null)
 		{
 			builder.append(record.getMessage());
+			if(record.getLevel()!=Level.INFO) // Let the user include the newLine when needed
+				builder.append('\n');
 		}
 		else
 		{
 			builder.append(CLI_bundle.getPropertyDescription(record.getMessage(), record.getParameters()));
+			builder.append('\n');
 		}
 
-		builder.append('\n');
+		
 
 		return builder.toString();
 	}
