@@ -119,7 +119,8 @@ public final class CLI_api
 	 */
 	public boolean checkDebug(final String commands)
 	{
-		return checkDebug(commands.split(" "));
+		//return checkDebug(commands.split(" "));
+		return checkDebug(commands.split("\\s+"));
 	}
 
 	public boolean checkDebug(final String[] commands)
@@ -184,7 +185,8 @@ public final class CLI_api
 	 */
 	public void parse(final String command) throws Exception
 	{
-		parse(command.split(" "));
+		//parse(command.split(" "));
+		parse(command.split("\\s+"));
 	}
 
 	/**
