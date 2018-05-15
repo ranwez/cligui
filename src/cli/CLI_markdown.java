@@ -43,7 +43,10 @@ final class CLI_markdown
 
 		final BufferedReader bufferedReader = new BufferedReader(new FileReader(markdownFilepath));
 
-		final Element root = document.createElement("html");
+		final Element rootHtml = document.createElement("html");
+		Element root = document.createElement("font");
+		root.setAttribute("face", "Arial");
+		rootHtml.appendChild(root);
 
 		StringBuilder lineBuilder = new StringBuilder();
 
@@ -83,7 +86,7 @@ final class CLI_markdown
 
 		readLine(document, root, lineBuilder.toString());
 
-		document.appendChild(root);
+		document.appendChild(rootHtml);
 
 		final DOMSource source = new DOMSource(document);
 

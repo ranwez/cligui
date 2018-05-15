@@ -26,4 +26,7 @@ public final class CLI_bundleMessage
 	static final String WINDOW_POPUP_MESSAGE =				CLI_bundle.getPropertyDescription("CLI_window_popupMessage");
 	static final String WINDOW_POPUP_TITLE =				CLI_bundle.getPropertyDescription("CLI_window_popupTitle");
 	static final String WINDOW_PROGRAMS =					CLI_bundle.getPropertyDescription("CLI_window_programs");
+	
+	static final String CMD_HELP_DOC =					CLI_bundle.getPropertyDescription("CLI_cmd_help_doc");
+	
 }
