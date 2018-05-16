@@ -10,6 +10,7 @@ import static cli.CLI_bundleKey.WINDOW_BUTTON_PREFIX;
 import static cli.CLI_bundleKey.WINDOW_PROGRAM_DESCRIPTION;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -181,20 +182,24 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 	private JPanel createDescriptionPanel() throws IOException
 	{
-		final JPanel descriptionPanelDoc = new JPanel();
+		/*final JPanel descriptionPanelDoc = new JPanel();
 		descriptionPanelDoc.setLayout(new BoxLayout(descriptionPanelDoc, BoxLayout.X_AXIS));
 		descriptionPanelDoc.setOpaque(false);
-		//descriptionPanelDoc.add(INFORMATION_LABEL);
-		//descriptionPanelDoc.add(new JTextArea("???"));
 		JTextField doc = new JTextField(CLI_bundleMessage.CMD_HELP_DOC);
 		doc.setForeground(Color.red);
 		doc.setBorder(null);
 		descriptionPanelDoc.add(doc);
+		*/
+		JTextField doc = new JTextField(CLI_bundleMessage.CMD_HELP_DOC);
+		doc.setForeground(cli.CLI_bundleColor.DESCRIPTION_TEXT_COLOR);
+		doc.setBackground(cli.CLI_bundleColor.DESCRIPTION_PANEL_COLOR);
+		doc.setFont(new Font(doc.getFont().getFontName(), Font.BOLD, doc.getFont().getSize()+2));
+		doc.setBorder(null);
 		
 		final JPanel descriptionPanel = new JPanel();
 		descriptionPanel.setLayout(new BoxLayout(descriptionPanel, BoxLayout.Y_AXIS));
 		descriptionPanel.setOpaque(false);
-		descriptionPanel.add(descriptionPanelDoc);
+		descriptionPanel.add(doc);
 		descriptionPanel.add(OPTION_TEXT_AREA);
 
 		return descriptionPanel;

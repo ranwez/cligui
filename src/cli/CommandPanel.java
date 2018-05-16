@@ -227,6 +227,8 @@ final class CommandPanel extends JPanel implements ActionListener
 		}
 
 		COMMANDS_TEXT_AREA.setText(builder.toString());
+		buttonStart.setText("run "+api.getCurrentProgram().getName());
+		
 	}
 
 	@Override

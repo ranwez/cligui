@@ -16,7 +16,9 @@ final class CLI_bundleColor
 	static final Color GROUPS_PANEL_COLOR =						readBundleColor("CLI_ihm_groupsPanel");
 	static final Color GROUPS_TEXT_DISABLED_COLOR =				readBundleColor("CLI_ihm_groupsTextDisabled");
 	static final Color GROUPS_TEXT_ENABLED_COLOR =				readBundleColor("CLI_ihm_groupsTextEnabled");
-
+	static final Color GROUPS_BACK_ENABLED_COLOR =				readBundleColor("CLI_ihm_groupsBackgroundEnabled");
+	static final Color GROUPS_BACK_DISABLED_COLOR =				readBundleColor("CLI_ihm_groupsBackgroundDisabled");
+	
 	static final Color OPTIONS_AREA_BACKGROUND_COLOR =			readBundleColor("CLI_ihm_optionsAreaBackground");
 	static final Color OPTIONS_AREA_NORMAL_COLOR =				readBundleColor("CLI_ihm_optionsAreaNormal");
 	static final Color OPTIONS_AREA_HIDDEN_COLOR =				readBundleColor("CLI_ihm_optionsAreaHidden");

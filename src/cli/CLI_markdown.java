@@ -251,7 +251,9 @@ final class CLI_markdown
 			boolean bold = false;
 			boolean italic = false;
 
+		
 			char currentCode = '\0';
+			
 
 			StringBuilder builderBrackets = new StringBuilder();
 			StringBuilder builderChevrons = new StringBuilder();
@@ -261,8 +263,9 @@ final class CLI_markdown
 
 			for (int position = 0; position < line.length(); position++)
 			{
+			
 				final char letter = line.charAt(position);
-
+				
 				if (currentCode == '\0')
 				{
 					if (letter == '*' || letter == '_')
@@ -343,6 +346,7 @@ final class CLI_markdown
 				else if (letter == '(' && ! builderBrackets.toString().isEmpty())
 				{
 					parenthesis = true;
+				
 				}
 				else if (letter == '<')
 				{
@@ -400,20 +404,71 @@ final class CLI_markdown
 				}
 				else if (letter == ')' && ! builderBrackets.toString().isEmpty())
 				{
-					final Element linkTag = document.createElement("a");
+					
+					/*if(position+1 < line.length()&& line.charAt(position+1)=='!')
+					{
+						
+						final Element imgsrc = document.createElement("img");
+						imgsrc.setAttribute("src", builderParenthesis.toString());
+						
+						position=position+2;
+						StringBuffer height=new StringBuffer("");
+						//System.out.println(line.charAt(position));
+						while( (position< line.length()) && Character.isDigit(line.charAt(position) ))
+						{
+							height.append(line.charAt(position++));
+						}
+						imgsrc.setAttribute("height", height.toString());	
+						lineTag.appendChild(imgsrc);
+					}*/
 
-					final Text linkText = document.createTextNode(builderBrackets.toString());
-
-					linkTag.setAttribute("href", builderParenthesis.toString());
-
-					linkTag.appendChild(linkText);
-
-					lineTag.appendChild(linkTag);
+					if(position+1 < line.length()&& line.charAt(position+1)=='!')
+					{
+						final Element fig = document.createElement("figure");
+						
+						// figure = image + caption
+						//image info
+						final Element center_img = document.createElement("center");
+						
+						final Element img = document.createElement("img");
+						img.setAttribute("src", builderParenthesis.toString());
+						
+						position=position+2;
+						StringBuffer height=new StringBuffer("");
+						//System.out.println(line.charAt(position));
+						while( (position< line.length()) && Character.isDigit(line.charAt(position) ))
+						{
+							height.append(line.charAt(position++));
+						}
+						img.setAttribute("height", height.toString());	
+						center_img.appendChild(img);
+						
+						//caption info
+						final Element caption = document.createElement("figcaption");
+						final Text legend = document.createTextNode(builderBrackets.toString());
+						caption.appendChild(legend);
+						
+						//link them
+						fig.appendChild(center_img);
+						fig.appendChild(caption);
+						
+						lineTag.appendChild(fig);
+					}
+					else
+					{
+						final Element linkTag = document.createElement("a");
+						final Text linkText = document.createTextNode(builderBrackets.toString());
+						linkTag.setAttribute("href", builderParenthesis.toString());
+						linkTag.appendChild(linkText);
+						lineTag.appendChild(linkTag);
+					}
+					
 
 					builderBrackets = new StringBuilder();
 					builderParenthesis = new StringBuilder();
 
 					parenthesis = false;
+				
 				}
 				else if (isBoldItalic(line, position, currentCode))
 				{
