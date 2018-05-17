@@ -160,24 +160,27 @@ final class OptionsPanel extends JPanel implements ActionListener
 
 		constraints.weightx = 1;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
+		
+		//constraints.gridy++;
+		//add(commandPanel, constraints);
+
 		constraints.gridy++;
-
-		add(commandPanel, constraints);
-
-		constraints.gridy++;
-
 		add(descriptionPanel, constraints);
 
 		constraints.gridy++;
-
 		add(groupsPanel, constraints);
 
-		constraints.gridy++;
+		int coordy=constraints.gridy;
+		constraints.gridy=coordy+2;
+		add(commandPanel, constraints);
+		
+		constraints.gridy=coordy+1;
 		constraints.weighty = 1;
 		constraints.anchor = GridBagConstraints.NORTH;
 		constraints.fill = GridBagConstraints.BOTH;
-
 		add(scrollPane, constraints);
+		
+		
 	}
 
 	private JPanel createDescriptionPanel() throws IOException

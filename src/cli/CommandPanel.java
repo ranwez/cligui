@@ -10,6 +10,7 @@ import static cli.CLI_bundleMessage.WINDOW_EXECUTE_PROGRAM;
 import static cli.CLI_bundleMessage.WINDOW_POPUP_MESSAGE;
 import static cli.CLI_bundleMessage.WINDOW_POPUP_TITLE;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -31,6 +32,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.border.TitledBorder;
 
 import cli.exceptions.StoppedProgramException;
 
@@ -118,10 +120,17 @@ final class CommandPanel extends JPanel implements ActionListener
 
 		final GridBagConstraints constraints = new GridBagConstraints();
 
+	//	constraints.fill = GridBagConstraints.HORIZONTAL;
+	//	constraints.weighty = 1;
+	//	add(new JTextArea("copy or execute your current command:"), constraints);
+	//	constraints.gridy++;
+		
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.insets = new Insets(0, 0, 0, 20);
 		constraints.weightx = 1;
 
+		
+		
 		add(LOGO_LABEL, constraints);
 
 		constraints.insets = new Insets(0, 0, 0, 0);
@@ -134,6 +143,14 @@ final class CommandPanel extends JPanel implements ActionListener
 
 		configureButton(buttonCopy);
 		configureButton(buttonStart);
+		
+		TitledBorder title;
+		title = BorderFactory.createTitledBorder("Copy or run your current command");
+		final Font font = new Font(COMMAND_FONT_NAME,Font.BOLD, COMMAND_FONT_SIZE+1);
+		title.setTitleFont(font);
+		title.setTitleColor(COMMAND_TEXT_COLOR);
+		setBorder(title);
+		
 	}
 
 	private void configureButton(final JButton button)

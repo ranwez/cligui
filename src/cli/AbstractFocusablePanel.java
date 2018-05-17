@@ -29,7 +29,7 @@ public abstract class AbstractFocusablePanel extends JPanel implements FocusList
 
 		final InfoTextArea optionTextArea = optionBean.getOptionTextArea();
 
-		optionTextArea.setText(option.getDescription());
+		optionTextArea.setText(option.getName()+": "+option.getDescription());
 	}
 
 	@Override
