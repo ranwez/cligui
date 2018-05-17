@@ -26,13 +26,21 @@ public abstract class CLI_logger
 
 	public static void logError(final Level level, final Exception error) throws StoppedProgramException
 	{
+		logError(level, error, true);
+	}
+	
+	public static void logError(final Level level, final Exception error, boolean withTrace) throws StoppedProgramException
+	{
 		CLI_logger.getErrorLogger().log(level, error.toString());
 
-		final StackTraceElement[] traces = error.getStackTrace();
-
-		for (final StackTraceElement trace : traces)
+		if(withTrace)
 		{
-			CLI_logger.getErrorLogger().log(level, "\tat " + trace.toString());
+			final StackTraceElement[] traces = error.getStackTrace();
+
+			for (final StackTraceElement trace : traces)
+			{
+				CLI_logger.getErrorLogger().log(level, "\tat " + trace.toString());
+			}
 		}
 	}
 

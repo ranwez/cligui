@@ -365,7 +365,7 @@ public final class CLI_api
 		builder.append("\n\n");
 
 		builder.append(PROGRAM_TITLE);
-		builder.append(" :\n");
+		builder.append(":\n");
 
 		for (final CLI_program program : programs)
 		{
