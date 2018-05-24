@@ -163,6 +163,28 @@ public final class CLI_api
 	}
 
 	/**
+	 * This method will parse (or not) a command and add its content in an internal
+	 * array.
+	 * @param markdownKey the key name to be used in the markdown file to get
+	 * the command
+	 * @param directoryPath the path which will be used to replace '@' letters
+	 * @param annotatedCommand the command to be parsed with relative pathes
+	 * (starting with '@' letter)
+	 * @parma parse boolean indicated whether the command should really be parse (useful to update md/html file without doing all the test/computation)
+	 * @throws Exception
+	 */
+	public void parseDocumentation(final String markdownKey, final String directoryPath, final String annotatedCommand, final boolean parse) throws Exception
+	{
+		final String shortCommand = commandPrefix + annotatedCommand.replace("@", "");
+
+		markdownElements.put(markdownKey, shortCommand);
+
+		final String command = annotatedCommand.replace("@", directoryPath);
+
+		if(parse)
+			parse(command);
+	}
+	/**
 	 * This method will read a markdown file and export it into a HTML file
 	 * with the commands defined in the {@link parseDocumentation} method.
 	 * @param markdownFilepath the markdown filepath

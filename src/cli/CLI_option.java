@@ -154,24 +154,24 @@ public final class CLI_option implements Comparable<CLI_option>
 
 		char requirement;
 
-		if (isRequired())
+		/*if (isRequired())
 		{
 			requirement = '*';
 		}
 		else
 		{
 			requirement = ' ';
-		}
+		}*/
 
 		final StringBuilder builder = new StringBuilder();
 
 		builder.append("  -");
 		builder.append(getName());
-		builder.append(" : ");
+		builder.append(": ");
 		builder.append(getDescription());
 		builder.append("\n    ");
-		builder.append(requirement);
-		builder.append(' ');
+		//builder.append(requirement);
+		builder.append("  "+getName()+" ");
 		builder.append(CLI_bundle.getPropertyDescription("CLI_option_value"));
 		builder.append(" = ");
 		builder.append(updatedRealValue);
@@ -186,7 +186,7 @@ public final class CLI_option implements Comparable<CLI_option>
 		final StringBuilder builder = new StringBuilder();
 		builder.append("  -");
 		builder.append(name);
-		builder.append(" : ");
+		builder.append(": ");
 		builder.append(description);
 		builder.append('\n');
 		CLI_logger.getLogger().info(builder.toString());

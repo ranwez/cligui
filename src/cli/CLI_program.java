@@ -310,16 +310,16 @@ public final class CLI_program
 		final StringBuilder builder = new StringBuilder();
 
 		builder.append(WINDOW_MENU_CITATION_MESSAGE);
-		builder.append("\n\n\n");
+		builder.append("\n\n");
 
 		builder.append(name);
-		builder.append(" : ");
+		builder.append(": ");
 		builder.append(getDescription());
-		builder.append('\n');
+		builder.append("\n\n");
 
 		CLI_logger.getLogger().info(builder.toString());
 		
-		CLI_option.display("help", "display full help instead of displaying mandatory options only");
+		CLI_option.display("help", "display full help instead of displaying only mandatory options");
 		
 		for (final CLI_option option : options)
 		{
@@ -328,5 +328,5 @@ public final class CLI_program
 				option.display();
 			}
 		}
-			}
+	}
 }
