@@ -33,6 +33,7 @@ final class OptionButton extends JButton
 			setBackground(GROUPS_BACK_ENABLED_COLOR);
 			setForeground(GROUPS_TEXT_ENABLED_COLOR);
 		}
+		setOpaque(true);
 	}
 
 	void addOptionPanel(final JPanel optionPanel)

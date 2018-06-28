@@ -391,8 +391,11 @@ public final class CLI_api
 
 		for (final CLI_program program : programs)
 		{
-			final String description = CLI_bundle.getPropertyDescription(PROGRAM_DESCRIPTION, program.getName(), program.getDescription());
-
+			String description = CLI_bundle.getPropertyDescription(PROGRAM_DESCRIPTION, program.getName(), program.getDescription());
+			if(description.indexOf('\n')>0)
+			{
+				description= description.substring(0,description.indexOf('\n'))+"...";
+			}
 			builder.append("  ");
 			builder.append(description);
 			builder.append('\n');

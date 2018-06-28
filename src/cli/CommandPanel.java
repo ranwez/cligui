@@ -157,7 +157,8 @@ final class CommandPanel extends JPanel implements ActionListener
 	{
 		button.setFocusable(false);
 		button.setForeground(COMMAND_BUTTONS_COLOR);
-
+		button.setOpaque(true);
+		
 		button.addActionListener(this);
 	}
 

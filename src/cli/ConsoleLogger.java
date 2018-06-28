@@ -6,9 +6,13 @@ import cli.exceptions.StoppedProgramException;
 
 final class ConsoleLogger extends CLI_logger
 {
-	private static final Logger ERROR_LOGGER = initLogger(false);
+	
+	// call initLogger only once otherwise all messages are print twice on windows when using system.out for LOGGER and ERROR_LOGGER
+	// see also CLI_consoleHAndler
 	private static final Logger LOGGER = initLogger(true);
-
+	//private static final Logger ERROR_LOGGER = initLogger(false);
+	private static final Logger ERROR_LOGGER =LOGGER;
+	
 	private static Logger initLogger(final boolean isStdOut)
 	{
 		final CLI_consoleHandler consoleHandler = new CLI_consoleHandler(isStdOut);

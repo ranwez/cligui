@@ -15,13 +15,16 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.logging.Level;
 
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 
 import cli.exceptions.StoppedProgramException;
@@ -34,6 +37,7 @@ import cli.panels.OptionsFactory;
 @SuppressWarnings("serial")
 public final class CLI_window extends JFrame implements ActionListener
 {
+	
 	private static final int WINDOW_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height * 2/3;
 	private static final int WINDOW_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width * 3/5;
 
@@ -70,6 +74,13 @@ public final class CLI_window extends JFrame implements ActionListener
 	{
 		this.api = api;
 
+		// avoid mac problem 
+		try {
+			    UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
+			 } catch (Exception e) {
+			            e.printStackTrace();
+			 }
+		 
 		loadFont();
 
 		helpAboutMenuItem = new JMenuItem(WINDOW_MENU_ABOUT_TITLE);
@@ -174,6 +185,19 @@ public final class CLI_window extends JFrame implements ActionListener
 		if (helpTipsMenuItem.equals(event.getSource()))
 		{
 			JOptionPane.showMessageDialog(this, WINDOW_MENU_TIPS_MESSAGE, WINDOW_MENU_TIPS_TITLE, JOptionPane.INFORMATION_MESSAGE);
+			/* try {
+                 URL url = new URL("https://bioweb.supagro.inra.fr/macse/");
+                 JEditorPane jep = new JEditorPane(url);
+                 JFrame f = new JFrame("Show HTML in Jar");
+                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                 f.add(new JScrollPane(jep));
+                 f.pack();
+                 f.setSize(400,300);
+                 f.setLocationByPlatform(true);
+                 f.setVisible(true);
+             } catch(Exception e) {
+                 e.printStackTrace();
+             }*/
 		}
 		else if (helpCitationMenuItem.equals(event.getSource()))
 		{
