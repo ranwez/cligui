@@ -1,8 +1,12 @@
 package cli;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -53,15 +57,22 @@ public final class CLI_bundle
 			properties = new Properties();
 
 			final InputStream inputStream = CLI_bundle.class.getClassLoader().getResourceAsStream(filepath);
-
 			if (inputStream == null)
 			{
 				throw new FileNotFoundException("file not found : " + filepath);
 			}
-
+			// piste pour régler pb encodage 
+			/*Reader inputStream;
+			try {
+				//inputStream = new InputStreamReader(new FileInputStream(filepath), "ISO-8859-1");	
+				inputStream = new InputStreamReader((CLI_bundle.class.getClassLoader().getResourceAsStream(filepath)), "ISO-8859-1");
+				
+			} catch (Exception e) {
+				throw new FileNotFoundException("file not found : " + filepath);
+			}*/	
 			properties.load(inputStream);
-
 			inputStream.close();
+			
 		}
 		catch (IOException error)
 		{
